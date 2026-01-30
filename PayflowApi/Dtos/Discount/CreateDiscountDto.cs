@@ -1,8 +1,7 @@
-﻿namespace PayFlowApi.Models
+﻿namespace PayflowApi.Dtos.Discount
 {
-    public class Discount
+    public class CreateDiscountDto
     {
-        public int Id { get; set; }
         public string CouponCode { get; set; } = string.Empty;
         public int Percentage { get; set; }
     }
