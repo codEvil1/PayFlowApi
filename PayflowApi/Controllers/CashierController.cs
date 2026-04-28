@@ -15,6 +15,7 @@ namespace PayflowApi.Controllers
         {
             var cashier = new Cashier
             {
+                Cpf = dto.Cpf,
                 Name = dto.Name,
                 Rating = dto.Rating
             };
@@ -36,8 +37,12 @@ namespace PayflowApi.Controllers
             var result = new CashierDto
             {
                 Id = cashier.Id,
+                Cpf = cashier.Name,
                 Name = cashier.Name,
-                Rating = cashier.Rating
+                Email = cashier.Email,
+                IsActive = cashier.IsActive,
+                Rating = cashier.Rating,
+                CreatedAt = cashier.CreatedAt
             };
 
             return Ok(result);
