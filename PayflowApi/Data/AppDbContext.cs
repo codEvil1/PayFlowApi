@@ -5,6 +5,7 @@ namespace PayFlowApi.Data
 {
     public class AppDbContext(DbContextOptions options) : DbContext(options)
     {
+        public DbSet<User> User { get; set; }
         public DbSet<Address> Adress { get; set; }
         public DbSet<Cashier> Cashier { get; set; }
         public DbSet<Customer> Customer { get; set; }
