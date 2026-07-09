@@ -1,0 +1,13 @@
+﻿namespace PayflowApi.Models.Response
+{
+    public class ProductResponseDto
+    {
+        public string Id { get; set; } = string.Empty;
+        public string BarCode { get; set; } = string.Empty;
+        public string Description { get; set; } = string.Empty;
+        public string? Image { get; set; }
+        public decimal Price { get; set; }
+        public int StockQuantity { get; set; }
+        public bool IsActive { get; set; }
+    }
+}

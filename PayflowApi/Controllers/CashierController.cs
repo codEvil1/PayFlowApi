@@ -10,20 +10,21 @@ namespace PayflowApi.Controllers
     [Route("api/[controller]")]
     public class CashierController(AppDbContext appDbcontext) : ControllerBase
     {
-        [HttpPost]
+        [HttpPost("add")]
         public async Task<IActionResult> AddCashier(CreateCashierDto dto)
         {
             var cashier = new Cashier
             {
                 Cpf = dto.Cpf,
                 Name = dto.Name,
+                Email = dto.Email,
                 Rating = dto.Rating
             };
-
+                
             appDbcontext.Add(cashier);
             await appDbcontext.SaveChangesAsync();
 
-            return Ok();
+            return Ok(cashier);
         }
 
         [HttpGet("{id}")]
@@ -37,7 +38,7 @@ namespace PayflowApi.Controllers
             var result = new CashierDto
             {
                 Id = cashier.Id,
-                Cpf = cashier.Name,
+                Cpf = cashier.Cpf,
                 Name = cashier.Name,
                 Email = cashier.Email,
                 IsActive = cashier.IsActive,

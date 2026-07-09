@@ -1,4 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using PayflowApi.Models.Response;
 using PayFlowApi.Models;
 
 namespace PayFlowApi.Data
@@ -12,5 +13,6 @@ namespace PayFlowApi.Data
         public DbSet<Discount> Discount { get; set; }
         public DbSet<Payment> Payment { get; set; }
         public DbSet<Shipping> Shipping { get; set; }
+        public DbSet<Product> Product { get; set; }
     }
 }
