@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using PayflowApi.Dtos.Product;
-using PayflowApi.Models.Response;
+using PayflowApi.Dtos.Product.Request;
+using PayflowApi.Dtos.Product.Response;
+using PayflowApi.Services.Storage;
 using PayFlowApi.Data;
 using PayFlowApi.Models;
 
@@ -8,28 +9,22 @@ namespace PayflowApi.Controllers
 {
     [ApiController]
     [Route("api/[controller]")]
-    public class ProductController(AppDbContext appDbcontext) : ControllerBase
+    public class ProductController(AppDbContext appDbcontext, IStorageService storage) : ControllerBase
     {
         [HttpPost("add")]
-        public async Task<IActionResult> AddProduct([FromForm] CreateProductDto dto)
+        public async Task<IActionResult> AddProduct([FromForm] CreateProductRequest dto)
         {
-            byte[]? imageBytes = null;
+            string? imageUrl = null;
 
             if (dto.Image is not null)
-            {
-                using var memoryStream = new MemoryStream();
-
-                await dto.Image.CopyToAsync(memoryStream);
-
-                imageBytes = memoryStream.ToArray();
-            }
+                imageUrl = await storage.UploadAsync(dto.Image, "products");
 
             var product = new Product
             {
                 Id = dto.Id,
                 BarCode = dto.BarCode,
                 Description = dto.Description,
-                Image = imageBytes,
+                ImageUrl = imageUrl,
                 Price = dto.Price,
                 StockQuantity = dto.StockQuantity,
             };
@@ -49,14 +44,12 @@ namespace PayflowApi.Controllers
             if (product == null)
                 return NotFound();
 
-            var result = new ProductResponseDto
+            var result = new ProductResponse
             {
                 Id = product.Id,
                 BarCode = product.BarCode,
                 Description = product.Description,
-                Image = product.Image is null
-                    ? null
-                    : $"data:image/png;base64,{Convert.ToBase64String(product.Image)}",
+                ImageUrl = product.ImageUrl,
                 Price = product.Price,
                 StockQuantity = product.StockQuantity,
                 IsActive = product.IsActive

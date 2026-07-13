@@ -1,7 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using PayflowApi.Dtos.Adress;
+using PayflowApi.Dtos.Adress.Request;
+using PayflowApi.Models;
 using PayFlowApi.Data;
-using PayFlowApi.Models;
 
 namespace PayflowApi.Controllers
 {
@@ -10,7 +10,7 @@ namespace PayflowApi.Controllers
     public class AddressController(AppDbContext appDbcontext) : ControllerBase
     {
         [HttpPost]
-        public async Task<IActionResult> AddAddress(CreateAddressDto dto)
+        public async Task<IActionResult> AddAddress(CreateAddress dto)
         {
             var address = new Address
             {

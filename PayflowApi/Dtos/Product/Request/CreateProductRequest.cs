@@ -1,6 +1,6 @@
-﻿namespace PayflowApi.Dtos.Product
+﻿namespace PayflowApi.Dtos.Product.Request
 {
-    public class CreateProductDto
+    public class CreateProductRequest
     {
         public string Id { get; set; } = string.Empty;
         public string BarCode { get; set; } = string.Empty;

@@ -1,10 +1,9 @@
 ﻿using PayflowApi.Models;
 
-namespace PayFlowApi.Models
+namespace PayflowApi.Dtos.Customer.Response
 {
-    public class Customer
+    public class CustomerResponse
     {
-        public int Id { get; set; }
         public string Identifier { get; set; } = string.Empty;
         public string Name { get; set; } = string.Empty;
         public string Phone { get; set; } = string.Empty;

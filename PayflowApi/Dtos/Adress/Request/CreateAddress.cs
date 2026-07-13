@@ -1,6 +1,6 @@
-﻿namespace PayflowApi.Dtos.Adress
+﻿namespace PayflowApi.Dtos.Adress.Request
 {
-    public class CreateAddressDto
+    public class CreateAddress
     {
         public string Street { get; set; } = string.Empty;
         public int? Number { get; set; } = default;

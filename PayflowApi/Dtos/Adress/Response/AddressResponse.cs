@@ -1,8 +1,7 @@
-﻿namespace PayflowApi.Models
+﻿namespace PayflowApi.Dtos.Adress.Response
 {
-    public class Address
+    public class AddressResponse
     {
-        public int Id { get; set; }
         public string Street { get; set; } = string.Empty;
         public int? Number { get; set; } = default;
         public string City { get; set; } = string.Empty;
