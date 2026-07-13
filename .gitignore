@@ -10,3 +10,8 @@ obj/
 *.suo
 *.userosscache
 *.sln.docstates
+
+# ASP.NET Core settings
+**/appsettings.json
+**/appsettings.Development.json
+**/appsettings.Production.json
