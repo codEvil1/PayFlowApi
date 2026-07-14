@@ -1,28 +1,54 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using PayFlow.Application.Features.Customer;
+using PayFlow.Application.Features.Customer.Requests;
+using PayFlow.Application.Interfaces;
 
-namespace Payflow.Api.Controllers;
-
-[ApiController]
-[Route("api/[controller]")]
-public class CustomerController(ICustomerService customerService) : ControllerBase
+namespace Payflow.Api.Controllers
 {
-    [HttpPost("add")]
-    public async Task<IActionResult> AddCustomer(CustomerResponse dto)
+    [ApiController]
+    [Route("api/[controller]")]
+    public class CustomerController(ICustomerService service) : ControllerBase
     {
-        await customerService.AddCustomerAsync(dto);
+        [HttpPost]
+        public async Task<IActionResult> Create([FromForm] CreateCustomerRequest request, CancellationToken cancellationToken)
+        {
+            await service.CreateAsync(request, cancellationToken);
 
-        return Ok();
-    }
+            return Ok();
+        }
 
-    [HttpGet("{identifier}")]
-    public async Task<IActionResult> GetCustomerByIdentifier(string identifier)
-    {
-        var customer = await customerService.GetByIdentifierAsync(identifier);
+        [HttpGet]
+        public async Task<IActionResult> GetAll(CancellationToken cancellationToken)
+        {
+            var result = await service.GetAllAsync(cancellationToken);
 
-        if (customer == null)
-            return NotFound();
+            return Ok(result);
+        }
 
-        return Ok(customer);
+        [HttpGet("{identifier}")]
+        public async Task<IActionResult> GetCustomerById(string identifier, CancellationToken cancellationToken)
+        {
+            var result = await service.GetByIdentifierAsync(identifier, cancellationToken);
+
+            if (result is null)
+                return NotFound();
+
+            return Ok(result);
+        }
+
+        [HttpPut("{identifier}")]
+        public async Task<IActionResult> Update(string identifier, [FromForm] UpdateCustomerRequest request, CancellationToken cancellationToken)
+        {
+            await service.UpdateAsync(identifier, request, cancellationToken);
+
+            return Ok();
+        }
+
+        [HttpDelete("{identifier}")]
+        public async Task<IActionResult> Delete(string identifier, CancellationToken cancellationToken)
+        {
+            await service.DeleteAsync(identifier, cancellationToken);
+
+            return Ok();
+        }
     }
 }

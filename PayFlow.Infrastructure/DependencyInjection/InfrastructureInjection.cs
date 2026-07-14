@@ -33,6 +33,7 @@ namespace PayFlow.Infrastructure.DependencyInjection
         private static IServiceCollection AddRepository(this IServiceCollection services)
         {
             services.AddScoped<IProductRepository, ProductRepository>();
+            services.AddScoped<ICustomerRepository, CustomerRepository>();
 
             return services;
         }

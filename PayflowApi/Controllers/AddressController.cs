@@ -1,5 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using PayFlow.Application.Features.Address;
+using PayFlow.Application.Features.Address.Requests;
 using PayFlow.Domain.Entities;
 using PayFlow.Infrastructure.Data.Context;
 
@@ -10,7 +10,7 @@ namespace Payflow.Api.Controllers;
 public class AddressController(AppDbContext appDbcontext) : ControllerBase
 {
     [HttpPost]
-    public async Task<IActionResult> AddAddress(CreateAddress dto)
+    public async Task<IActionResult> AddAddress(CreateAddressRequest dto)
     {
         var address = new Address
         {
