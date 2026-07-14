@@ -1,52 +1,50 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using PayflowApi.Dtos.Cashier;
-using PayflowApi.Dtos.Customer;
-using PayFlowApi.Data;
-using PayFlowApi.Models;
+using PayFlow.Application.Features.Cashier;
+using PayFlow.Domain.Entities;
+using PayFlow.Infrastructure.Data.Context;
 
-namespace PayflowApi.Controllers
+namespace Payflow.Api.Controllers;
+
+[ApiController]
+[Route("api/[controller]")]
+public class CashierController(AppDbContext appDbcontext) : ControllerBase
 {
-    [ApiController]
-    [Route("api/[controller]")]
-    public class CashierController(AppDbContext appDbcontext) : ControllerBase
+    [HttpPost("add")]
+    public async Task<IActionResult> AddCashier(CreateCashierDto dto)
     {
-        [HttpPost("add")]
-        public async Task<IActionResult> AddCashier(CreateCashierDto dto)
+        var cashier = new Cashier
         {
-            var cashier = new Cashier
-            {
-                Cpf = dto.Cpf,
-                Name = dto.Name,
-                Email = dto.Email,
-                Rating = dto.Rating
-            };
-                
-            appDbcontext.Add(cashier);
-            await appDbcontext.SaveChangesAsync();
+            Cpf = dto.Cpf,
+            Name = dto.Name,
+            Email = dto.Email,
+            Rating = dto.Rating
+        };
+            
+        appDbcontext.Add(cashier);
+        await appDbcontext.SaveChangesAsync();
 
-            return Ok(cashier);
-        }
+        return Ok(cashier);
+    }
 
-        [HttpGet("{id}")]
-        public async Task<IActionResult> GetCashierById(int id)
+    [HttpGet("{id}")]
+    public async Task<IActionResult> GetCashierById(int id)
+    {
+        var cashier = await appDbcontext.Cashier.FindAsync(id);
+
+        if (cashier == null)
+            return NotFound();
+
+        var result = new CashierDto
         {
-            var cashier = await appDbcontext.Cashier.FindAsync(id);
+            Id = cashier.Id,
+            Cpf = cashier.Cpf,
+            Name = cashier.Name,
+            Email = cashier.Email,
+            IsActive = cashier.IsActive,
+            Rating = cashier.Rating,
+            CreatedAt = cashier.CreatedAt
+        };
 
-            if (cashier == null)
-                return NotFound();
-
-            var result = new CashierDto
-            {
-                Id = cashier.Id,
-                Cpf = cashier.Cpf,
-                Name = cashier.Name,
-                Email = cashier.Email,
-                IsActive = cashier.IsActive,
-                Rating = cashier.Rating,
-                CreatedAt = cashier.CreatedAt
-            };
-
-            return Ok(result);
-        }
+        return Ok(result);
     }
 }

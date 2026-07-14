@@ -1,27 +1,26 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using PayflowApi.Dtos.Discount;
-using PayFlowApi.Data;
-using PayFlowApi.Models;
+using PayFlow.Application.Features.Discount;
+using PayFlow.Domain.Entities;
+using PayFlow.Infrastructure.Data.Context;
 
-namespace PayflowApi.Controllers
+namespace Payflow.Api.Controllers;
+
+[ApiController]
+[Route("api/[controller]")]
+public class DiscountController(AppDbContext appDbcontext) : ControllerBase
 {
-    [ApiController]
-    [Route("api/[controller]")]
-    public class DiscountController(AppDbContext appDbcontext) : ControllerBase
+    [HttpPost]
+    public async Task<IActionResult> AddCashier(CreateDiscountDto dto)
     {
-        [HttpPost]
-        public async Task<IActionResult> AddCashier(CreateDiscountDto dto)
+        var discount = new Discount
         {
-            var discount = new Discount
-            {
-                CouponCode = dto.CouponCode,
-                Percentage = dto.Percentage
-            };
+            CouponCode = dto.CouponCode,
+            Percentage = dto.Percentage
+        };
 
-            appDbcontext.Add(discount);
-            await appDbcontext.SaveChangesAsync();
+        appDbcontext.Add(discount);
+        await appDbcontext.SaveChangesAsync();
 
-            return Ok();
-        }
+        return Ok();
     }
 }

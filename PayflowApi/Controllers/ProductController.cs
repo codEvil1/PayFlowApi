@@ -1,61 +1,54 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using PayflowApi.Dtos.Product.Request;
-using PayflowApi.Dtos.Product.Response;
-using PayflowApi.Services.Storage;
-using PayFlowApi.Data;
-using PayFlowApi.Models;
+using PayFlow.Application.Features.Product.Requests;
+using PayFlow.Application.Interfaces;
 
-namespace PayflowApi.Controllers
+namespace Payflow.Api.Controllers
 {
     [ApiController]
     [Route("api/[controller]")]
-    public class ProductController(AppDbContext appDbcontext, IStorageService storage) : ControllerBase
+    public class ProductController(IProductService service) : ControllerBase
     {
-        [HttpPost("add")]
-        public async Task<IActionResult> AddProduct([FromForm] CreateProductRequest dto)
+        [HttpPost]
+        public async Task<IActionResult> Create([FromForm] CreateProductRequest request, CancellationToken cancellationToken)
         {
-            string? imageUrl = null;
-
-            if (dto.Image is not null)
-                imageUrl = await storage.UploadAsync(dto.Image, "products");
-
-            var product = new Product
-            {
-                Id = dto.Id,
-                BarCode = dto.BarCode,
-                Description = dto.Description,
-                ImageUrl = imageUrl,
-                Price = dto.Price,
-                StockQuantity = dto.StockQuantity,
-            };
-
-            appDbcontext.Product.Add(product);
-
-            await appDbcontext.SaveChangesAsync();
+            await service.CreateAsync(request, cancellationToken);
 
             return Ok();
         }
 
-        [HttpGet("{sku}")]
-        public async Task<IActionResult> GetProductByCode(string sku)
+        [HttpGet]
+        public async Task<IActionResult> GetAll(CancellationToken cancellationToken)
         {
-            var product = await appDbcontext.Product.FindAsync(sku);
-
-            if (product == null)
-                return NotFound();
-
-            var result = new ProductResponse
-            {
-                Id = product.Id,
-                BarCode = product.BarCode,
-                Description = product.Description,
-                ImageUrl = product.ImageUrl,
-                Price = product.Price,
-                StockQuantity = product.StockQuantity,
-                IsActive = product.IsActive
-            };
+            var result = await service.GetAllAsync(cancellationToken);
 
             return Ok(result);
+        }
+
+        [HttpGet("{id}")]
+        public async Task<IActionResult> GetProductById(string id, CancellationToken cancellationToken)
+        {
+            var result = await service.GetByIdAsync(id, cancellationToken);
+
+            if (result is null)
+                return NotFound();
+
+            return Ok(result);
+        }
+
+        [HttpPut("{id}")]
+        public async Task<IActionResult> Update(string id, [FromForm] UpdateProductRequest request, CancellationToken cancellationToken)
+        {
+            await service.UpdateAsync(id, request, cancellationToken);
+
+            return Ok();
+        }
+
+        [HttpDelete("{id}")]
+        public async Task<IActionResult> Delete(string id, CancellationToken cancellationToken)
+        {
+            await service.DeleteAsync(id, cancellationToken);
+
+            return Ok();
         }
     }
 }
