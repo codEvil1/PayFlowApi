@@ -1,9 +1,11 @@
-﻿namespace PayFlow.Domain.Enums;
-public enum PaymentMethod
+﻿namespace PayFlow.Domain.Enums
 {
-    UNDEFINED,
-    CASH,
-    CREDIT,
-    DEBIT,
-    PIX,
+    public enum PaymentMethod
+    {
+        UNDEFINED,
+        CASH,
+        CREDIT,
+        DEBIT,
+        PIX,
+    }
 }

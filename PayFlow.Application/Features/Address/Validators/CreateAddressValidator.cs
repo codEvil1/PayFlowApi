@@ -1,0 +1,19 @@
+﻿using FluentValidation;
+using PayFlow.Application.Features.Address.Requests;
+
+namespace PayFlow.Application.Features.Address.Validators
+{
+    public class CreateAddressValidator : AbstractValidator<CreateAddressRequest>
+    {
+        public CreateAddressValidator()
+        {
+            RuleFor(x => x.Street).StreetRule();
+            RuleFor(x => x.Number).NumberRule();
+            RuleFor(x => x.City).CityRule();
+            RuleFor(x => x.State).StateRule();
+            RuleFor(x => x.Uf).UfRule();
+            RuleFor(x => x.PostalCode).PostalCodeRule();
+            RuleFor(x => x.Country).CountryRule();
+        }
+    }
+}
