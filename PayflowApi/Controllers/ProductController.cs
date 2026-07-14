@@ -1,59 +1,61 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using PayFlow.Application.Features.Product;
+using PayFlow.Application.Features.Product.DTOs;
+using PayFlow.Application.Features.Product.UseCases;
 using PayFlow.Domain.Entities;
 using PayFlow.Infrastructure.Data.Context;
 using PayFlow.Infrastructure.Services.Interfaces;
 
-namespace Payflow.Api.Controllers;
-
-[ApiController]
-[Route("api/[controller]")]
-public class ProductController(AppDbContext appDbcontext, IStorageService storage) : ControllerBase
+namespace Payflow.Api.Controllers
 {
-    [HttpPost("add")]
-    public async Task<IActionResult> AddProduct([FromForm] CreateProduct dto)
+    [ApiController]
+    [Route("api/[controller]")]
+    public class ProductController(AppDbContext appDbcontext, IStorageService storage) : ControllerBase
     {
-        string? imageUrl = null;
-
-        if (dto.Image is not null)
-            imageUrl = await storage.UploadAsync(dto.Image, "products");
-
-        var product = new Product
+        [HttpPost("add")]
+        public async Task<IActionResult> AddProduct([FromForm] CreateProduct dto)
         {
-            Id = dto.Id,
-            BarCode = dto.BarCode,
-            Description = dto.Description,
-            ImageUrl = imageUrl,
-            Price = dto.Price,
-            StockQuantity = dto.StockQuantity,
-        };
+            string? imageUrl = null;
 
-        appDbcontext.Product.Add(product);
+            if (dto.Image is not null)
+                imageUrl = await storage.UploadAsync(dto.Image, "products");
 
-        await appDbcontext.SaveChangesAsync();
+            var product = new Product
+            {
+                Id = dto.Id,
+                BarCode = dto.BarCode,
+                Description = dto.Description,
+                ImageUrl = imageUrl,
+                Price = dto.Price,
+                StockQuantity = dto.StockQuantity,
+            };
 
-        return Ok();
-    }
+            appDbcontext.Product.Add(product);
 
-    [HttpGet("{sku}")]
-    public async Task<IActionResult> GetProductByCode(string sku)
-    {
-        var product = await appDbcontext.Product.FindAsync(sku);
+            await appDbcontext.SaveChangesAsync();
 
-        if (product == null)
-            return NotFound();
+            return Ok();
+        }
 
-        var result = new ProductResponse
+        [HttpGet("{sku}")]
+        public async Task<IActionResult> GetProductByCode(string sku)
         {
-            Id = product.Id,
-            BarCode = product.BarCode,
-            Description = product.Description,
-            ImageUrl = product.ImageUrl,
-            Price = product.Price,
-            StockQuantity = product.StockQuantity,
-            IsActive = product.IsActive
-        };
+            var product = await appDbcontext.Product.FindAsync(sku);
 
-        return Ok(result);
+            if (product == null)
+                return NotFound();
+
+            var result = new ProductResponse
+            {
+                Id = product.Id,
+                BarCode = product.BarCode,
+                Description = product.Description,
+                ImageUrl = product.ImageUrl,
+                Price = product.Price,
+                StockQuantity = product.StockQuantity,
+                IsActive = product.IsActive
+            };
+
+            return Ok(result);
+        }
     }
 }

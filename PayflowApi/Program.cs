@@ -1,12 +1,17 @@
 ﻿using Payflow.Api.Extensions;
+using PayFlow.Application.DependencyInjection;
 using PayFlow.Infrastructure.DependencyInjection;
 
 var builder = WebApplication.CreateBuilder(args);
 
-builder.Services.AddControllers();
+builder.Services.AddControllers(options =>
+{
+    options.SuppressImplicitRequiredAttributeForNonNullableReferenceTypes = true;
+});
 
 builder.Services.AddSwaggerDocumentation();
 builder.Services.AddInfrastructure(builder.Configuration);
+builder.Services.AddApplication();
 builder.Services.AddCorsConfiguration();
 
 var app = builder.Build();

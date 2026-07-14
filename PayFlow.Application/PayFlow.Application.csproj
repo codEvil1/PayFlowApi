@@ -12,14 +12,14 @@
 
   <ItemGroup>
     <Folder Include="Behaviors\" />
-    <Folder Include="DependencyInjection\" />
     <Folder Include="Exceptions\" />
-    <Folder Include="Validators\" />
-    <Folder Include="Mappings\" />
     <Folder Include="Interfaces\" />
   </ItemGroup>
 
   <ItemGroup>
+    <PackageReference Include="FluentValidation" Version="12.1.1" />
+    <PackageReference Include="FluentValidation.AspNetCore" Version="11.3.1" />
+    <PackageReference Include="FluentValidation.DependencyInjectionExtensions" Version="12.1.1" />
     <PackageReference Include="Microsoft.AspNetCore.App" Version="2.2.8" />
   </ItemGroup>
 

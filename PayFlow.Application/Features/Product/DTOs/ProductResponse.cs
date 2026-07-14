@@ -1,4 +1,4 @@
-﻿namespace PayFlow.Application.Features.Product;
+﻿namespace PayFlow.Application.Features.Product.DTOs;
 public class ProductResponse
 {
     public string Id { get; set; } = string.Empty;
