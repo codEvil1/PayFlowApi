@@ -2,8 +2,10 @@
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using PayFlow.Domain.Interfaces;
 using PayFlow.Infrastructure.Data.Context;
-using PayFlow.Infrastructure.Services.Interfaces;
+using PayFlow.Infrastructure.Persistence.Repositories;
+using PayFlow.Application.Interfaces;
 using PayFlow.Infrastructure.Services.Settings;
 using PayFlow.Infrastructure.Services.Storage;
 
@@ -15,6 +17,7 @@ namespace PayFlow.Infrastructure.DependencyInjection
         {
             return services
                 .AddDatabase(configuration)
+                .AddRepository()
                 .AddCloudflareR2(configuration);
         }
 
@@ -23,6 +26,13 @@ namespace PayFlow.Infrastructure.DependencyInjection
             services.AddDbContext<AppDbContext>(options =>
                 options.UseSqlServer(
                     configuration.GetConnectionString("AppDbConnectionString")));
+
+            return services;
+        }
+
+        private static IServiceCollection AddRepository(this IServiceCollection services)
+        {
+            services.AddScoped<IProductRepository, ProductRepository>();
 
             return services;
         }

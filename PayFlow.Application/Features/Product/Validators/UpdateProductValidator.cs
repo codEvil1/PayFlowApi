@@ -3,11 +3,10 @@ using PayFlow.Application.Features.Product.Requests;
 
 namespace PayFlow.Application.Features.Product.Validators
 {
-    public class CreateProductValidator : AbstractValidator<CreateProductRequest>
+    public class UpdateProductValidator : AbstractValidator<UpdateProductRequest>
     {
-        public CreateProductValidator()
+        public UpdateProductValidator()
         {
-            RuleFor(x => x.Id).IdRule();
             RuleFor(x => x.BarCode).BarCodeRule();
             RuleFor(x => x.Description).DescriptionRule();
             RuleFor(x => x.Image).ImageRule();

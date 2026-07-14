@@ -1,8 +1,8 @@
 ﻿using Microsoft.AspNetCore.Http;
 
-namespace PayFlow.Application.Features.Product.UseCases
+namespace PayFlow.Application.Features.Product.Requests
 {
-    public class CreateProduct
+    public class CreateProductRequest
     {
         public string Id { get; set; } = string.Empty;
         public string BarCode { get; set; } = string.Empty;
