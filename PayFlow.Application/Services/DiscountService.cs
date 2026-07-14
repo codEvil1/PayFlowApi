@@ -1,0 +1,93 @@
+﻿using PayFlow.Application.Exceptions;
+using PayFlow.Application.Interfaces;
+using PayFlow.Domain.Interfaces;
+using PayFlow.Domain.Entities;
+using PayFlow.Application.Features.Discount.Requests;
+using PayFlow.Application.Features.Discount.DTOs;
+
+namespace PayFlow.Application.Services
+{
+    public class DiscountService(IDiscountRepository repository) : IDiscountService
+    {
+        public async Task CreateAsync(CreateDiscountRequest dto, CancellationToken cancellationToken)
+        {
+            var exists = await repository.ExistsByCodeAsync(dto.Code, cancellationToken);
+
+            if (exists)
+                throw new BusinessException("Já existe um desconto cadastrado com este código.");
+
+            var discount = new Discount
+            {
+                Code = dto.Code,
+                Description = dto.Description,
+                Type = dto.Type,
+                Value = dto.Value,
+                StartDate = dto.StartDate,
+                EndDate = dto.EndDate,
+                MinimumValue = dto.MinimumValue,
+                MaximumDiscount = dto.MaximumDiscount,
+            };
+
+            await repository.AddAsync(discount, cancellationToken);
+        }
+
+        public async Task<IEnumerable<DiscountDto>> GetAllAsync(CancellationToken cancellationToken)
+        {
+            var discounts = await repository.GetAllAsync(cancellationToken);
+
+            return discounts.Select(d => new DiscountDto
+            {
+                Code = d.Code,
+                Description = d.Description,
+                Type = d.Type,
+                Value = d.Value,
+                StartDate = d.StartDate,
+                EndDate = d.EndDate,
+                MinimumValue = d.MinimumValue,
+                MaximumDiscount = d.MaximumDiscount
+            });
+        }
+
+        public async Task<DiscountDto?> GetByIdAsync(string id, CancellationToken cancellationToken)
+        {
+            var discount = await repository.GetByCodeAsync(id, cancellationToken)
+                ?? throw new BusinessException("Desconto não encontrado.");
+
+            return new DiscountDto
+            {
+                Code = discount.Code,
+                Description = discount.Description,
+                Type = discount.Type,
+                Value = discount.Value,
+                StartDate = discount.StartDate,
+                EndDate = discount.EndDate,
+                MinimumValue = discount.MinimumValue,
+                MaximumDiscount = discount.MaximumDiscount
+            };
+        }
+
+        public async Task UpdateAsync(string id, UpdateDiscountRequest dto, CancellationToken cancellationToken)
+        {
+            var discount = await repository.GetByCodeAsync(id, cancellationToken)
+                ?? throw new BusinessException("Desconto não encontrado.");
+
+            discount.Description = dto.Description;
+            discount.Type = dto.Type;
+            discount.Value = dto.Value;
+            discount.StartDate = dto.StartDate;
+            discount.EndDate = dto.EndDate;
+            discount.MinimumValue = dto.MinimumValue;
+            discount.MaximumDiscount = dto.MaximumDiscount;
+
+            await repository.UpdateAsync(discount, cancellationToken);
+        }
+
+        public async Task DeleteAsync(string id, CancellationToken cancellationToken)
+        {
+            var discount = await repository.GetByCodeAsync(id, cancellationToken)
+                ?? throw new BusinessException("Desconto não encontrado.");
+
+            await repository.DeleteAsync(discount, cancellationToken);
+        }
+    }
+}

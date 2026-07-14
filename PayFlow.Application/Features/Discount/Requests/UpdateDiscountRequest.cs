@@ -1,10 +1,9 @@
 ﻿using PayFlow.Domain.Enums;
 
-namespace PayFlow.Domain.Entities
+namespace PayFlow.Application.Features.Discount.Requests
 {
-    public class Discount
+    public class UpdateDiscountRequest
     {
-        public int Id { get; set; }
         public string Code { get; set; } = string.Empty;
         public string Description { get; set; } = string.Empty;
         public DiscountType Type { get; set; } = DiscountType.PERCENTAGE;

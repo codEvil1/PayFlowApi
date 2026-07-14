@@ -1,26 +1,54 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using PayFlow.Application.Features.Discount;
-using PayFlow.Domain.Entities;
-using PayFlow.Infrastructure.Data.Context;
+using PayFlow.Application.Features.Discount.Requests;
+using PayFlow.Application.Interfaces;
 
-namespace Payflow.Api.Controllers;
-
-[ApiController]
-[Route("api/[controller]")]
-public class DiscountController(AppDbContext appDbcontext) : ControllerBase
+namespace Payflow.Api.Controllers
 {
-    [HttpPost]
-    public async Task<IActionResult> AddCashier(CreateDiscountDto dto)
+    [ApiController]
+    [Route("api/[controller]")]
+    public class DiscountController(IDiscountService service) : ControllerBase
     {
-        var discount = new Discount
+        [HttpPost]
+        public async Task<IActionResult> Create([FromForm] CreateDiscountRequest request, CancellationToken cancellationToken)
         {
-            CouponCode = dto.CouponCode,
-            Percentage = dto.Percentage
-        };
+            await service.CreateAsync(request, cancellationToken);
 
-        appDbcontext.Add(discount);
-        await appDbcontext.SaveChangesAsync();
+            return Ok();
+        }
 
-        return Ok();
+        [HttpGet]
+        public async Task<IActionResult> GetAll(CancellationToken cancellationToken)
+        {
+            var result = await service.GetAllAsync(cancellationToken);
+
+            return Ok(result);
+        }
+
+        [HttpGet("{id}")]
+        public async Task<IActionResult> GetDiscountById(string id, CancellationToken cancellationToken)
+        {
+            var result = await service.GetByIdAsync(id, cancellationToken);
+
+            if (result is null)
+                return NotFound();
+
+            return Ok(result);
+        }
+
+        [HttpPut("{id}")]
+        public async Task<IActionResult> Update(string id, [FromForm] UpdateDiscountRequest request, CancellationToken cancellationToken)
+        {
+            await service.UpdateAsync(id, request, cancellationToken);
+
+            return Ok();
+        }
+
+        [HttpDelete("{id}")]
+        public async Task<IActionResult> Delete(string id, CancellationToken cancellationToken)
+        {
+            await service.DeleteAsync(id, cancellationToken);
+
+            return Ok();
+        }
     }
 }
