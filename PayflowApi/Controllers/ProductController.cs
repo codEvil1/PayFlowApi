@@ -1,61 +1,59 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using PayflowApi.Dtos.Product.Request;
-using PayflowApi.Dtos.Product.Response;
-using PayflowApi.Services.Storage;
-using PayFlowApi.Data;
-using PayFlowApi.Models;
+using PayFlow.Application.Features.Product;
+using PayFlow.Domain.Entities;
+using PayFlow.Infrastructure.Data.Context;
+using PayFlow.Infrastructure.Services.Interfaces;
 
-namespace PayflowApi.Controllers
+namespace Payflow.Api.Controllers;
+
+[ApiController]
+[Route("api/[controller]")]
+public class ProductController(AppDbContext appDbcontext, IStorageService storage) : ControllerBase
 {
-    [ApiController]
-    [Route("api/[controller]")]
-    public class ProductController(AppDbContext appDbcontext, IStorageService storage) : ControllerBase
+    [HttpPost("add")]
+    public async Task<IActionResult> AddProduct([FromForm] CreateProduct dto)
     {
-        [HttpPost("add")]
-        public async Task<IActionResult> AddProduct([FromForm] CreateProductRequest dto)
+        string? imageUrl = null;
+
+        if (dto.Image is not null)
+            imageUrl = await storage.UploadAsync(dto.Image, "products");
+
+        var product = new Product
         {
-            string? imageUrl = null;
+            Id = dto.Id,
+            BarCode = dto.BarCode,
+            Description = dto.Description,
+            ImageUrl = imageUrl,
+            Price = dto.Price,
+            StockQuantity = dto.StockQuantity,
+        };
 
-            if (dto.Image is not null)
-                imageUrl = await storage.UploadAsync(dto.Image, "products");
+        appDbcontext.Product.Add(product);
 
-            var product = new Product
-            {
-                Id = dto.Id,
-                BarCode = dto.BarCode,
-                Description = dto.Description,
-                ImageUrl = imageUrl,
-                Price = dto.Price,
-                StockQuantity = dto.StockQuantity,
-            };
+        await appDbcontext.SaveChangesAsync();
 
-            appDbcontext.Product.Add(product);
+        return Ok();
+    }
 
-            await appDbcontext.SaveChangesAsync();
+    [HttpGet("{sku}")]
+    public async Task<IActionResult> GetProductByCode(string sku)
+    {
+        var product = await appDbcontext.Product.FindAsync(sku);
 
-            return Ok();
-        }
+        if (product == null)
+            return NotFound();
 
-        [HttpGet("{sku}")]
-        public async Task<IActionResult> GetProductByCode(string sku)
+        var result = new ProductResponse
         {
-            var product = await appDbcontext.Product.FindAsync(sku);
+            Id = product.Id,
+            BarCode = product.BarCode,
+            Description = product.Description,
+            ImageUrl = product.ImageUrl,
+            Price = product.Price,
+            StockQuantity = product.StockQuantity,
+            IsActive = product.IsActive
+        };
 
-            if (product == null)
-                return NotFound();
-
-            var result = new ProductResponse
-            {
-                Id = product.Id,
-                BarCode = product.BarCode,
-                Description = product.Description,
-                ImageUrl = product.ImageUrl,
-                Price = product.Price,
-                StockQuantity = product.StockQuantity,
-                IsActive = product.IsActive
-            };
-
-            return Ok(result);
-        }
+        return Ok(result);
     }
 }

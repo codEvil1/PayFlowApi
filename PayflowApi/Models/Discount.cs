@@ -1,9 +1,0 @@
-﻿namespace PayFlowApi.Models
-{
-    public class Discount
-    {
-        public int Id { get; set; }
-        public string CouponCode { get; set; } = string.Empty;
-        public int Percentage { get; set; }
-    }
-}

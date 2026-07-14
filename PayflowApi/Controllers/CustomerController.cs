@@ -1,52 +1,28 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using PayflowApi.Dtos.Customer.Response;
-using PayFlowApi.Data;
-using PayFlowApi.Models;
-using Microsoft.EntityFrameworkCore;
+using PayFlow.Application.Features.Customer;
 
-namespace PayflowApi.Controllers
+namespace Payflow.Api.Controllers;
+
+[ApiController]
+[Route("api/[controller]")]
+public class CustomerController(ICustomerService customerService) : ControllerBase
 {
-    [ApiController]
-    [Route("api/[controller]")]
-    public class CustomerController(AppDbContext appDbcontext) : ControllerBase
+    [HttpPost("add")]
+    public async Task<IActionResult> AddCustomer(CustomerResponse dto)
     {
-        [HttpPost("add")]
-        public async Task<IActionResult> AddCustomer(CustomerResponse dto)
-        {
-            var customer = new Customer
-            {
-                Identifier = dto.Identifier,
-                Name = dto.Name,
-                Phone = dto.Phone,
-                Email = dto.Email,
-                Address = dto.Address
-            };
+        await customerService.AddCustomerAsync(dto);
 
-            appDbcontext.Add(customer);
-            await appDbcontext.SaveChangesAsync();
+        return Ok();
+    }
 
-            return Ok();
-        }
+    [HttpGet("{identifier}")]
+    public async Task<IActionResult> GetCustomerByIdentifier(string identifier)
+    {
+        var customer = await customerService.GetByIdentifierAsync(identifier);
 
-        [HttpGet("{identifier}")]
-        public async Task<IActionResult> GetCustomerByIdentifier(string identifier)
-        {
-            var customer = await appDbcontext.Customer
-                .FirstOrDefaultAsync(customer => customer.Identifier == identifier);
+        if (customer == null)
+            return NotFound();
 
-            if (customer == null)
-                return NotFound();
-
-            var result = new CustomerResponse
-            {
-                Identifier = customer.Identifier,
-                Name = customer.Name,
-                Phone = customer.Phone,
-                Email = customer.Email,
-                Address = customer.Address
-            };
-
-            return Ok(result);
-        }
+        return Ok(customer);
     }
 }

@@ -1,12 +1,12 @@
 ﻿using Payflow.Api.Extensions;
+using PayFlow.Infrastructure.DependencyInjection;
 
 var builder = WebApplication.CreateBuilder(args);
 
 builder.Services.AddControllers();
 
 builder.Services.AddSwaggerDocumentation();
-builder.Services.AddDatabase(builder.Configuration);
-builder.Services.AddCloudflareR2(builder.Configuration);
+builder.Services.AddInfrastructure(builder.Configuration);
 builder.Services.AddCorsConfiguration();
 
 var app = builder.Build();
