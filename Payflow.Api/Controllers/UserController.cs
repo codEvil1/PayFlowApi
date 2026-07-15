@@ -1,31 +1,46 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using PayFlow.Infrastructure.Features.User;
-using PayFlow.Domain.Entities;
-using PayFlow.Infrastructure.Data.Context;
+using PayFlow.Application.Features.User.Requests;
+using PayFlow.Application.Interfaces;
 
-namespace Payflow.Api.Controllers;
-
-[ApiController]
-[Route("api/[controller]")]
-public class UserController(AppDbContext appDbcontext) : ControllerBase
+namespace Payflow.Api.Controllers
 {
-    [HttpPost]
-    public async Task<IActionResult> AddAddress(CreateUserDto dto)
+    [ApiController]
+    [Route("api/[controller]")]
+    public class UserController(IUserService service) : ControllerBase
     {
-        var user = new User
+        [HttpPost]
+        public async Task<IActionResult> Create([FromForm] CreateUserRequest request, CancellationToken cancellationToken)
         {
-            Id = dto.Id,
-            Name = dto.Name,
-            Email = dto.Email,
-            PasswordHash = dto.PasswordHash,
-            IsActive = dto.IsActive,
-            CreatedAt = dto.CreatedAt,
-            UpdatedAt = dto.UpdatedAt,
-        };
+            await service.CreateAsync(request, cancellationToken);
 
-        appDbcontext.Add(user);
-        await appDbcontext.SaveChangesAsync();
+            return Ok();
+        }
 
-        return Ok();
+        [HttpGet("{id}")]
+        public async Task<IActionResult> GetProductById(int id, CancellationToken cancellationToken)
+        {
+            var result = await service.GetByIdAsync(id, cancellationToken);
+
+            if (result is null)
+                return NotFound();
+
+            return Ok(result);
+        }
+
+        [HttpPut("{id}")]
+        public async Task<IActionResult> Update(int id, [FromForm] UpdateUserRequest request, CancellationToken cancellationToken)
+        {
+            await service.UpdateAsync(id, request, cancellationToken);
+
+            return Ok();
+        }
+
+        [HttpDelete("{id}")]
+        public async Task<IActionResult> Delete(int id, CancellationToken cancellationToken)
+        {
+            await service.DeleteAsync(id, cancellationToken);
+
+            return Ok();
+        }
     }
 }

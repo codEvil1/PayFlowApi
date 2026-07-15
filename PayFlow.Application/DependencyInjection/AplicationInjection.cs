@@ -46,6 +46,7 @@ namespace PayFlow.Infrastructure.DependencyInjection
             services.AddScoped<ICustomerService, CustomerService>();
             services.AddScoped<IDiscountService, DiscountService>();
             services.AddScoped<ICashierService, CashierService>();
+            services.AddScoped<IUserService, UserService>();
 
             return services;
         }

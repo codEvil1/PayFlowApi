@@ -1,6 +1,6 @@
-﻿namespace PayFlow.Domain.Entities
+﻿namespace PayFlow.Application.Features.User.Requests
 {
-    public class User
+    public class CreateUserRequest
     {
         public int Id { get; set; }
         public string Name { get; set; } = string.Empty;

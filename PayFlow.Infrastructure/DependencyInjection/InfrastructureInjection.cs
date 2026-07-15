@@ -9,6 +9,7 @@ using PayFlow.Infrastructure.Data.Context;
 using PayFlow.Infrastructure.Persistence.Repositories;
 using PayFlow.Infrastructure.Services.Settings;
 using PayFlow.Infrastructure.Settings;
+using PayFlow.Application.Interfaces;
 
 namespace PayFlow.Infrastructure.DependencyInjection
 {
@@ -39,6 +40,7 @@ namespace PayFlow.Infrastructure.DependencyInjection
             services.AddScoped<ICustomerRepository, CustomerRepository>();
             services.AddScoped<IDiscountRepository, DiscountRepository>();
             services.AddScoped<ICashierRepository, CashierRepository>();
+            services.AddScoped<IUserRepository, UserRepository>();
 
             return services;
         }
