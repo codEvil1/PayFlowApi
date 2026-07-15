@@ -1,6 +1,6 @@
 ﻿using PayFlow.Infrastructure.Features.Address.DTOs;
 
-namespace PayFlow.Infrastructure.Features.Customer.DTOs
+namespace PayFlow.Infrastructure.Features.Cashier.DTOs
 {
     public class CustomerDto
     {

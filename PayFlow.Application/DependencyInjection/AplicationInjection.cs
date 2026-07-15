@@ -2,7 +2,10 @@
 using FluentValidation.AspNetCore;
 using Microsoft.Extensions.DependencyInjection;
 using PayFlow.Application.Features.Address.Validators;
-using PayFlow.Infrastructure.Features.Customer.Validators;
+using PayFlow.Application.Features.Cashier.Validators;
+using PayFlow.Application.Features.Customer.Validators;
+using PayFlow.Application.Interfaces;
+using PayFlow.Application.Services;
 using PayFlow.Infrastructure.Features.Discount.Validators;
 using PayFlow.Infrastructure.Features.Product.Validators;
 using PayFlow.Infrastructure.Interfaces;
@@ -26,7 +29,7 @@ namespace PayFlow.Infrastructure.DependencyInjection
             services
                 .AddValidatorsFromAssemblyContaining<CreateProductValidator>()
                 .AddValidatorsFromAssemblyContaining<UpdateProductValidator>()
-                .AddValidatorsFromAssemblyContaining<CreateCustomerValidator>()
+                .AddValidatorsFromAssemblyContaining<CreateCashierValidator>()
                 .AddValidatorsFromAssemblyContaining<UpdateCustomerValidator>()
                 .AddValidatorsFromAssemblyContaining<CreateDiscountValidator>()
                 .AddValidatorsFromAssemblyContaining<UpdateDiscountValidator>()
@@ -42,6 +45,7 @@ namespace PayFlow.Infrastructure.DependencyInjection
             services.AddScoped<IProductService, ProductService>();
             services.AddScoped<ICustomerService, CustomerService>();
             services.AddScoped<IDiscountService, DiscountService>();
+            services.AddScoped<ICashierService, CashierService>();
 
             return services;
         }

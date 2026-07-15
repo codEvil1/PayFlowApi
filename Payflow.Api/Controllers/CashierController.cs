@@ -1,50 +1,54 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using PayFlow.Infrastructure.Features.Cashier;
-using PayFlow.Domain.Entities;
-using PayFlow.Infrastructure.Data.Context;
+using PayFlow.Application.Features.Cashier.Requests;
+using PayFlow.Application.Interfaces;
 
-namespace Payflow.Api.Controllers;
-
-[ApiController]
-[Route("api/[controller]")]
-public class CashierController(AppDbContext appDbcontext) : ControllerBase
+namespace Payflow.Api.Controllers
 {
-    [HttpPost("add")]
-    public async Task<IActionResult> AddCashier(CreateCashierDto dto)
+    [ApiController]
+    [Route("api/[controller]")]
+    public class CashierController(ICashierService service) : ControllerBase
     {
-        var cashier = new Cashier
+        [HttpPost]
+        public async Task<IActionResult> Create([FromForm] CreateCashierRequest request, CancellationToken cancellationToken)
         {
-            Cpf = dto.Cpf,
-            Name = dto.Name,
-            Email = dto.Email,
-            Rating = dto.Rating
-        };
-            
-        appDbcontext.Add(cashier);
-        await appDbcontext.SaveChangesAsync();
+            await service.CreateAsync(request, cancellationToken);
 
-        return Ok(cashier);
-    }
+            return Ok();
+        }
 
-    [HttpGet("{id}")]
-    public async Task<IActionResult> GetCashierById(int id)
-    {
-        var cashier = await appDbcontext.Cashier.FindAsync(id);
-
-        if (cashier == null)
-            return NotFound();
-
-        var result = new CashierDto
+        [HttpGet]
+        public async Task<IActionResult> GetAll(CancellationToken cancellationToken)
         {
-            Id = cashier.Id,
-            Cpf = cashier.Cpf,
-            Name = cashier.Name,
-            Email = cashier.Email,
-            IsActive = cashier.IsActive,
-            Rating = cashier.Rating,
-            CreatedAt = cashier.CreatedAt
-        };
+            var result = await service.GetAllAsync(cancellationToken);
 
-        return Ok(result);
+            return Ok(result);
+        }
+
+        [HttpGet("{id}")]
+        public async Task<IActionResult> GetCashierById(int id, CancellationToken cancellationToken)
+        {
+            var result = await service.GetByIdAsync(id, cancellationToken);
+
+            if (result is null)
+                return NotFound();
+
+            return Ok(result);
+        }
+
+        [HttpPut("{id}")]
+        public async Task<IActionResult> Update(int id, [FromForm] UpdateCashierRequest request, CancellationToken cancellationToken)
+        {
+            await service.UpdateAsync(id, request, cancellationToken);
+
+            return Ok();
+        }
+
+        [HttpDelete("{id}")]
+        public async Task<IActionResult> Delete(int id, CancellationToken cancellationToken)
+        {
+            await service.DeleteAsync(id, cancellationToken);
+
+            return Ok();
+        }
     }
 }
