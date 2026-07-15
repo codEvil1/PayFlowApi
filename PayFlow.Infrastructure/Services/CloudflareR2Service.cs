@@ -5,7 +5,7 @@ using Microsoft.Extensions.Configuration;
 using PayFlow.Application.Interfaces;
 using PayFlow.Infrastructure.Services.Settings;
 
-namespace PayFlow.Infrastructure.Services.Storage
+namespace PayFlow.Application.Services
 {
     public class CloudflareR2Service(IAmazonS3 client, IConfiguration configuration) : IStorageService
     {
