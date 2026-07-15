@@ -1,7 +1,7 @@
 ﻿using FluentValidation;
 using Microsoft.AspNetCore.Http;
 
-namespace PayFlow.Application.Features.Product.Validators
+namespace PayFlow.Infrastructure.Features.Product.Validators
 {
     public static class ProductRules
     {

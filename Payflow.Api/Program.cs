@@ -1,5 +1,5 @@
 ﻿using Payflow.Api.Extensions;
-using PayFlow.Application.DependencyInjection;
+using PayFlow.Infrastructure.DependencyInjection;
 using PayFlow.Infrastructure.DependencyInjection;
 
 var builder = WebApplication.CreateBuilder(args);

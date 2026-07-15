@@ -1,6 +1,6 @@
-﻿using PayFlow.Application.Features.Address.Requests;
+﻿using PayFlow.Infrastructure.Features.Address.Requests;
 
-namespace PayFlow.Application.Features.Customer.Requests
+namespace PayFlow.Infrastructure.Features.Customer.Requests
 {
     public class CreateCustomerRequest
     {

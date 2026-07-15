@@ -1,6 +1,6 @@
 ﻿using PayFlow.Domain.Enums;
 
-namespace PayFlow.Application.Features.Discount.Requests
+namespace PayFlow.Infrastructure.Features.Discount.Requests
 {
     public class CreateDiscountRequest
     {

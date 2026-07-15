@@ -2,10 +2,10 @@
 using Amazon.S3.Model;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Configuration;
-using PayFlow.Application.Interfaces;
+using PayFlow.Infrastructure.Interfaces;
 using PayFlow.Infrastructure.Services.Settings;
 
-namespace PayFlow.Application.Services
+namespace PayFlow.Infrastructure.Services
 {
     public class CloudflareR2Service(IAmazonS3 client, IConfiguration configuration) : IStorageService
     {

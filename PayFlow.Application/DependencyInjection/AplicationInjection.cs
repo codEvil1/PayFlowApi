@@ -1,13 +1,14 @@
 ﻿using FluentValidation;
 using FluentValidation.AspNetCore;
 using Microsoft.Extensions.DependencyInjection;
-using PayFlow.Application.Features.Customer.Validators;
-using PayFlow.Application.Features.Discount.Validators;
-using PayFlow.Application.Features.Product.Validators;
-using PayFlow.Application.Interfaces;
-using PayFlow.Application.Services;
+using PayFlow.Application.Features.Address.Validators;
+using PayFlow.Infrastructure.Features.Customer.Validators;
+using PayFlow.Infrastructure.Features.Discount.Validators;
+using PayFlow.Infrastructure.Features.Product.Validators;
+using PayFlow.Infrastructure.Interfaces;
+using PayFlow.Infrastructure.Services;
 
-namespace PayFlow.Application.DependencyInjection
+namespace PayFlow.Infrastructure.DependencyInjection
 {
     public static class ApplicationInjection
     {
@@ -29,6 +30,7 @@ namespace PayFlow.Application.DependencyInjection
                 .AddValidatorsFromAssemblyContaining<UpdateCustomerValidator>()
                 .AddValidatorsFromAssemblyContaining<CreateDiscountValidator>()
                 .AddValidatorsFromAssemblyContaining<UpdateDiscountValidator>()
+                .AddValidatorsFromAssemblyContaining<GetAddressByPostalCodeValidator>()
                 .AddFluentValidationAutoValidation()
                 .AddFluentValidationClientsideAdapters();
 
