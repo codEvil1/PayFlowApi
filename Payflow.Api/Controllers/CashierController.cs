@@ -1,5 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using PayFlow.Application.Features.Cashier;
+using PayFlow.Infrastructure.Features.Cashier;
 using PayFlow.Domain.Entities;
 using PayFlow.Infrastructure.Data.Context;
 

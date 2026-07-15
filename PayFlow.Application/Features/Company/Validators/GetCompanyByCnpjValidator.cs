@@ -1,12 +1,12 @@
 ﻿using FluentValidation;
+using PayFlow.Infrastructure.Extensions;
 using PayFlow.Application.Features.Company.DTOs;
-using PayFlow.Application.Extensions;
 
 namespace PayFlow.Application.Features.Company.Validators
 {
-    public class GetCompanyValidator : AbstractValidator<FilterCompanyDto>
+    public class GetCompanyByCnpjValidator : AbstractValidator<GetCompanyByCnpj>
     {
-        public GetCompanyValidator()
+        public GetCompanyByCnpjValidator()
         {
             RuleFor(x => x.Cnpj)
                 .NotEmpty()

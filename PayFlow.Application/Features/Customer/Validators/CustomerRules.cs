@@ -1,6 +1,6 @@
 ﻿using FluentValidation;
 
-namespace PayFlow.Application.Features.Customer.Validators
+namespace PayFlow.Infrastructure.Features.Customer.Validators
 {
     public static class CustomerRules
     {

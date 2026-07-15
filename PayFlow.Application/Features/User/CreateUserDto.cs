@@ -1,4 +1,4 @@
-﻿namespace PayFlow.Application.Features.User;
+﻿namespace PayFlow.Infrastructure.Features.User;
 public class CreateUserDto
 {
     public Guid Id { get; set; }

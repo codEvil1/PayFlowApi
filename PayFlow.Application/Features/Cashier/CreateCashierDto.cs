@@ -1,4 +1,4 @@
-﻿namespace PayFlow.Application.Features.Cashier;
+﻿namespace PayFlow.Infrastructure.Features.Cashier;
 
 public class CreateCashierDto
 {

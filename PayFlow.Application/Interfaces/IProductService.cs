@@ -1,7 +1,7 @@
-﻿using PayFlow.Application.Features.Product.DTOs;
-using PayFlow.Application.Features.Product.Requests;
+﻿using PayFlow.Infrastructure.Features.Product.DTOs;
+using PayFlow.Infrastructure.Features.Product.Requests;
 
-namespace PayFlow.Application.Interfaces
+namespace PayFlow.Infrastructure.Interfaces
 {
     public interface IProductService
     {

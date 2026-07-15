@@ -2,12 +2,11 @@
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using PayFlow.Application.Interfaces;
-using PayFlow.Application.Services;
+using PayFlow.Infrastructure.Interfaces;
+using PayFlow.Infrastructure.Services;
 using PayFlow.Domain.Interfaces;
 using PayFlow.Infrastructure.Data.Context;
 using PayFlow.Infrastructure.Persistence.Repositories;
-using PayFlow.Infrastructure.Services;
 using PayFlow.Infrastructure.Services.Settings;
 using PayFlow.Infrastructure.Settings;
 
@@ -21,6 +20,7 @@ namespace PayFlow.Infrastructure.DependencyInjection
                 .AddDatabase(configuration)
                 .AddRepository()
                 .AddReceitaWs(configuration)
+                .AddViaCep(configuration)
                 .AddCloudflareR2(configuration);
         }
 
@@ -58,6 +58,25 @@ namespace PayFlow.Infrastructure.DependencyInjection
                 client.DefaultRequestHeaders.Accept.Add(
                     new System.Net.Http.Headers.MediaTypeWithQualityHeaderValue("application/json"));
                 client.DefaultRequestHeaders.UserAgent.ParseAdd("PayFlow/1.0");
+            });
+
+            return services;
+        }
+
+        private static IServiceCollection AddViaCep(this IServiceCollection services, IConfiguration configuration)
+        {
+            var settings = configuration
+                .GetSection("ViaCep")
+                .Get<ViaCepSettings>();
+
+            services.AddSingleton(settings!);
+
+            services.AddHttpClient<IAddressService, ViaCepService>(client =>
+            {
+                client.BaseAddress = new Uri(settings!.BaseUrl);
+                client.Timeout = TimeSpan.FromSeconds(settings.TimeoutSeconds);
+                client.DefaultRequestHeaders.Accept.Add(
+                    new System.Net.Http.Headers.MediaTypeWithQualityHeaderValue("application/json"));
             });
 
             return services;

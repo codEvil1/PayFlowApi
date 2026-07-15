@@ -1,15 +1,15 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using PayFlow.Application.Features.Discount.Requests;
-using PayFlow.Application.Interfaces;
+using PayFlow.Infrastructure.Features.Product.Requests;
+using PayFlow.Infrastructure.Interfaces;
 
 namespace Payflow.Api.Controllers
 {
     [ApiController]
     [Route("api/[controller]")]
-    public class DiscountController(IDiscountService service) : ControllerBase
+    public class ProductController(IProductService service) : ControllerBase
     {
         [HttpPost]
-        public async Task<IActionResult> Create([FromForm] CreateDiscountRequest request, CancellationToken cancellationToken)
+        public async Task<IActionResult> Create([FromForm] CreateProductRequest request, CancellationToken cancellationToken)
         {
             await service.CreateAsync(request, cancellationToken);
 
@@ -25,7 +25,7 @@ namespace Payflow.Api.Controllers
         }
 
         [HttpGet("{id}")]
-        public async Task<IActionResult> GetDiscountById(string id, CancellationToken cancellationToken)
+        public async Task<IActionResult> GetProductById(string id, CancellationToken cancellationToken)
         {
             var result = await service.GetByIdAsync(id, cancellationToken);
 
@@ -36,7 +36,7 @@ namespace Payflow.Api.Controllers
         }
 
         [HttpPut("{id}")]
-        public async Task<IActionResult> Update(string id, [FromForm] UpdateDiscountRequest request, CancellationToken cancellationToken)
+        public async Task<IActionResult> Update(string id, [FromForm] UpdateProductRequest request, CancellationToken cancellationToken)
         {
             await service.UpdateAsync(id, request, cancellationToken);
 
