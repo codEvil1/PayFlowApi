@@ -1,13 +1,11 @@
-﻿namespace PayFlow.Domain.Entities
+﻿namespace PayFlow.Application.Features.User.Requests
 {
-    public class Cashier
+    public class CreateUserRequest
     {
         public int Id { get; set; }
-        public string Cpf { get; set; } = string.Empty;
         public string Name { get; set; } = string.Empty;
         public string Email { get; set; } = string.Empty;
-        public decimal Rating { get; set; } = default;
+        public string PasswordHash { get; set; } = string.Empty;
         public bool IsActive { get; set; } = true;
     }
-
 }

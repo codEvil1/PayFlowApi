@@ -2,12 +2,12 @@
 
 namespace PayFlow.Infrastructure.Features.Cashier.DTOs
 {
-    public class CustomerDto
+    public class UserDto
     {
-        public string Identifier { get; set; } = string.Empty;
+        public int Id { get; set; } = default;
         public string Name { get; set; } = string.Empty;
-        public string Phone { get; set; } = string.Empty;
         public string Email { get; set; } = string.Empty;
-        public AddressDto Address { get; set; } = new();
+        public string PasswordHash { get; set; } = string.Empty;
+        public bool IsActive { get; set; } = default;
     }
 }

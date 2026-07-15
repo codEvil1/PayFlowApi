@@ -1,6 +1,6 @@
 ﻿using Microsoft.AspNetCore.Http;
 
-namespace PayFlow.Infrastructure.Interfaces
+namespace PayFlow.Application.Interfaces
 {
     public interface IStorageService
     {

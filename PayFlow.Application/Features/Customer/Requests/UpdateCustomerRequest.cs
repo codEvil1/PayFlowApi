@@ -1,6 +1,6 @@
 ﻿using PayFlow.Infrastructure.Features.Address.Requests;
 
-namespace PayFlow.Infrastructure.Features.Customer.Requests
+namespace PayFlow.Application.Features.Customer.Requests
 {
     public class UpdateCustomerRequest
     {

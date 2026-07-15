@@ -1,11 +1,11 @@
 ﻿using PayFlow.Infrastructure.Exceptions;
 using PayFlow.Infrastructure.Features.Product.DTOs;
 using PayFlow.Infrastructure.Features.Product.Requests;
-using PayFlow.Infrastructure.Interfaces;
 using PayFlow.Domain.Interfaces;
 using PayFlow.Domain.Entities;
+using PayFlow.Application.Interfaces;
 
-namespace PayFlow.Infrastructure.Services
+namespace PayFlow.Application.Services
 {
     public class ProductService(IProductRepository repository, IStorageService storage) : IProductService
     {
