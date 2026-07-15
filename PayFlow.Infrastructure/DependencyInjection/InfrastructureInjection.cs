@@ -2,12 +2,14 @@
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using PayFlow.Application.Interfaces;
+using PayFlow.Application.Services;
 using PayFlow.Domain.Interfaces;
 using PayFlow.Infrastructure.Data.Context;
 using PayFlow.Infrastructure.Persistence.Repositories;
-using PayFlow.Application.Interfaces;
+using PayFlow.Infrastructure.Services;
 using PayFlow.Infrastructure.Services.Settings;
-using PayFlow.Infrastructure.Services.Storage;
+using PayFlow.Infrastructure.Settings;
 
 namespace PayFlow.Infrastructure.DependencyInjection
 {
@@ -18,6 +20,7 @@ namespace PayFlow.Infrastructure.DependencyInjection
             return services
                 .AddDatabase(configuration)
                 .AddRepository()
+                .AddReceitaWs(configuration)
                 .AddCloudflareR2(configuration);
         }
 
@@ -35,6 +38,27 @@ namespace PayFlow.Infrastructure.DependencyInjection
             services.AddScoped<IProductRepository, ProductRepository>();
             services.AddScoped<ICustomerRepository, CustomerRepository>();
             services.AddScoped<IDiscountRepository, DiscountRepository>();
+
+            return services;
+        }
+
+        private static IServiceCollection AddReceitaWs(this IServiceCollection services, IConfiguration configuration)
+        {
+            var settings = configuration
+                .GetSection("ReceitaWs")
+                .Get<ReceitaWsSettings>();
+
+            services.AddSingleton(settings!);
+
+            services.AddHttpClient<ICompanyService, ReceitaWsService>(client =>
+            {
+                client.BaseAddress = new Uri(settings!.BaseUrl);
+                client.Timeout = TimeSpan.FromSeconds(settings.TimeoutSeconds);
+                client.DefaultRequestHeaders.Accept.Clear();
+                client.DefaultRequestHeaders.Accept.Add(
+                    new System.Net.Http.Headers.MediaTypeWithQualityHeaderValue("application/json"));
+                client.DefaultRequestHeaders.UserAgent.ParseAdd("PayFlow/1.0");
+            });
 
             return services;
         }
