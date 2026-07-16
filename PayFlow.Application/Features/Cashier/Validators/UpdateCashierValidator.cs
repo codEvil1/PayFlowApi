@@ -1,6 +1,5 @@
 ﻿using FluentValidation;
 using PayFlow.Application.Features.Cashier.Requests;
-using PayFlow.Application.Features.Cashier.Validators;
 
 namespace PayFlow.Application.Features.Cashier.Validators
 {

@@ -1,13 +1,14 @@
-﻿using PayFlow.Application.Features.User.Requests;
+﻿using Microsoft.AspNetCore.Identity;
+using PayFlow.Application.Features.User.DTOs;
+using PayFlow.Application.Features.User.Requests;
 using PayFlow.Application.Interfaces;
 using PayFlow.Domain.Entities;
 using PayFlow.Domain.Interfaces;
 using PayFlow.Infrastructure.Exceptions;
-using PayFlow.Infrastructure.Features.Cashier.DTOs;
 
 namespace PayFlow.Application.Services
 {
-    public class UserService(IUserRepository repository) : IUserService
+    public class UserService(IUserRepository repository, IPasswordHasher passwordHasher) : IUserService
     {
         public async Task CreateAsync(CreateUserRequest request, CancellationToken cancellationToken)
         {
@@ -20,7 +21,7 @@ namespace PayFlow.Application.Services
             {
                 Name = request.Name,
                 Email = request.Email,
-                PasswordHash = request.PasswordHash
+                PasswordHash = passwordHasher.Hash(request.PasswordHash)
             };
 
             await repository.AddAsync(user, cancellationToken);
@@ -46,7 +47,7 @@ namespace PayFlow.Application.Services
 
             user.Name = request.Name;
             user.Email = request.Email;
-            user.PasswordHash = request.PasswordHash;
+            user.PasswordHash = passwordHasher.Hash(request.PasswordHash);
 
             await repository.UpdateAsync(user, cancellationToken);
         }

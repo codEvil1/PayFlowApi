@@ -2,14 +2,16 @@
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using PayFlow.Infrastructure.Interfaces;
-using PayFlow.Infrastructure.Services;
+using Microsoft.Extensions.Options;
+using PayFlow.Application.Interfaces;
 using PayFlow.Domain.Interfaces;
 using PayFlow.Infrastructure.Data.Context;
+using PayFlow.Infrastructure.Interfaces;
 using PayFlow.Infrastructure.Persistence.Repositories;
+using PayFlow.Infrastructure.Security;
+using PayFlow.Infrastructure.Services;
 using PayFlow.Infrastructure.Services.Settings;
 using PayFlow.Infrastructure.Settings;
-using PayFlow.Application.Interfaces;
 
 namespace PayFlow.Infrastructure.DependencyInjection
 {
@@ -20,6 +22,7 @@ namespace PayFlow.Infrastructure.DependencyInjection
             return services
                 .AddDatabase(configuration)
                 .AddRepository()
+                .AddJwt(configuration)
                 .AddReceitaWs(configuration)
                 .AddViaCep(configuration)
                 .AddCloudflareR2(configuration);
@@ -41,6 +44,22 @@ namespace PayFlow.Infrastructure.DependencyInjection
             services.AddScoped<IDiscountRepository, DiscountRepository>();
             services.AddScoped<ICashierRepository, CashierRepository>();
             services.AddScoped<IUserRepository, UserRepository>();
+
+            return services;
+        }
+
+        private static IServiceCollection AddJwt(this IServiceCollection services, IConfiguration configuration)
+        {
+            services.Configure<JwtSettings>(
+                configuration.GetSection("Jwt"));
+
+            services.AddSingleton(sp =>
+                sp.GetRequiredService<IOptions<JwtSettings>>().Value);
+
+            services.AddHttpContextAccessor();
+
+            services.AddScoped<IPasswordHasher, PasswordHasher>();
+            services.AddScoped<IJwtService, JwtService>();
 
             return services;
         }

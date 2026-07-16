@@ -1,5 +1,6 @@
-﻿using Payflow.Api.Extensions;
-using PayFlow.Infrastructure.DependencyInjection;
+﻿using Payflow.Api.DependencyInjection;
+using Payflow.Api.Extensions;
+using PayFlow.Application.DependencyInjection;
 using PayFlow.Infrastructure.DependencyInjection;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -11,6 +12,7 @@ builder.Services.AddControllers(options =>
 
 builder.Services.AddSwaggerDocumentation();
 builder.Services.AddInfrastructure(builder.Configuration);
+builder.Services.AddApi(builder.Configuration);
 builder.Services.AddApplication();
 builder.Services.AddCorsConfiguration();
 
@@ -25,6 +27,10 @@ if (app.Environment.IsDevelopment())
 app.UseHttpsRedirection();
 
 app.UseCors("AllowFrontend");
+
+app.UseAuthorization();
+
+app.UseAuthentication();
 
 app.UseAuthorization();
 

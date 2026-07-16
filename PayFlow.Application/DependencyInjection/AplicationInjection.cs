@@ -8,10 +8,9 @@ using PayFlow.Application.Interfaces;
 using PayFlow.Application.Services;
 using PayFlow.Infrastructure.Features.Discount.Validators;
 using PayFlow.Infrastructure.Features.Product.Validators;
-using PayFlow.Infrastructure.Interfaces;
 using PayFlow.Infrastructure.Services;
 
-namespace PayFlow.Infrastructure.DependencyInjection
+namespace PayFlow.Application.DependencyInjection
 {
     public static class ApplicationInjection
     {
@@ -47,6 +46,7 @@ namespace PayFlow.Infrastructure.DependencyInjection
             services.AddScoped<IDiscountService, DiscountService>();
             services.AddScoped<ICashierService, CashierService>();
             services.AddScoped<IUserService, UserService>();
+            services.AddScoped<IAuthService, AuthService>();
 
             return services;
         }

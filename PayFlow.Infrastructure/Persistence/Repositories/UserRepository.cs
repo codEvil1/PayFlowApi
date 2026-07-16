@@ -19,6 +19,12 @@ namespace PayFlow.Infrastructure.Persistence.Repositories
                 .FirstOrDefaultAsync(x => x.Id == id, cancellationToken);
         }
 
+        public async Task<User?> GetByEmailAsync(string email, CancellationToken cancellationToken)
+        {
+            return await context.User
+                .FirstOrDefaultAsync(x => x.Email == email, cancellationToken);
+        }
+
         public async Task UpdateAsync(User user, CancellationToken cancellationToken)
         {
             context.User.Update(user);

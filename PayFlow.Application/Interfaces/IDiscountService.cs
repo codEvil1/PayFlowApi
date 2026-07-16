@@ -1,7 +1,7 @@
 ﻿using PayFlow.Infrastructure.Features.Discount.DTOs;
 using PayFlow.Infrastructure.Features.Discount.Requests;
 
-namespace PayFlow.Infrastructure.Interfaces
+namespace PayFlow.Application.Interfaces
 {
     public interface IDiscountService
     {
