@@ -1,21 +1,37 @@
-﻿using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
 using PayFlow.Application.Features.Auth.Requests;
 using PayFlow.Application.Interfaces;
 
-namespace PayFlow.API.Controllers
+namespace PayFlow.Api.Controllers
 {
     [ApiController]
     [Route("api/[controller]")]
     public class AuthController(IAuthService service) : ControllerBase
     {
+
         [HttpPost("login")]
-        [AllowAnonymous]
         public async Task<IActionResult> Login(AuthRequest request, CancellationToken cancellationToken)
         {
             var result = await service.LoginAsync(request, cancellationToken);
 
             return Ok(result);
+        }
+
+
+        [HttpPost("refresh")]
+        public async Task<IActionResult> Refresh(RefreshTokenRequest request, CancellationToken cancellationToken)
+        {
+            var result = await service.RefreshTokenAsync(request, cancellationToken);
+
+            return Ok(result);
+        }
+
+        [HttpPost("logout")]
+        public async Task<IActionResult> Logout(RefreshTokenRequest request, CancellationToken cancellationToken)
+        {
+            await service.RevokeTokenAsync(request, cancellationToken);
+
+            return NoContent();
         }
     }
 }

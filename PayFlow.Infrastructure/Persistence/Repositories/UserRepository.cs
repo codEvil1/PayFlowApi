@@ -1,7 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using PayFlow.Domain.Entities;
 using PayFlow.Domain.Interfaces;
-using PayFlow.Infrastructure.Data.Context;
+using PayFlow.Infrastructure.Persistence.Context;
 
 namespace PayFlow.Infrastructure.Persistence.Repositories
 {

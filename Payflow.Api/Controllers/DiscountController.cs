@@ -1,10 +1,12 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using PayFlow.Application.Interfaces;
 using PayFlow.Infrastructure.Features.Discount.Requests;
 
 namespace Payflow.Api.Controllers
 {
     [ApiController]
+    [Authorize]
     [Route("api/[controller]")]
     public class DiscountController(IDiscountService service) : ControllerBase
     {

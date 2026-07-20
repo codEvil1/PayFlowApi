@@ -1,7 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using PayFlow.Domain.Entities;
 
-namespace PayFlow.Infrastructure.Data.Context
+namespace PayFlow.Infrastructure.Persistence.Context
 {
     public class AppDbContext(DbContextOptions options) : DbContext(options)
     {
@@ -13,5 +13,6 @@ namespace PayFlow.Infrastructure.Data.Context
         public DbSet<Payment> Payment { get; set; }
         public DbSet<Shipping> Shipping { get; set; }
         public DbSet<Product> Product { get; set; }
+        public DbSet<RefreshToken> RefreshTokens { get; set; }
     }
 }

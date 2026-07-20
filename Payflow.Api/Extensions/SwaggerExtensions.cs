@@ -1,15 +1,44 @@
-﻿namespace Payflow.Api.Extensions;
+﻿using Microsoft.OpenApi;
 
-public static class SwaggerExtensions
+namespace PayFlow.Api.Extensions
 {
-    public static IServiceCollection AddSwaggerDocumentation(this IServiceCollection services)
+    public static class SwaggerExtensions
     {
-        services.AddEndpointsApiExplorer();
-        services.AddSwaggerGen(c =>
+        public static IServiceCollection AddSwaggerDocumentation(this IServiceCollection services)
         {
-            c.EnableAnnotations();
-        });
+            services.AddEndpointsApiExplorer();
 
-        return services;
+            services.AddSwaggerGen(options =>
+            {
+                options.EnableAnnotations();
+
+                options.SwaggerDoc("v1", new OpenApiInfo
+                {
+                    Title = "PayFlow API",
+                    Version = "v1",
+                    Description = "API do sistema PayFlow"
+                });
+
+                options.AddSecurityDefinition("Bearer", new OpenApiSecurityScheme
+                {
+                    Type = SecuritySchemeType.Http,
+                    Name = "Authorization",
+                    In = ParameterLocation.Header,
+                    Scheme = "bearer",
+                    BearerFormat = "JWT",
+                    Description = "Informe o token JWT."
+                });
+
+                options.AddSecurityRequirement(document =>
+                {
+                    return new OpenApiSecurityRequirement
+                    {
+                        [new OpenApiSecuritySchemeReference("Bearer", document)] = []
+                    };
+                });
+            });
+
+            return services;
+        }
     }
 }

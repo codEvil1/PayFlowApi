@@ -1,5 +1,6 @@
 ﻿using Payflow.Api.DependencyInjection;
 using Payflow.Api.Extensions;
+using PayFlow.Api.Extensions;
 using PayFlow.Application.DependencyInjection;
 using PayFlow.Infrastructure.DependencyInjection;
 
@@ -21,19 +22,16 @@ var app = builder.Build();
 if (app.Environment.IsDevelopment())
 {
     app.UseSwagger();
-    app.UseSwaggerUI();
+    app.UseSwaggerUI(options =>
+    {
+        options.EnablePersistAuthorization();
+    });
 }
 
 app.UseHttpsRedirection();
-
 app.UseCors("AllowFrontend");
-
-app.UseAuthorization();
-
 app.UseAuthentication();
-
 app.UseAuthorization();
-
+app.UseAuthorization();
 app.MapControllers();
-
 app.Run();
