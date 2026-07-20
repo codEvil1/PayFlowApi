@@ -5,15 +5,16 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Options;
 using PayFlow.Application.Interfaces;
 using PayFlow.Domain.Interfaces;
-using PayFlow.Infrastructure.Data.Context;
-using PayFlow.Infrastructure.Interfaces;
-using PayFlow.Infrastructure.Persistence.Repositories;
-using PayFlow.Infrastructure.Security;
+using PayFlow.Application.Interfaces;
+using PayFlow.Application.Persistence.Context;
+using PayFlow.Application.Persistence.Repositories;
+using PayFlow.Application.Security;
+using PayFlow.Application.Services;
+using PayFlow.Application.Services.Settings;
+using PayFlow.Application.Settings;
 using PayFlow.Infrastructure.Services;
-using PayFlow.Infrastructure.Services.Settings;
-using PayFlow.Infrastructure.Settings;
 
-namespace PayFlow.Infrastructure.DependencyInjection
+namespace PayFlow.Application.DependencyInjection
 {
     public static class InfrastructureInjection
     {
@@ -44,6 +45,7 @@ namespace PayFlow.Infrastructure.DependencyInjection
             services.AddScoped<IDiscountRepository, DiscountRepository>();
             services.AddScoped<ICashierRepository, CashierRepository>();
             services.AddScoped<IUserRepository, UserRepository>();
+            services.AddScoped<IRefreshTokenRepository, RefreshTokenRepository>();
 
             return services;
         }

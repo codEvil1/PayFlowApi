@@ -1,7 +1,7 @@
 ﻿using FluentValidation;
-using PayFlow.Infrastructure.Features.Product.Requests;
+using PayFlow.Application.Features.Product.Requests;
 
-namespace PayFlow.Infrastructure.Features.Product.Validators
+namespace PayFlow.Application.Features.Product.Validators
 {
     public class UpdateProductValidator : AbstractValidator<UpdateProductRequest>
     {

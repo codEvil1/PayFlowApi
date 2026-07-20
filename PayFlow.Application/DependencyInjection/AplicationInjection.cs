@@ -6,9 +6,9 @@ using PayFlow.Application.Features.Cashier.Validators;
 using PayFlow.Application.Features.Customer.Validators;
 using PayFlow.Application.Interfaces;
 using PayFlow.Application.Services;
-using PayFlow.Infrastructure.Features.Discount.Validators;
-using PayFlow.Infrastructure.Features.Product.Validators;
-using PayFlow.Infrastructure.Services;
+using PayFlow.Application.Features.Discount.Validators;
+using PayFlow.Application.Features.Product.Validators;
+using PayFlow.Application.Services;
 
 namespace PayFlow.Application.DependencyInjection
 {
@@ -47,6 +47,7 @@ namespace PayFlow.Application.DependencyInjection
             services.AddScoped<ICashierService, CashierService>();
             services.AddScoped<IUserService, UserService>();
             services.AddScoped<IAuthService, AuthService>();
+            services.AddScoped<IRefreshTokenService, RefreshTokenService>();
 
             return services;
         }

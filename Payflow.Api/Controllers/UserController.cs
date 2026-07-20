@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using PayFlow.Application.Features.User.Requests;
 using PayFlow.Application.Interfaces;
 
@@ -16,8 +17,9 @@ namespace Payflow.Api.Controllers
             return Ok();
         }
 
+        [Authorize]
         [HttpGet("{id}")]
-        public async Task<IActionResult> GetProductById(int id, CancellationToken cancellationToken)
+        public async Task<IActionResult> GetUserById(int id, CancellationToken cancellationToken)
         {
             var result = await service.GetByIdAsync(id, cancellationToken);
 

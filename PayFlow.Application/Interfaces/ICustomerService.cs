@@ -1,5 +1,5 @@
 ﻿using PayFlow.Application.Features.Customer.Requests;
-using PayFlow.Infrastructure.Features.Cashier.DTOs;
+using PayFlow.Application.Features.Cashier.DTOs;
 
 namespace PayFlow.Application.Interfaces
 {

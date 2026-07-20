@@ -1,6 +1,6 @@
-﻿using PayFlow.Infrastructure.Features.Company.DTOs;
+﻿using PayFlow.Application.Features.Company.DTOs;
 
-namespace PayFlow.Infrastructure.Interfaces
+namespace PayFlow.Application.Interfaces
 {
     public interface ICompanyService
     {

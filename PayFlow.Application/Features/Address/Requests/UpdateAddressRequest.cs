@@ -1,4 +1,4 @@
-﻿namespace PayFlow.Infrastructure.Features.Address.Requests
+﻿namespace PayFlow.Application.Features.Address.Requests
 {
     public class UpdateAddressRequest
     {

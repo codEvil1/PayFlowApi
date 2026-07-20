@@ -1,7 +1,7 @@
 ﻿using FluentValidation;
 using PayFlow.Domain.Enums;
 
-namespace PayFlow.Infrastructure.Features.Discount.Validators
+namespace PayFlow.Application.Features.Discount.Validators
 {
     public static class DiscountRules
     {

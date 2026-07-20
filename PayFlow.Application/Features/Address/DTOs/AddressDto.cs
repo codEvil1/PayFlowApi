@@ -1,4 +1,4 @@
-﻿namespace PayFlow.Infrastructure.Features.Address.DTOs
+﻿namespace PayFlow.Application.Features.Address.DTOs
 {
     public class AddressDto
     {

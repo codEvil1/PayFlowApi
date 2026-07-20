@@ -1,10 +1,12 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using PayFlow.Application.Features.Cashier.Requests;
 using PayFlow.Application.Interfaces;
 
 namespace Payflow.Api.Controllers
 {
     [ApiController]
+    [Authorize]
     [Route("api/[controller]")]
     public class CashierController(ICashierService service) : ControllerBase
     {

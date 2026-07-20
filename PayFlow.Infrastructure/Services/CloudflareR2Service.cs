@@ -3,7 +3,7 @@ using Amazon.S3.Model;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Configuration;
 using PayFlow.Application.Interfaces;
-using PayFlow.Infrastructure.Services.Settings;
+using PayFlow.Application.Services.Settings;
 
 namespace PayFlow.Infrastructure.Services
 {
@@ -43,6 +43,19 @@ namespace PayFlow.Infrastructure.Services
                 BucketName = settings.BucketName,
                 Key = fileName
             });
+        }
+
+        public async Task<bool> CheckConnectionAsync()
+        {
+            try
+            {
+                await client.ListBucketsAsync();
+                return true;
+            }
+            catch
+            {
+                return false;
+            }
         }
     }
 }

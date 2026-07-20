@@ -1,6 +1,6 @@
 ﻿using System.Text.Json.Serialization;
 
-namespace PayFlow.Infrastructure.Features.Company.DTOs
+namespace PayFlow.Application.Features.Company.DTOs
 {
     public class CompanyDto
     {

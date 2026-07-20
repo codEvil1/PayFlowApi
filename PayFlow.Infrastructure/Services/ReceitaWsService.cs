@@ -1,11 +1,11 @@
-﻿using PayFlow.Infrastructure.Exceptions;
-using PayFlow.Infrastructure.Extensions;
-using PayFlow.Infrastructure.Features.Company.DTOs;
-using PayFlow.Infrastructure.Interfaces;
+﻿using PayFlow.Application.Exceptions;
+using PayFlow.Application.Extensions;
+using PayFlow.Application.Features.Company.DTOs;
+using PayFlow.Application.Interfaces;
 using System.Net;
 using System.Text.Json;
 
-namespace PayFlow.Infrastructure.Services;
+namespace PayFlow.Application.Services;
 
 public class ReceitaWsService(HttpClient client) : ICompanyService
 {

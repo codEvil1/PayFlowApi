@@ -1,6 +1,6 @@
 ﻿using PayFlow.Application.Interfaces;
 
-namespace PayFlow.Infrastructure.Security
+namespace PayFlow.Application.Security
 {
     public sealed class PasswordHasher : IPasswordHasher
     {

@@ -6,5 +6,6 @@ namespace PayFlow.Application.Interfaces
     {
         Task<string> UploadAsync(IFormFile file, string folder);
         Task DeleteAsync(string fileUrl);
+        Task<bool> CheckConnectionAsync();
     }
 }
