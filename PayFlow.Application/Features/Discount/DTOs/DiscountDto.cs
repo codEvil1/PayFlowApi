@@ -1,6 +1,6 @@
 ﻿using PayFlow.Domain.Enums;
 
-namespace PayFlow.Infrastructure.Features.Discount.DTOs
+namespace PayFlow.Application.Features.Discount.DTOs
 {
     public class DiscountDto
     {

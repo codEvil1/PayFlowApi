@@ -1,5 +1,5 @@
 ﻿using FluentValidation;
-using PayFlow.Infrastructure.Extensions;
+using PayFlow.Application.Extensions;
 using PayFlow.Application.Features.Company.DTOs;
 
 namespace PayFlow.Application.Features.Company.Validators

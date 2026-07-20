@@ -1,5 +1,5 @@
-﻿using PayFlow.Infrastructure.Features.Discount.DTOs;
-using PayFlow.Infrastructure.Features.Discount.Requests;
+﻿using PayFlow.Application.Features.Discount.DTOs;
+using PayFlow.Application.Features.Discount.Requests;
 
 namespace PayFlow.Application.Interfaces
 {

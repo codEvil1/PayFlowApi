@@ -4,7 +4,7 @@ using PayFlow.Application.Features.User.DTOs;
 using PayFlow.Application.Interfaces;
 using PayFlow.Domain.Entities;
 using PayFlow.Domain.Interfaces;
-using PayFlow.Infrastructure.Exceptions;
+using PayFlow.Application.Exceptions;
 
 namespace PayFlow.Application.Services
 {

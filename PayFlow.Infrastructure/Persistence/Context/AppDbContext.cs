@@ -1,7 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using PayFlow.Domain.Entities;
 
-namespace PayFlow.Infrastructure.Persistence.Context
+namespace PayFlow.Application.Persistence.Context
 {
     public class AppDbContext(DbContextOptions options) : DbContext(options)
     {

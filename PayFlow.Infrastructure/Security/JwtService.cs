@@ -2,12 +2,12 @@
 using PayFlow.Application.Features.Auth.DTOs;
 using PayFlow.Application.Interfaces;
 using PayFlow.Domain.Entities;
-using PayFlow.Infrastructure.Settings;
+using PayFlow.Application.Settings;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Text;
 
-namespace PayFlow.Infrastructure.Security;
+namespace PayFlow.Application.Security;
 
 public sealed class JwtService(JwtSettings settings) : IJwtService
 {

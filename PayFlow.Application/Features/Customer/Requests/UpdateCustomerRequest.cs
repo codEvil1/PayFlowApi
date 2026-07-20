@@ -1,4 +1,4 @@
-﻿using PayFlow.Infrastructure.Features.Address.Requests;
+﻿using PayFlow.Application.Features.Address.Requests;
 
 namespace PayFlow.Application.Features.Customer.Requests
 {

@@ -1,7 +1,7 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using PayFlow.Application.Features.Company.DTOs;
-using PayFlow.Infrastructure.Interfaces;
+using PayFlow.Application.Interfaces;
 
 namespace PayFlow.Api.Controllers
 {

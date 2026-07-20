@@ -1,4 +1,4 @@
-﻿using PayFlow.Infrastructure.Exceptions;
+﻿using PayFlow.Application.Exceptions;
 using PayFlow.Domain.Entities;
 using PayFlow.Domain.Interfaces;
 using PayFlow.Application.Features.Cashier.Requests;

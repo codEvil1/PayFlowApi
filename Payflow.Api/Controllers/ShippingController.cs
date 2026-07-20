@@ -1,8 +1,8 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using PayFlow.Domain.Entities;
-using PayFlow.Infrastructure.Features.Shipping;
-using PayFlow.Infrastructure.Persistence.Context;
+using PayFlow.Application.Features.Shipping;
+using PayFlow.Application.Persistence.Context;
 
 namespace Payflow.Api.Controllers;
 

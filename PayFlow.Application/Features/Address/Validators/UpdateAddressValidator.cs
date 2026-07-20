@@ -1,7 +1,7 @@
 ﻿using FluentValidation;
-using PayFlow.Infrastructure.Features.Address.Requests;
+using PayFlow.Application.Features.Address.Requests;
 
-namespace PayFlow.Infrastructure.Features.Address.Validators
+namespace PayFlow.Application.Features.Address.Validators
 {
     public class UpdateAddressValidator : AbstractValidator<UpdateAddressRequest>
     {

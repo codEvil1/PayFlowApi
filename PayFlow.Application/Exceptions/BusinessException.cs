@@ -1,4 +1,4 @@
-﻿namespace PayFlow.Infrastructure.Exceptions
+﻿namespace PayFlow.Application.Exceptions
 {
     public class BusinessException(string message) : Exception(message) { }
 }

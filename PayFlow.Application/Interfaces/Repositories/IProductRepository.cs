@@ -1,6 +1,6 @@
 ﻿using PayFlow.Domain.Entities;
 
-namespace PayFlow.Infrastructure.Interfaces.Repositories
+namespace PayFlow.Application.Interfaces.Repositories
 {
     public interface IProductRepository
     {

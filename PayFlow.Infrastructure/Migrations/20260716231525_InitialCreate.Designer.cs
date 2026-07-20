@@ -5,11 +5,11 @@ using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
 using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
-using PayFlow.Infrastructure.Persistence.Context;
+using PayFlow.Application.Persistence.Context;
 
 #nullable disable
 
-namespace PayFlow.Infrastructure.Migrations
+namespace PayFlow.Application.Migrations
 {
     [DbContext(typeof(AppDbContext))]
     [Migration("20260716231525_InitialCreate")]

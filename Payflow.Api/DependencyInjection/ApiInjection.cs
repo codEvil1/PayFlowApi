@@ -1,6 +1,6 @@
 ﻿using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
-using PayFlow.Infrastructure.Settings;
+using PayFlow.Application.Settings;
 using System.Text;
 
 namespace Payflow.Api.DependencyInjection
