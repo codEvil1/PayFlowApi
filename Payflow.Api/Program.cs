@@ -19,6 +19,7 @@ builder.Services.AddApi(builder.Configuration);
 builder.Services.AddApplication();
 builder.Services.AddCorsConfiguration();
 builder.Services.AddHealthCheckConfiguration(builder.Configuration);
+builder.Services.AddRateLimiterConfiguration();
 
 var app = builder.Build();
 
@@ -56,4 +57,5 @@ app.UseCors("AllowFrontend");
 app.UseAuthentication();
 app.UseAuthorization();
 app.MapControllers();
+app.UseRateLimiter();
 app.Run();

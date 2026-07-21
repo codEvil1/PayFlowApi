@@ -1,5 +1,7 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.RateLimiting;
+using PayFlow.Api.Constants;
 using PayFlow.Application.Security;
 using PayFlow.Domain.Entities;
 using PayFlow.Infrastructure.Features.Shipping;
@@ -13,6 +15,7 @@ namespace Payflow.Api.Controllers;
 public class ShippingController(AppDbContext appDbcontext) : ControllerBase
 {
     [HttpPost]
+    [EnableRateLimiting(RateLimitPolicies.Default)]
     public async Task<IActionResult> AddCashier(CreateShippingDto dto)
     {
         var shipping = new Shipping

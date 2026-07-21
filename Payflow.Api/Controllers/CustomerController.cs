@@ -1,5 +1,7 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.RateLimiting;
+using PayFlow.Api.Constants;
 using PayFlow.Application.Security;
 using PayFlow.Infrastructure.Features.Customer.Requests;
 using PayFlow.Infrastructure.Interfaces;
@@ -12,6 +14,7 @@ namespace Payflow.Api.Controllers
     {
         [HttpPost]
         [Authorize(Roles = Roles.Admin)]
+        [EnableRateLimiting(RateLimitPolicies.Default)]
         public async Task<IActionResult> Create([FromForm] CreateCustomerRequest request, CancellationToken cancellationToken)
         {
             await service.CreateAsync(request, cancellationToken);
@@ -21,6 +24,7 @@ namespace Payflow.Api.Controllers
 
         [HttpGet]
         [Authorize]
+        [EnableRateLimiting(RateLimitPolicies.Default)]
         public async Task<IActionResult> GetAll(CancellationToken cancellationToken)
         {
             var result = await service.GetAllAsync(cancellationToken);
@@ -30,6 +34,7 @@ namespace Payflow.Api.Controllers
 
         [HttpGet("{identifier}")]
         [Authorize]
+        [EnableRateLimiting(RateLimitPolicies.Default)]
         public async Task<IActionResult> GetCustomerById(string identifier, CancellationToken cancellationToken)
         {
             var result = await service.GetByIdentifierAsync(identifier, cancellationToken);
@@ -42,6 +47,7 @@ namespace Payflow.Api.Controllers
 
         [HttpPut("{identifier}")]
         [Authorize(Roles = Roles.Admin)]
+        [EnableRateLimiting(RateLimitPolicies.Default)]
         public async Task<IActionResult> Update(string identifier, [FromForm] UpdateCustomerRequest request, CancellationToken cancellationToken)
         {
             await service.UpdateAsync(identifier, request, cancellationToken);
@@ -51,6 +57,7 @@ namespace Payflow.Api.Controllers
 
         [HttpDelete("{identifier}")]
         [Authorize(Roles = Roles.Admin)]
+        [EnableRateLimiting(RateLimitPolicies.Default)]
         public async Task<IActionResult> Delete(string identifier, CancellationToken cancellationToken)
         {
             await service.DeleteAsync(identifier, cancellationToken);
