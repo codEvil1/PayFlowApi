@@ -2,8 +2,12 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.RateLimiting;
 using PayFlow.Api.Constants;
+using PayFlow.Application.Common.Responses;
+using PayFlow.Application.Features.Address.DTOs;
+using PayFlow.Application.Interfaces;
+using PayFlow.Domain.Entities;
 using PayFlow.Infrastructure.Features.Address.DTOs;
-using PayFlow.Infrastructure.Interfaces;
+using PayFlow.Infrastructure.Features.Product.DTOs;
 
 namespace PayFlow.API.Controllers
 {
@@ -18,7 +22,7 @@ namespace PayFlow.API.Controllers
         {
             var address = await service.GetByPostalCodeAsync(request.PostalCode, cancellationToken);
                 
-            return Ok(address);
+            return Ok(ApiResponse<ViaCepDto>.SuccessResponse(address));
         }
     }
 }

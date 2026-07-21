@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.RateLimiting;
 using PayFlow.Api.Constants;
+using PayFlow.Application.Common.Responses;
 using PayFlow.Infrastructure.Features.Company.DTOs;
 using PayFlow.Infrastructure.Interfaces;
 
@@ -16,9 +17,14 @@ namespace PayFlow.Api.Controllers
         [EnableRateLimiting(RateLimitPolicies.Default)]
         public async Task<IActionResult> GetByCnpj([FromBody] GetCompanyByCnpj request, CancellationToken cancellationToken)
         {
-            var company = await service.GetByCnpjAsync(request.Cnpj, cancellationToken);
+            var result = await service.GetByCnpjAsync(request.Cnpj, cancellationToken);
 
-            return Ok(company);
+            return Ok(
+                ApiResponse<CompanyDto>.SuccessResponse(
+                    result,
+                    "Empresa encontrada com sucesso."
+                )
+            );
         }
     }
 }

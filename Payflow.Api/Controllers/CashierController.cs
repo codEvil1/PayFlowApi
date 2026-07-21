@@ -2,9 +2,10 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.RateLimiting;
 using PayFlow.Api.Constants;
+using PayFlow.Application.Common.Responses;
+using PayFlow.Application.Interfaces;
 using PayFlow.Application.Security;
 using PayFlow.Infrastructure.Features.Cashier.Requests;
-using PayFlow.Infrastructure.Interfaces;
 
 namespace Payflow.Api.Controllers
 {
@@ -18,9 +19,15 @@ namespace Payflow.Api.Controllers
         [EnableRateLimiting(RateLimitPolicies.Default)]
         public async Task<IActionResult> Create([FromForm] CreateCashierRequest request, CancellationToken cancellationToken)
         {
-            await service.CreateAsync(request, cancellationToken);
+            var result = await service.CreateAsync(request, cancellationToken);
 
-            return Ok();
+            return StatusCode(
+                StatusCodes.Status201Created,
+                ApiResponse<object>.SuccessResponse(
+                    result,
+                    "Caixa criado com sucesso."
+                )
+            );
         }
 
         [HttpGet]
@@ -30,7 +37,12 @@ namespace Payflow.Api.Controllers
         {
             var result = await service.GetAllAsync(cancellationToken);
 
-            return Ok(result);
+            return Ok(
+                ApiResponse<object>.SuccessResponse(
+                    result,
+                    "Caixas encontrados com sucesso."
+                )
+            );
         }
 
         [HttpGet("{id}")]
@@ -43,7 +55,12 @@ namespace Payflow.Api.Controllers
             if (result is null)
                 return NotFound();
 
-            return Ok(result);
+            return Ok(
+                ApiResponse<object>.SuccessResponse(
+                    result,
+                    "Caixa encontrado com sucesso."
+                )
+            );
         }
 
         [HttpPut("{id}")]
@@ -51,9 +68,14 @@ namespace Payflow.Api.Controllers
         [EnableRateLimiting(RateLimitPolicies.Default)]
         public async Task<IActionResult> Update(int id, [FromForm] UpdateCashierRequest request, CancellationToken cancellationToken)
         {
-            await service.UpdateAsync(id, request, cancellationToken);
+            var result = await service.UpdateAsync(id, request, cancellationToken);
 
-            return Ok();
+            return Ok(
+                ApiResponse<object>.SuccessResponse(
+                    result,
+                    "Caixa atualizado com sucesso."
+                )
+            );
         }
 
         [HttpDelete("{id}")]
@@ -63,7 +85,12 @@ namespace Payflow.Api.Controllers
         {
             await service.DeleteAsync(id, cancellationToken);
 
-            return Ok();
+            return Ok(
+                ApiResponse<object>.SuccessResponse(
+                    null,
+                    "Caixa removido com sucesso."
+                )
+            );
         }
     }
 }

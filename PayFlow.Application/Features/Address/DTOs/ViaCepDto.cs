@@ -1,6 +1,6 @@
 ﻿using System.Text.Json.Serialization;
 
-namespace PayFlow.Infrastructure.Features.Address.DTOs
+namespace PayFlow.Application.Features.Address.DTOs
 {
     public class ViaCepDto
     {

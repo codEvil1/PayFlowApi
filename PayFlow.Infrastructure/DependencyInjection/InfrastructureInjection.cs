@@ -5,7 +5,6 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Options;
 using PayFlow.Infrastructure.Interfaces;
 using PayFlow.Domain.Interfaces;
-using PayFlow.Infrastructure.Interfaces;
 using PayFlow.Infrastructure.Persistence.Context;
 using PayFlow.Infrastructure.Persistence.Repositories;
 using PayFlow.Infrastructure.Security;
@@ -14,6 +13,7 @@ using PayFlow.Infrastructure.Services.Settings;
 using PayFlow.Infrastructure.Settings;
 using PayFlow.Infrastructure.Services;
 using PayFlow.Infrastructure.Security;
+using PayFlow.Application.Interfaces;
 
 namespace PayFlow.Infrastructure.DependencyInjection
 {

@@ -3,13 +3,13 @@ using PayFlow.Domain.Entities;
 using PayFlow.Domain.Interfaces;
 using PayFlow.Infrastructure.Features.Cashier.Requests;
 using PayFlow.Infrastructure.Features.Cashier.DTOs;
-using PayFlow.Infrastructure.Interfaces;
+using PayFlow.Application.Interfaces;
 
 namespace PayFlow.Infrastructure.Services
 {
     public class CashierService(ICashierRepository repository) : ICashierService
     {
-        public async Task CreateAsync(CreateCashierRequest dto, CancellationToken cancellationToken)
+        public async Task<Cashier> CreateAsync(CreateCashierRequest dto, CancellationToken cancellationToken)
         {
             var exists = await repository.ExistsByCpfAsync(dto.Cpf, cancellationToken);
 
@@ -25,6 +25,8 @@ namespace PayFlow.Infrastructure.Services
             };
 
             await repository.AddAsync(cashier, cancellationToken);
+
+            return cashier;
         }
 
         public async Task<IEnumerable<CashierDto>> GetAllAsync(CancellationToken cancellationToken)
@@ -55,7 +57,7 @@ namespace PayFlow.Infrastructure.Services
                 Rating = cashier.Rating
             };
         }
-        public async Task UpdateAsync(int id, UpdateCashierRequest dto, CancellationToken cancellationToken)
+        public async Task<Cashier> UpdateAsync(int id, UpdateCashierRequest dto, CancellationToken cancellationToken)
         {
             var cashier = await repository.GetByIdAsync(id, cancellationToken)
                 ?? throw new BusinessException("Caixa não encontrado.");
@@ -63,6 +65,10 @@ namespace PayFlow.Infrastructure.Services
             cashier.Name = dto.Name;
             cashier.Email = dto.Email;
             cashier.Rating = dto.Rating;
+
+            await repository.UpdateAsync(cashier, cancellationToken);
+
+            return cashier;
         }
 
         public async Task DeleteAsync(int id, CancellationToken cancellationToken)

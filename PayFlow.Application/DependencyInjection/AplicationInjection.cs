@@ -8,7 +8,8 @@ using PayFlow.Infrastructure.Interfaces;
 using PayFlow.Infrastructure.Services;
 using PayFlow.Infrastructure.Features.Discount.Validators;
 using PayFlow.Infrastructure.Features.Product.Validators;
-using PayFlow.Infrastructure.Services;
+using PayFlow.Application.Interfaces;
+using PayFlow.Application.Services;
 
 namespace PayFlow.Infrastructure.DependencyInjection
 {

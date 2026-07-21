@@ -1,4 +1,4 @@
-﻿using PayFlow.Infrastructure.Features.Address.DTOs;
+﻿using PayFlow.Application.Features.Address.DTOs;
 
 namespace PayFlow.Infrastructure.Features.Cashier.DTOs
 {
