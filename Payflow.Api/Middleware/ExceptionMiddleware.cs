@@ -19,17 +19,16 @@ namespace PayFlow.Api.Middleware
                 context.Response.StatusCode = (int)HttpStatusCode.InternalServerError;
                 context.Response.ContentType = "application/json";
 
-                var response =
-                    new ApiResponse<object>
-                    {
-                        Success = false,
-                        Message = "Erro interno no servidor.",
-                        Data = null,
-                        TraceId = Activity.Current?.TraceId.ToString() ?? context.TraceIdentifier,
-                        Timestamp = DateTime.UtcNow
-                    };
+                var response = new ApiResponse<object>
+                {
+                    Success = false,
+                    Message = "Erro interno no servidor.",
+                    Data = null,
+                    TraceId = Activity.Current?.TraceId.ToString() ?? context.TraceIdentifier,
+                    Timestamp = DateTime.UtcNow
+                };
 
-                await context.Response.WriteAsync(JsonSerializer.Serialize(response));
+                await context.Response.WriteAsJsonAsync(response);
             }
         }
     }

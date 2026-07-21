@@ -2,7 +2,6 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.RateLimiting;
 using PayFlow.Api.Constants;
-using PayFlow.Application.Common.Responses;
 using PayFlow.Application.Interfaces;
 using PayFlow.Application.Security;
 using PayFlow.Infrastructure.Features.Customer.Requests;
@@ -20,12 +19,10 @@ namespace Payflow.Api.Controllers
         {
             var result = await service.CreateAsync(request, cancellationToken);
 
-            return StatusCode(
-                StatusCodes.Status201Created,
-                ApiResponse<object?>.SuccessResponse(
-                    result,
-                    "Cliente criado com sucesso."
-                )
+            return CreatedAtAction(
+                nameof(GetCustomerById),
+                new { id = result.Id },
+                result
             );
         }
 
@@ -36,12 +33,7 @@ namespace Payflow.Api.Controllers
         {
             var result = await service.GetAllAsync(cancellationToken);
 
-            return Ok(
-                ApiResponse<object>.SuccessResponse(
-                    result,
-                    "Clientes encontrados com sucesso."
-                )
-            );
+            return Ok(result);
         }
 
         [HttpGet("{identifier}")]
@@ -54,12 +46,7 @@ namespace Payflow.Api.Controllers
             if (result is null)
                 return NotFound();
 
-            return Ok(
-                ApiResponse<object>.SuccessResponse(
-                    result,
-                    "Cliente encontrado com sucesso."
-                )
-            );
+            return Ok(result);
         }
 
         [HttpPut("{identifier}")]
@@ -69,12 +56,7 @@ namespace Payflow.Api.Controllers
         {
             var result = await service.UpdateAsync(identifier, request, cancellationToken);
 
-            return Ok(
-                ApiResponse<object?>.SuccessResponse(
-                    result,
-                    "Cliente atualizado com sucesso."
-                )
-            );
+            return Ok(result);
         }
 
         [HttpDelete("{identifier}")]
@@ -84,12 +66,7 @@ namespace Payflow.Api.Controllers
         {
             await service.DeleteAsync(identifier, cancellationToken);
 
-            return Ok(
-                ApiResponse<object?>.SuccessResponse(
-                    null,
-                    "Cliente removido com sucesso."
-                )
-            );
+            return Ok();
         }
     }
 }

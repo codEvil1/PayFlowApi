@@ -1,7 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.RateLimiting;
 using PayFlow.Api.Constants;
-using PayFlow.Application.Common.Responses;
 using PayFlow.Infrastructure.Features.Auth.Requests;
 using PayFlow.Infrastructure.Interfaces;
 
@@ -18,12 +17,7 @@ namespace PayFlow.Api.Controllers
         {
             var result = await service.LoginAsync(request, cancellationToken);
 
-            return Ok(
-                ApiResponse<object>.SuccessResponse(
-                    result,
-                    "Login realizado com sucesso."
-                )
-            );
+            return Ok(result);
         }
 
 
@@ -33,26 +27,16 @@ namespace PayFlow.Api.Controllers
         {
             var result = await service.RefreshTokenAsync(request, cancellationToken);
 
-            return Ok(
-                ApiResponse<object>.SuccessResponse(
-                    result,
-                    "Token atualizado com sucesso."
-                )
-            );
+            return Ok(result);
         }
 
         [HttpPost("logout")]
         [EnableRateLimiting(RateLimitPolicies.Auth)]
-        public async Task<IActionResult> Logout(RefreshTokenRequest request, CancellationToken cancellationToken)
+        public async Task<IActionResult> Logout([FromBody] RefreshTokenRequest request, CancellationToken cancellationToken)
         {
             await service.RevokeTokenAsync(request, cancellationToken);
 
-            return Ok(
-                ApiResponse<object>.SuccessResponse(
-                    null,
-                    "Logout realizado com sucesso."
-                )
-            );
+            return Ok();
         }
     }
 }

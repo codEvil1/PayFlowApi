@@ -2,7 +2,6 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.RateLimiting;
 using PayFlow.Api.Constants;
-using PayFlow.Application.Common.Responses;
 using PayFlow.Application.Interfaces;
 using PayFlow.Application.Security;
 using PayFlow.Infrastructure.Features.Cashier.Requests;
@@ -21,13 +20,11 @@ namespace Payflow.Api.Controllers
         {
             var result = await service.CreateAsync(request, cancellationToken);
 
-            return StatusCode(
-                StatusCodes.Status201Created,
-                ApiResponse<object>.SuccessResponse(
-                    result,
-                    "Caixa criado com sucesso."
-                )
-            );
+            return CreatedAtAction(
+                nameof(GetCashierById),
+                new { id = result.Id },
+                result
+            );              
         }
 
         [HttpGet]
@@ -37,12 +34,7 @@ namespace Payflow.Api.Controllers
         {
             var result = await service.GetAllAsync(cancellationToken);
 
-            return Ok(
-                ApiResponse<object>.SuccessResponse(
-                    result,
-                    "Caixas encontrados com sucesso."
-                )
-            );
+            return Ok(result);
         }
 
         [HttpGet("{id}")]
@@ -55,12 +47,7 @@ namespace Payflow.Api.Controllers
             if (result is null)
                 return NotFound();
 
-            return Ok(
-                ApiResponse<object>.SuccessResponse(
-                    result,
-                    "Caixa encontrado com sucesso."
-                )
-            );
+            return Ok(result);
         }
 
         [HttpPut("{id}")]
@@ -70,12 +57,7 @@ namespace Payflow.Api.Controllers
         {
             var result = await service.UpdateAsync(id, request, cancellationToken);
 
-            return Ok(
-                ApiResponse<object>.SuccessResponse(
-                    result,
-                    "Caixa atualizado com sucesso."
-                )
-            );
+            return Ok(result);
         }
 
         [HttpDelete("{id}")]
@@ -85,12 +67,7 @@ namespace Payflow.Api.Controllers
         {
             await service.DeleteAsync(id, cancellationToken);
 
-            return Ok(
-                ApiResponse<object>.SuccessResponse(
-                    null,
-                    "Caixa removido com sucesso."
-                )
-            );
+            return Ok();
         }
     }
 }

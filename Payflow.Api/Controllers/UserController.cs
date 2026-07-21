@@ -2,9 +2,9 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.RateLimiting;
 using PayFlow.Api.Constants;
+using PayFlow.Application.Interfaces;
 using PayFlow.Application.Security;
 using PayFlow.Infrastructure.Features.User.Requests;
-using PayFlow.Infrastructure.Interfaces;
 
 namespace Payflow.Api.Controllers
 {
