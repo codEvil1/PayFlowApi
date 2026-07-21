@@ -11,6 +11,7 @@ namespace PayFlow.Domain.Entities
         public UserRole Role { get; set; }
         public DateTime LastLogin { get; set; }
         public bool IsActive { get; set; }
+        public ICollection<UserPermission> Permissions { get; set; } = [];
         public ICollection<RefreshToken> RefreshTokens { get; set; } = [];
     }
 }

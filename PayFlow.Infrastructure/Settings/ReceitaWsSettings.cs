@@ -1,4 +1,4 @@
-﻿namespace PayFlow.Application.Settings
+﻿namespace PayFlow.Infrastructure.Settings
 {
     public class ReceitaWsSettings
     {

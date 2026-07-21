@@ -5,11 +5,11 @@ using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
 using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
-using PayFlow.Application.Persistence.Context;
+using PayFlow.Infrastructure.Persistence.Context;
 
 #nullable disable
 
-namespace PayFlow.Application.Migrations
+namespace PayFlow.Infrastructure.Migrations
 {
     [DbContext(typeof(AppDbContext))]
     [Migration("20260717010222_AddRefreshToken")]

@@ -1,8 +1,8 @@
 ﻿using FluentValidation;
-using PayFlow.Application.Extensions;
-using PayFlow.Application.Features.Company.DTOs;
+using PayFlow.Infrastructure.Extensions;
+using PayFlow.Infrastructure.Features.Company.DTOs;
 
-namespace PayFlow.Application.Features.Company.Validators
+namespace PayFlow.Infrastructure.Features.Company.Validators
 {
     public class GetCompanyByCnpjValidator : AbstractValidator<GetCompanyByCnpj>
     {

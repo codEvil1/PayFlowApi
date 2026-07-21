@@ -1,7 +1,7 @@
-﻿using PayFlow.Application.Features.User.DTOs;
-using PayFlow.Application.Features.User.Requests;
+﻿using PayFlow.Infrastructure.Features.User.DTOs;
+using PayFlow.Infrastructure.Features.User.Requests;
 
-namespace PayFlow.Application.Interfaces
+namespace PayFlow.Infrastructure.Interfaces
 {
     public interface IUserService
     {

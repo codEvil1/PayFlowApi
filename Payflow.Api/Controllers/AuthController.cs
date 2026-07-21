@@ -1,6 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using PayFlow.Application.Features.Auth.Requests;
-using PayFlow.Application.Interfaces;
+using PayFlow.Infrastructure.Features.Auth.Requests;
+using PayFlow.Infrastructure.Interfaces;
 
 namespace PayFlow.Api.Controllers
 {

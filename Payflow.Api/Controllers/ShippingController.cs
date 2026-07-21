@@ -1,13 +1,14 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using PayFlow.Application.Security;
 using PayFlow.Domain.Entities;
-using PayFlow.Application.Features.Shipping;
-using PayFlow.Application.Persistence.Context;
+using PayFlow.Infrastructure.Features.Shipping;
+using PayFlow.Infrastructure.Persistence.Context;
 
 namespace Payflow.Api.Controllers;
 
 [ApiController]
-[Authorize]
+[Authorize(Roles = Roles.Admin)]
 [Route("api/[controller]")]
 public class ShippingController(AppDbContext appDbcontext) : ControllerBase
 {

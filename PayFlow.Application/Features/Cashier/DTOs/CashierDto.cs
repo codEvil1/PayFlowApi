@@ -1,4 +1,4 @@
-﻿namespace PayFlow.Application.Features.Cashier.DTOs
+﻿namespace PayFlow.Infrastructure.Features.Cashier.DTOs
 {
     public class CashierDto
     {

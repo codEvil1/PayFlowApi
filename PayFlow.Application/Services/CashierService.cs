@@ -1,11 +1,11 @@
-﻿using PayFlow.Application.Exceptions;
+﻿using PayFlow.Infrastructure.Exceptions;
 using PayFlow.Domain.Entities;
 using PayFlow.Domain.Interfaces;
-using PayFlow.Application.Features.Cashier.Requests;
-using PayFlow.Application.Features.Cashier.DTOs;
-using PayFlow.Application.Interfaces;
+using PayFlow.Infrastructure.Features.Cashier.Requests;
+using PayFlow.Infrastructure.Features.Cashier.DTOs;
+using PayFlow.Infrastructure.Interfaces;
 
-namespace PayFlow.Application.Services
+namespace PayFlow.Infrastructure.Services
 {
     public class CashierService(ICashierRepository repository) : ICashierService
     {

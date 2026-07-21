@@ -1,7 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using PayFlow.Domain.Entities;
 
-namespace PayFlow.Application.Persistence.Context
+namespace PayFlow.Infrastructure.Persistence.Context
 {
     public class AppDbContext(DbContextOptions options) : DbContext(options)
     {
@@ -14,5 +14,17 @@ namespace PayFlow.Application.Persistence.Context
         public DbSet<Shipping> Shipping { get; set; }
         public DbSet<Product> Product { get; set; }
         public DbSet<RefreshToken> RefreshTokens { get; set; }
+        public DbSet<Permission> Permissions { get; set; }
+        public DbSet<UserPermission> UserPermissions { get; set; }
+
+        protected override void OnModelCreating(ModelBuilder builder)
+        {
+            builder.Entity<UserPermission>()
+                .HasKey(x => new
+                {
+                    x.UserId,
+                    x.PermissionId
+                });
+        }
     }
 }

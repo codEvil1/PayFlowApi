@@ -1,12 +1,12 @@
-﻿using PayFlow.Application.Exceptions;
-using PayFlow.Application.Features.Address.DTOs;
-using PayFlow.Application.Features.Cashier.DTOs;
+﻿using PayFlow.Infrastructure.Exceptions;
+using PayFlow.Infrastructure.Features.Address.DTOs;
+using PayFlow.Infrastructure.Features.Cashier.DTOs;
 using PayFlow.Domain.Entities;
 using PayFlow.Domain.Interfaces;
-using PayFlow.Application.Features.Customer.Requests;
-using PayFlow.Application.Interfaces;
+using PayFlow.Infrastructure.Features.Customer.Requests;
+using PayFlow.Infrastructure.Interfaces;
 
-namespace PayFlow.Application.Services
+namespace PayFlow.Infrastructure.Services
 {
     public class CustomerService(ICustomerRepository repository) : ICustomerService
     {

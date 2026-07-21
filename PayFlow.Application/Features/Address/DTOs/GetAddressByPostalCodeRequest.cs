@@ -1,4 +1,4 @@
-﻿namespace PayFlow.Application.Features.Address.DTOs
+﻿namespace PayFlow.Infrastructure.Features.Address.DTOs
 {
     public class GetAddressByPostalCodeRequest
     {

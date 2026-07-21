@@ -1,4 +1,4 @@
-﻿namespace PayFlow.Application.Interfaces
+﻿namespace PayFlow.Infrastructure.Interfaces
 {
     public interface IPasswordHasher
     {

@@ -1,11 +1,11 @@
-﻿using PayFlow.Application.Exceptions;
+﻿using PayFlow.Infrastructure.Exceptions;
 using PayFlow.Domain.Interfaces;
 using PayFlow.Domain.Entities;
-using PayFlow.Application.Features.Discount.Requests;
-using PayFlow.Application.Features.Discount.DTOs;
-using PayFlow.Application.Interfaces;
+using PayFlow.Infrastructure.Features.Discount.Requests;
+using PayFlow.Infrastructure.Features.Discount.DTOs;
+using PayFlow.Infrastructure.Interfaces;
 
-namespace PayFlow.Application.Services
+namespace PayFlow.Infrastructure.Services
 {
     public class DiscountService(IDiscountRepository repository) : IDiscountService
     {

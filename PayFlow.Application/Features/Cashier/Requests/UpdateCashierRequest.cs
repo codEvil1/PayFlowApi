@@ -1,4 +1,4 @@
-﻿namespace PayFlow.Application.Features.Cashier.Requests
+﻿namespace PayFlow.Infrastructure.Features.Cashier.Requests
 {
     public class UpdateCashierRequest
     {

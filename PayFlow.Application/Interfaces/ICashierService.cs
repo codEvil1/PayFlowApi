@@ -1,7 +1,7 @@
-﻿using PayFlow.Application.Features.Cashier.DTOs;
-using PayFlow.Application.Features.Cashier.Requests;
+﻿using PayFlow.Infrastructure.Features.Cashier.DTOs;
+using PayFlow.Infrastructure.Features.Cashier.Requests;
 
-namespace PayFlow.Application.Interfaces
+namespace PayFlow.Infrastructure.Interfaces
 {
     public interface ICashierService
     {

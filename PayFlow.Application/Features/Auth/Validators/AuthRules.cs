@@ -1,7 +1,7 @@
 ﻿using FluentValidation;
 using System.Linq.Expressions;
 
-namespace PayFlow.Application.Features.Auth.Validators
+namespace PayFlow.Infrastructure.Features.Auth.Validators
 {
     public static class AuthRules
     {

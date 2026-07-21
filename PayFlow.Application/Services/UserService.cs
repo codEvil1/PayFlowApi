@@ -1,12 +1,12 @@
 ﻿using Microsoft.AspNetCore.Identity;
-using PayFlow.Application.Features.User.DTOs;
-using PayFlow.Application.Features.User.Requests;
-using PayFlow.Application.Interfaces;
+using PayFlow.Infrastructure.Features.User.DTOs;
+using PayFlow.Infrastructure.Features.User.Requests;
+using PayFlow.Infrastructure.Interfaces;
 using PayFlow.Domain.Entities;
 using PayFlow.Domain.Interfaces;
-using PayFlow.Application.Exceptions;
+using PayFlow.Infrastructure.Exceptions;
 
-namespace PayFlow.Application.Services
+namespace PayFlow.Infrastructure.Services
 {
     public class UserService(IUserRepository repository, IPasswordHasher passwordHasher) : IUserService
     {

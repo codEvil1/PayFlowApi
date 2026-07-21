@@ -1,8 +1,8 @@
 ﻿using Microsoft.AspNetCore.Identity.Data;
-using PayFlow.Application.Features.Auth.DTOs;
-using PayFlow.Application.Features.Auth.Requests;
+using PayFlow.Infrastructure.Features.Auth.DTOs;
+using PayFlow.Infrastructure.Features.Auth.Requests;
 
-namespace PayFlow.Application.Interfaces
+namespace PayFlow.Infrastructure.Interfaces
 {
     public interface IAuthService
     {

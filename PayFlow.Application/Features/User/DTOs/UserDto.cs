@@ -1,6 +1,6 @@
 ﻿using PayFlow.Domain.Enums;
 
-namespace PayFlow.Application.Features.User.DTOs
+namespace PayFlow.Infrastructure.Features.User.DTOs
 {
     public class UserDto
     {

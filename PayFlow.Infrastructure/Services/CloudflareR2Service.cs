@@ -2,8 +2,8 @@
 using Amazon.S3.Model;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Configuration;
-using PayFlow.Application.Interfaces;
-using PayFlow.Application.Services.Settings;
+using PayFlow.Infrastructure.Interfaces;
+using PayFlow.Infrastructure.Services.Settings;
 
 namespace PayFlow.Infrastructure.Services
 {

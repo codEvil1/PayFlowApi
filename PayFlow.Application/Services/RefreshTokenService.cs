@@ -1,7 +1,7 @@
 ﻿using System.Security.Cryptography;
-using PayFlow.Application.Interfaces;
+using PayFlow.Infrastructure.Interfaces;
 
-namespace PayFlow.Application.Services
+namespace PayFlow.Infrastructure.Services
 {
     public class RefreshTokenService : IRefreshTokenService
     {

@@ -3,8 +3,8 @@ using Payflow.Api.DependencyInjection;
 using Payflow.Api.Extensions;
 using PayFlow.Api.Extensions;
 using PayFlow.Api.HealthChecks;
-using PayFlow.Application.DependencyInjection;
-using PayFlow.Application.DependencyInjection;
+using PayFlow.Infrastructure.DependencyInjection;
+using PayFlow.Infrastructure.DependencyInjection;
 
 var builder = WebApplication.CreateBuilder(args);
 

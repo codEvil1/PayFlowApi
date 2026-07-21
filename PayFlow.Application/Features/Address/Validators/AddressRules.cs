@@ -1,6 +1,6 @@
 ﻿using FluentValidation;
 
-namespace PayFlow.Application.Features.Address.Validators
+namespace PayFlow.Infrastructure.Features.Address.Validators
 {
     public static class AddressRules
     {
