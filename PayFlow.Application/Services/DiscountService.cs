@@ -3,13 +3,13 @@ using PayFlow.Domain.Interfaces;
 using PayFlow.Domain.Entities;
 using PayFlow.Infrastructure.Features.Discount.Requests;
 using PayFlow.Infrastructure.Features.Discount.DTOs;
-using PayFlow.Infrastructure.Interfaces;
+using PayFlow.Application.Interfaces;
 
 namespace PayFlow.Infrastructure.Services
 {
     public class DiscountService(IDiscountRepository repository) : IDiscountService
     {
-        public async Task CreateAsync(CreateDiscountRequest dto, CancellationToken cancellationToken)
+        public async Task<Discount> CreateAsync(CreateDiscountRequest dto, CancellationToken cancellationToken)
         {
             var exists = await repository.ExistsByCodeAsync(dto.Code, cancellationToken);
 
@@ -29,6 +29,8 @@ namespace PayFlow.Infrastructure.Services
             };
 
             await repository.AddAsync(discount, cancellationToken);
+
+            return discount;
         }
 
         public async Task<IEnumerable<DiscountDto>> GetAllAsync(CancellationToken cancellationToken)
@@ -66,7 +68,7 @@ namespace PayFlow.Infrastructure.Services
             };
         }
 
-        public async Task UpdateAsync(string id, UpdateDiscountRequest dto, CancellationToken cancellationToken)
+        public async Task<Discount> UpdateAsync(string id, UpdateDiscountRequest dto, CancellationToken cancellationToken)
         {
             var discount = await repository.GetByCodeAsync(id, cancellationToken)
                 ?? throw new BusinessException("Desconto não encontrado.");
@@ -80,6 +82,8 @@ namespace PayFlow.Infrastructure.Services
             discount.MaximumDiscount = dto.MaximumDiscount;
 
             await repository.UpdateAsync(discount, cancellationToken);
+
+            return discount;
         }
 
         public async Task DeleteAsync(string id, CancellationToken cancellationToken)

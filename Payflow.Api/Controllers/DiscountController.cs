@@ -2,9 +2,10 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.RateLimiting;
 using PayFlow.Api.Constants;
+using PayFlow.Application.Common.Responses;
+using PayFlow.Application.Interfaces;
 using PayFlow.Application.Security;
 using PayFlow.Infrastructure.Features.Discount.Requests;
-using PayFlow.Infrastructure.Interfaces;
 
 namespace Payflow.Api.Controllers
 {
@@ -17,9 +18,15 @@ namespace Payflow.Api.Controllers
         [EnableRateLimiting(RateLimitPolicies.Default)]
         public async Task<IActionResult> Create([FromForm] CreateDiscountRequest request, CancellationToken cancellationToken)
         {
-            await service.CreateAsync(request, cancellationToken);
+            var result = await service.CreateAsync(request, cancellationToken);
 
-            return Ok();
+            return StatusCode(
+                StatusCodes.Status201Created,
+                ApiResponse<object?>.SuccessResponse(
+                    result,
+                    "Desconto criado com sucesso."
+                )
+            );
         }
 
         [HttpGet]
@@ -29,7 +36,12 @@ namespace Payflow.Api.Controllers
         {
             var result = await service.GetAllAsync(cancellationToken);
 
-            return Ok(result);
+            return Ok(
+                ApiResponse<object>.SuccessResponse(
+                    result,
+                    "Descontos encontrados com sucesso."
+                )
+            );
         }
 
         [HttpGet("{id}")]
@@ -42,7 +54,12 @@ namespace Payflow.Api.Controllers
             if (result is null)
                 return NotFound();
 
-            return Ok(result);
+            return Ok(
+                ApiResponse<object>.SuccessResponse(
+                    result,
+                    "Desconto encontrado com sucesso."
+                )
+            );
         }
 
         [HttpPut("{id}")]
@@ -50,9 +67,14 @@ namespace Payflow.Api.Controllers
         [EnableRateLimiting(RateLimitPolicies.Default)]
         public async Task<IActionResult> Update(string id, [FromForm] UpdateDiscountRequest request, CancellationToken cancellationToken)
         {
-            await service.UpdateAsync(id, request, cancellationToken);
+            var result = await service.UpdateAsync(id, request, cancellationToken);
 
-            return Ok();
+            return Ok(
+                ApiResponse<object?>.SuccessResponse(
+                    result,
+                    "Desconto atualizado com sucesso."
+                )
+            );
         }
 
         [HttpDelete("{id}")]
@@ -62,7 +84,12 @@ namespace Payflow.Api.Controllers
         {
             await service.DeleteAsync(id, cancellationToken);
 
-            return Ok();
+            return Ok(
+                ApiResponse<object?>.SuccessResponse(
+                    null,
+                    "Desconto removido com sucesso."
+                )
+            );
         }
     }
 }

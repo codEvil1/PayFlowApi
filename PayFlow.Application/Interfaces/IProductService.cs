@@ -1,14 +1,15 @@
-﻿using PayFlow.Infrastructure.Features.Product.DTOs;
+﻿using PayFlow.Domain.Entities;
+using PayFlow.Infrastructure.Features.Product.DTOs;
 using PayFlow.Infrastructure.Features.Product.Requests;
 
-namespace PayFlow.Infrastructure.Interfaces
+namespace PayFlow.Application.Interfaces
 {
     public interface IProductService
     {
-        Task CreateAsync(CreateProductRequest request, CancellationToken cancellationToken);
+        Task<Product> CreateAsync(CreateProductRequest request, CancellationToken cancellationToken);
         Task<IEnumerable<ProductDto>> GetAllAsync(CancellationToken cancellationToken);
         Task<ProductDto?> GetByIdAsync(string id, CancellationToken cancellationToken);
-        Task UpdateAsync(string id, UpdateProductRequest request, CancellationToken cancellationToken);
+        Task<Product> UpdateAsync(string id, UpdateProductRequest request, CancellationToken cancellationToken);
         Task DeleteAsync(string id, CancellationToken cancellationToken);
     }
 }

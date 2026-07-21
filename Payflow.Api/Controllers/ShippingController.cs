@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.RateLimiting;
 using PayFlow.Api.Constants;
+using PayFlow.Application.Common.Responses;
 using PayFlow.Application.Security;
 using PayFlow.Domain.Entities;
 using PayFlow.Infrastructure.Features.Shipping;
@@ -27,6 +28,11 @@ public class ShippingController(AppDbContext appDbcontext) : ControllerBase
         appDbcontext.Add(shipping);
         await appDbcontext.SaveChangesAsync();
 
-        return Ok();
+        return Ok(
+            ApiResponse<object?>.SuccessResponse(
+                null,
+                "Produto removido com sucesso."
+            )
+        );
     }
 }

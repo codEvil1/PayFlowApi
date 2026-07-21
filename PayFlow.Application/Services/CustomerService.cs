@@ -1,16 +1,16 @@
 ﻿using PayFlow.Infrastructure.Exceptions;
-using PayFlow.Infrastructure.Features.Address.DTOs;
 using PayFlow.Infrastructure.Features.Cashier.DTOs;
 using PayFlow.Domain.Entities;
 using PayFlow.Domain.Interfaces;
 using PayFlow.Infrastructure.Features.Customer.Requests;
-using PayFlow.Infrastructure.Interfaces;
+using PayFlow.Application.Features.Address.DTOs;
+using PayFlow.Application.Interfaces;
 
-namespace PayFlow.Infrastructure.Services
+namespace PayFlow.Application.Services
 {
     public class CustomerService(ICustomerRepository repository) : ICustomerService
     {
-        public async Task CreateAsync(CreateCustomerRequest dto, CancellationToken cancellationToken)
+        public async Task<Customer> CreateAsync(CreateCustomerRequest dto, CancellationToken cancellationToken)
         {
             var exists = await repository.ExistsByIdentifierAsync(dto.Identifier, cancellationToken);
 
@@ -36,6 +36,8 @@ namespace PayFlow.Infrastructure.Services
             };
 
             await repository.AddAsync(customer, cancellationToken);
+
+            return customer;
         }
 
         public async Task<IEnumerable<CustomerDto>> GetAllAsync(CancellationToken cancellationToken)
@@ -85,7 +87,7 @@ namespace PayFlow.Infrastructure.Services
             };
         }
 
-        public async Task UpdateAsync(string identifier, UpdateCustomerRequest dto, CancellationToken cancellationToken)
+        public async Task<Customer> UpdateAsync(string identifier, UpdateCustomerRequest dto, CancellationToken cancellationToken)
         {
             var customer = await repository.GetByIdentifierAsync(identifier, cancellationToken)
                 ?? throw new BusinessException("Cliente não encontrado.");
@@ -102,6 +104,8 @@ namespace PayFlow.Infrastructure.Services
             customer.Address.Country = dto.Address.Country;
 
             await repository.UpdateAsync(customer, cancellationToken);
+
+            return customer;
         }
 
         public async Task DeleteAsync(string identifier, CancellationToken cancellationToken)

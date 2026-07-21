@@ -4,12 +4,13 @@ using PayFlow.Infrastructure.Features.Product.Requests;
 using PayFlow.Domain.Interfaces;
 using PayFlow.Domain.Entities;
 using PayFlow.Infrastructure.Interfaces;
+using PayFlow.Application.Interfaces;
 
 namespace PayFlow.Infrastructure.Services
 {
     public class ProductService(IProductRepository repository, IStorageService storage) : IProductService
     {
-        public async Task CreateAsync(CreateProductRequest dto, CancellationToken cancellationToken)
+        public async Task<Product> CreateAsync(CreateProductRequest dto, CancellationToken cancellationToken)
         {
             var exists = await repository.ExistsByIdAsync(dto.Id, cancellationToken);
 
@@ -33,6 +34,8 @@ namespace PayFlow.Infrastructure.Services
             };
 
             await repository.AddAsync(product, cancellationToken);
+
+            return product;
         }
 
         public async Task<IEnumerable<ProductDto>> GetAllAsync(CancellationToken cancellationToken)
@@ -66,7 +69,7 @@ namespace PayFlow.Infrastructure.Services
             };
         }
 
-        public async Task UpdateAsync(string id, UpdateProductRequest dto, CancellationToken cancellationToken)
+        public async Task<Product> UpdateAsync(string id, UpdateProductRequest dto, CancellationToken cancellationToken)
         {
             var product = await repository.GetByIdAsync(id, cancellationToken) 
                 ?? throw new BusinessException("Produto não encontrado.");
@@ -85,6 +88,8 @@ namespace PayFlow.Infrastructure.Services
 
             if (oldImageUrl is not null)
                 await storage.DeleteAsync(oldImageUrl);
+
+            return product;
         }
 
         public async Task DeleteAsync(string id, CancellationToken cancellationToken)

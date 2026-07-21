@@ -3,7 +3,7 @@ using Payflow.Api.DependencyInjection;
 using Payflow.Api.Extensions;
 using PayFlow.Api.Extensions;
 using PayFlow.Api.HealthChecks;
-using PayFlow.Infrastructure.DependencyInjection;
+using PayFlow.Api.Middleware;
 using PayFlow.Infrastructure.DependencyInjection;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -22,6 +22,8 @@ builder.Services.AddHealthCheckConfiguration(builder.Configuration);
 builder.Services.AddRateLimiterConfiguration();
 
 var app = builder.Build();
+
+app.UseMiddleware<ExceptionMiddleware>();
 
 if (app.Environment.IsDevelopment())
 {
