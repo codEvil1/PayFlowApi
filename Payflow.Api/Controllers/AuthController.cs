@@ -1,4 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.RateLimiting;
+using PayFlow.Api.Constants;
 using PayFlow.Infrastructure.Features.Auth.Requests;
 using PayFlow.Infrastructure.Interfaces;
 
@@ -10,6 +12,7 @@ namespace PayFlow.Api.Controllers
     {
 
         [HttpPost("login")]
+        [EnableRateLimiting(RateLimitPolicies.Auth)]
         public async Task<IActionResult> Login(AuthRequest request, CancellationToken cancellationToken)
         {
             var result = await service.LoginAsync(request, cancellationToken);
@@ -19,6 +22,7 @@ namespace PayFlow.Api.Controllers
 
 
         [HttpPost("refresh")]
+        [EnableRateLimiting(RateLimitPolicies.Auth)]
         public async Task<IActionResult> Refresh(RefreshTokenRequest request, CancellationToken cancellationToken)
         {
             var result = await service.RefreshTokenAsync(request, cancellationToken);
@@ -27,6 +31,7 @@ namespace PayFlow.Api.Controllers
         }
 
         [HttpPost("logout")]
+        [EnableRateLimiting(RateLimitPolicies.Auth)]
         public async Task<IActionResult> Logout(RefreshTokenRequest request, CancellationToken cancellationToken)
         {
             await service.RevokeTokenAsync(request, cancellationToken);
