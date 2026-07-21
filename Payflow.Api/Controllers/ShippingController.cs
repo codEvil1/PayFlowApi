@@ -2,37 +2,32 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.RateLimiting;
 using PayFlow.Api.Constants;
-using PayFlow.Application.Common.Responses;
 using PayFlow.Application.Security;
 using PayFlow.Domain.Entities;
 using PayFlow.Infrastructure.Features.Shipping;
 using PayFlow.Infrastructure.Persistence.Context;
 
-namespace Payflow.Api.Controllers;
-
-[ApiController]
-[Authorize(Roles = Roles.Admin)]
-[Route("api/[controller]")]
-public class ShippingController(AppDbContext appDbcontext) : ControllerBase
+namespace Payflow.Api.Controllers
 {
-    [HttpPost]
-    [EnableRateLimiting(RateLimitPolicies.Default)]
-    public async Task<IActionResult> AddCashier(CreateShippingDto dto)
+    [ApiController]
+    [Authorize(Roles = Roles.Admin)]
+    [Route("api/[controller]")]
+    public class ShippingController(AppDbContext appDbcontext) : ControllerBase
     {
-        var shipping = new Shipping
+        [HttpPost]
+        [EnableRateLimiting(RateLimitPolicies.Default)]
+        public async Task<IActionResult> AddCashier(CreateShippingDto dto)
         {
-            Name = dto.Name,
-            IsActive = dto.IsActive
-        };
+            var shipping = new Shipping
+            {
+                Name = dto.Name,
+                IsActive = dto.IsActive
+            };
 
-        appDbcontext.Add(shipping);
-        await appDbcontext.SaveChangesAsync();
+            appDbcontext.Add(shipping);
+            await appDbcontext.SaveChangesAsync();
 
-        return Ok(
-            ApiResponse<object?>.SuccessResponse(
-                null,
-                "Produto removido com sucesso."
-            )
-        );
+            return Ok(shipping);
+        }
     }
 }

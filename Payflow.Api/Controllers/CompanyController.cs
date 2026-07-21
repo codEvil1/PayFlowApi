@@ -2,7 +2,6 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.RateLimiting;
 using PayFlow.Api.Constants;
-using PayFlow.Application.Common.Responses;
 using PayFlow.Infrastructure.Features.Company.DTOs;
 using PayFlow.Infrastructure.Interfaces;
 
@@ -19,12 +18,7 @@ namespace PayFlow.Api.Controllers
         {
             var result = await service.GetByCnpjAsync(request.Cnpj, cancellationToken);
 
-            return Ok(
-                ApiResponse<CompanyDto>.SuccessResponse(
-                    result,
-                    "Empresa encontrada com sucesso."
-                )
-            );
+            return Ok(result);
         }
     }
 }

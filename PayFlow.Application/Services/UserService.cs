@@ -5,6 +5,7 @@ using PayFlow.Infrastructure.Interfaces;
 using PayFlow.Domain.Entities;
 using PayFlow.Domain.Interfaces;
 using PayFlow.Infrastructure.Exceptions;
+using PayFlow.Application.Interfaces;
 
 namespace PayFlow.Infrastructure.Services
 {

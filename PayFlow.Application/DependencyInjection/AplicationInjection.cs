@@ -11,7 +11,7 @@ using PayFlow.Infrastructure.Features.Product.Validators;
 using PayFlow.Application.Interfaces;
 using PayFlow.Application.Services;
 
-namespace PayFlow.Infrastructure.DependencyInjection
+namespace PayFlow.Application.DependencyInjection
 {
     public static class ApplicationInjection
     {

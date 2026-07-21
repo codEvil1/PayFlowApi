@@ -2,14 +2,14 @@
 
 namespace PayFlow.Application.Common.Responses
 {
-    public class ApiResponse<T>
+    public sealed class ApiResponse<T>
     {
-        public bool Success { get; set; }
-        public string Message { get; set; } = string.Empty;
-        public T? Data { get; set; }
-        public IEnumerable<ApiError>? Errors { get; set; }
-        public DateTime Timestamp { get; set; } = DateTime.UtcNow;
-        public string? TraceId {  get; set; }
+        public bool Success { get; init; }
+        public string Message { get; init; } = string.Empty;
+        public T? Data { get; init; }
+        public IEnumerable<ApiError>? Errors { get; init; }
+        public DateTime Timestamp { get; init; } = DateTime.UtcNow;
+        public string? TraceId { get; init; }
 
         public static ApiResponse<T> SuccessResponse(T? data, string message = "Operação realizada com sucesso")
         {
@@ -18,7 +18,7 @@ namespace PayFlow.Application.Common.Responses
                 Success = true,
                 Message = message,
                 Data = data,
-                TraceId = Activity.Current?.TraceId.ToString(),
+                TraceId = Activity.Current?.TraceId.ToString()
             };
         }
 
