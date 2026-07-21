@@ -1,11 +1,11 @@
-﻿using PayFlow.Infrastructure.Exceptions;
+﻿using PayFlow.Application.Common.Exceptions;
+using PayFlow.Application.Interfaces;
 using PayFlow.Domain.Entities;
 using PayFlow.Domain.Interfaces;
-using PayFlow.Infrastructure.Features.Cashier.Requests;
 using PayFlow.Infrastructure.Features.Cashier.DTOs;
-using PayFlow.Application.Interfaces;
+using PayFlow.Infrastructure.Features.Cashier.Requests;
 
-namespace PayFlow.Infrastructure.Services
+namespace PayFlow.Application.Services
 {
     public class CashierService(ICashierRepository repository) : ICashierService
     {
@@ -14,7 +14,7 @@ namespace PayFlow.Infrastructure.Services
             var exists = await repository.ExistsByCpfAsync(dto.Cpf, cancellationToken);
 
             if (exists)
-                throw new BusinessException("Já existe um caixa cadastrado com este CPF.");
+                throw new ConflictException("Já existe um caixa cadastrado com este CPF.");
 
             var cashier = new Cashier
             {
@@ -46,7 +46,7 @@ namespace PayFlow.Infrastructure.Services
         public async Task<CashierDto?> GetByIdAsync(int id, CancellationToken cancellationToken)
         {
             var cashier = await repository.GetByIdAsync(id, cancellationToken)
-                ?? throw new BusinessException("Caixa não encontrado.");
+                ?? throw new NotFoundException("Caixa não encontrado.");
 
             return new CashierDto
             {
@@ -60,7 +60,7 @@ namespace PayFlow.Infrastructure.Services
         public async Task<Cashier> UpdateAsync(int id, UpdateCashierRequest dto, CancellationToken cancellationToken)
         {
             var cashier = await repository.GetByIdAsync(id, cancellationToken)
-                ?? throw new BusinessException("Caixa não encontrado.");
+                ?? throw new NotFoundException("Caixa não encontrado.");
 
             cashier.Name = dto.Name;
             cashier.Email = dto.Email;
@@ -74,7 +74,7 @@ namespace PayFlow.Infrastructure.Services
         public async Task DeleteAsync(int id, CancellationToken cancellationToken)
         {
             var cashier = await repository.GetByIdAsync(id, cancellationToken)
-                ?? throw new BusinessException("Caixa não encontrado.");
+                ?? throw new NotFoundException("Caixa não encontrado.");
 
             await repository.DeleteAsync(cashier, cancellationToken);
         }

@@ -1,10 +1,10 @@
-﻿using PayFlow.Infrastructure.Exceptions;
-using PayFlow.Infrastructure.Features.Cashier.DTOs;
-using PayFlow.Domain.Entities;
-using PayFlow.Domain.Interfaces;
-using PayFlow.Infrastructure.Features.Customer.Requests;
+﻿using PayFlow.Application.Common.Exceptions;
 using PayFlow.Application.Features.Address.DTOs;
 using PayFlow.Application.Interfaces;
+using PayFlow.Domain.Entities;
+using PayFlow.Domain.Interfaces;
+using PayFlow.Infrastructure.Features.Cashier.DTOs;
+using PayFlow.Infrastructure.Features.Customer.Requests;
 
 namespace PayFlow.Application.Services
 {
@@ -15,7 +15,7 @@ namespace PayFlow.Application.Services
             var exists = await repository.ExistsByIdentifierAsync(dto.Identifier, cancellationToken);
 
             if (exists)
-                throw new BusinessException("Já existe um cliente cadastrado com este identificador.");
+                throw new ConflictException("Já existe um cliente cadastrado com este identificador.");
 
             var customer = new Customer
             {
@@ -66,7 +66,7 @@ namespace PayFlow.Application.Services
         public async Task<CustomerDto?> GetByIdentifierAsync(string identifier, CancellationToken cancellationToken)
         {
             var customer = await repository.GetByIdentifierAsync(identifier, cancellationToken)
-                ?? throw new BusinessException("Cliente não encontrado.");
+                ?? throw new NotFoundException("Cliente não encontrado.");
 
             return new CustomerDto
             {
@@ -90,7 +90,7 @@ namespace PayFlow.Application.Services
         public async Task<Customer> UpdateAsync(string identifier, UpdateCustomerRequest dto, CancellationToken cancellationToken)
         {
             var customer = await repository.GetByIdentifierAsync(identifier, cancellationToken)
-                ?? throw new BusinessException("Cliente não encontrado.");
+                ?? throw new NotFoundException("Cliente não encontrado.");
 
             customer.Name = dto.Name;
             customer.Email = dto.Email;
@@ -111,7 +111,7 @@ namespace PayFlow.Application.Services
         public async Task DeleteAsync(string identifier, CancellationToken cancellationToken)
         {
             var customer = await repository.GetByIdentifierAsync(identifier, cancellationToken)
-                ?? throw new BusinessException("Cliente não encontrado.");
+                ?? throw new NotFoundException("Cliente não encontrado.");
 
             await repository.DeleteAsync(customer, cancellationToken);
         }

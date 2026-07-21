@@ -1,13 +1,12 @@
-﻿using Microsoft.AspNetCore.Identity;
-using PayFlow.Infrastructure.Features.User.DTOs;
+﻿using PayFlow.Infrastructure.Features.User.DTOs;
 using PayFlow.Infrastructure.Features.User.Requests;
 using PayFlow.Infrastructure.Interfaces;
 using PayFlow.Domain.Entities;
 using PayFlow.Domain.Interfaces;
-using PayFlow.Infrastructure.Exceptions;
 using PayFlow.Application.Interfaces;
+using PayFlow.Application.Common.Exceptions;
 
-namespace PayFlow.Infrastructure.Services
+namespace PayFlow.Application.Services
 {
     public class UserService(IUserRepository repository, IPasswordHasher passwordHasher) : IUserService
     {
@@ -16,7 +15,7 @@ namespace PayFlow.Infrastructure.Services
             var emailExists = await repository.ExistsByEmailAsync(request.Email, cancellationToken);
 
             if (emailExists)
-                throw new BusinessException("Já existe um usuário cadastrado com este e-mail.");
+                throw new ConflictException("Já existe um usuário cadastrado com este e-mail.");
 
             var user = new User
             {
@@ -31,7 +30,7 @@ namespace PayFlow.Infrastructure.Services
         public async Task<UserDto?> GetByIdAsync(int id, CancellationToken cancellationToken)
         {
             var user = await repository.GetByIdAsync(id, cancellationToken)
-                ?? throw new BusinessException("Usuário não encontrado.");
+                ?? throw new NotFoundException("Usuário não encontrado.");
 
             return new UserDto
             {
@@ -44,7 +43,7 @@ namespace PayFlow.Infrastructure.Services
         public async Task UpdateAsync(int id, UpdateUserRequest request, CancellationToken cancellationToken)
         {
             var user = await repository.GetByIdAsync(id, cancellationToken)
-                ?? throw new BusinessException("Usuário não encontrado.");
+                ?? throw new NotFoundException("Usuário não encontrado.");
 
             user.Name = request.Name;
             user.Email = request.Email;
@@ -56,7 +55,7 @@ namespace PayFlow.Infrastructure.Services
         public async Task DeleteAsync(int id, CancellationToken cancellationToken)
         {
             var user = await repository.GetByIdAsync(id, cancellationToken)
-                ?? throw new BusinessException("Usuário não encontrado.");
+                ?? throw new NotFoundException("Usuário não encontrado.");
 
             user.IsActive = false;
 

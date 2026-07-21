@@ -1,12 +1,12 @@
-﻿using PayFlow.Infrastructure.Exceptions;
-using PayFlow.Infrastructure.Features.Product.DTOs;
+﻿using PayFlow.Infrastructure.Features.Product.DTOs;
 using PayFlow.Infrastructure.Features.Product.Requests;
 using PayFlow.Domain.Interfaces;
 using PayFlow.Domain.Entities;
 using PayFlow.Infrastructure.Interfaces;
 using PayFlow.Application.Interfaces;
+using PayFlow.Application.Common.Exceptions;
 
-namespace PayFlow.Infrastructure.Services
+namespace PayFlow.Application.Services
 {
     public class ProductService(IProductRepository repository, IStorageService storage) : IProductService
     {
@@ -15,7 +15,7 @@ namespace PayFlow.Infrastructure.Services
             var exists = await repository.ExistsByIdAsync(dto.Id, cancellationToken);
 
             if (exists)
-                throw new BusinessException("Já existe um produto cadastrado com este SKU.");
+                throw new ConflictException("Já existe um produto cadastrado com este SKU.");
 
             string? imageUrl = null;
 
@@ -56,7 +56,7 @@ namespace PayFlow.Infrastructure.Services
         public async Task<ProductDto?> GetByIdAsync(string id, CancellationToken cancellationToken)
         {
             var product = await repository.GetByIdAsync(id, cancellationToken)
-                ?? throw new BusinessException("Produto não encontrado.");
+                ?? throw new NotFoundException("Produto não encontrado.");
 
             return new ProductDto
             {
@@ -72,7 +72,7 @@ namespace PayFlow.Infrastructure.Services
         public async Task<Product> UpdateAsync(string id, UpdateProductRequest dto, CancellationToken cancellationToken)
         {
             var product = await repository.GetByIdAsync(id, cancellationToken) 
-                ?? throw new BusinessException("Produto não encontrado.");
+                ?? throw new NotFoundException("Produto não encontrado.");
 
             var oldImageUrl = product.ImageUrl;
 
@@ -95,7 +95,7 @@ namespace PayFlow.Infrastructure.Services
         public async Task DeleteAsync(string id, CancellationToken cancellationToken)
         {
             var product = await repository.GetByIdAsync(id, cancellationToken)
-                ?? throw new BusinessException("Produto não encontrado.");
+                ?? throw new NotFoundException("Produto não encontrado.");
 
             product.IsActive = false;
 

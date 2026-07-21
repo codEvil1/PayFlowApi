@@ -1,4 +1,4 @@
-﻿using PayFlow.Infrastructure.Exceptions;
+﻿using PayFlow.Application.Common.Exceptions;
 using PayFlow.Infrastructure.Extensions;
 using PayFlow.Infrastructure.Features.Company.DTOs;
 using PayFlow.Infrastructure.Interfaces;
@@ -18,11 +18,11 @@ public class ReceitaWsService(HttpClient client) : ICompanyService
         var content = await httpResponse.Content.ReadAsStringAsync(cancellationToken);
 
         if (!httpResponse.IsSuccessStatusCode)
-            throw new BusinessException($"Erro ReceitaWS: {content}");
+            throw new ExternalServiceException($"Não foi possível consultar a ReceitaWS.");
 
-        var response = JsonSerializer.Deserialize<CompanyDto>(content)
-            ?? throw new BusinessException("Resposta inválida da ReceitaWS.");
+        var response = JsonSerializer.Deserialize<CompanyDto>(content);
 
-        return response;
+        return response
+            ?? throw new ExternalServiceException("A ReceitaWS retornou uma resposta inválida.");
     }
 }

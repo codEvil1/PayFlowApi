@@ -1,7 +1,6 @@
-﻿using PayFlow.Application.Common.Responses;
+﻿using PayFlow.Application.Common.Exceptions;
+using PayFlow.Application.Common.Responses;
 using System.Diagnostics;
-using System.Net;
-using System.Text.Json;
 
 namespace PayFlow.Api.Middleware
 {
@@ -16,20 +15,31 @@ namespace PayFlow.Api.Middleware
             catch (Exception ex)
             {
                 logger.LogError(ex, "Erro não tratado");
-                context.Response.StatusCode = (int)HttpStatusCode.InternalServerError;
-                context.Response.ContentType = "application/json";
 
-                var response = new ApiResponse<object>
-                {
-                    Success = false,
-                    Message = "Erro interno no servidor.",
-                    Data = null,
-                    TraceId = Activity.Current?.TraceId.ToString() ?? context.TraceIdentifier,
-                    Timestamp = DateTime.UtcNow
-                };
-
-                await context.Response.WriteAsJsonAsync(response);
+                await HandleExceptionAsync(context, ex);
             }
+        }
+
+        private static async Task HandleExceptionAsync(HttpContext context, Exception exception)
+        {
+            var statusCode = exception switch
+            {
+                NotFoundException => StatusCodes.Status404NotFound,
+                BadRequestException => StatusCodes.Status400BadRequest,
+                ConflictException => StatusCodes.Status409Conflict,
+                UnauthorizedException => StatusCodes.Status401Unauthorized,
+                ExternalServiceException => StatusCodes.Status502BadGateway,
+                _ => StatusCodes.Status500InternalServerError
+            };
+
+            context.Response.StatusCode = statusCode;
+            context.Response.ContentType = "application/json";
+
+            var response = ApiResponse<object>.ErrorResponse(exception.Message);
+
+            response.TraceId = Activity.Current?.TraceId.ToString() ?? context.TraceIdentifier;
+
+            await context.Response.WriteAsJsonAsync(response);
         }
     }
 }

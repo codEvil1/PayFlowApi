@@ -1,12 +1,12 @@
-﻿using PayFlow.Infrastructure.Features.Auth.DTOs;
+﻿using PayFlow.Application.Common.Exceptions;
+using PayFlow.Domain.Entities;
+using PayFlow.Domain.Interfaces;
+using PayFlow.Infrastructure.Features.Auth.DTOs;
 using PayFlow.Infrastructure.Features.Auth.Requests;
 using PayFlow.Infrastructure.Features.User.DTOs;
 using PayFlow.Infrastructure.Interfaces;
-using PayFlow.Domain.Entities;
-using PayFlow.Domain.Interfaces;
-using PayFlow.Infrastructure.Exceptions;
 
-namespace PayFlow.Infrastructure.Services
+namespace PayFlow.Application.Services
 {
     public class AuthService(
         IUserRepository userRepository,
@@ -18,10 +18,10 @@ namespace PayFlow.Infrastructure.Services
         public async Task<AuthUserDto?> LoginAsync(AuthRequest request, CancellationToken cancellationToken)
         {
             var user = await userRepository.GetByEmailAsync(request.Email, cancellationToken)
-                ?? throw new BusinessException("Credenciais inválidas.");
+                ?? throw new UnauthorizedException("Credenciais inválidas.");
 
             if (!passwordHasher.Verify(request.Password, user.PasswordHash))
-                throw new BusinessException("Credenciais inválidas.");
+                throw new UnauthorizedException("Credenciais inválidas.");
 
             var jwt = jwtService.GenerateToken(user);
 
@@ -54,7 +54,7 @@ namespace PayFlow.Infrastructure.Services
         public async Task<AuthUserDto> RefreshTokenAsync(RefreshTokenRequest request, CancellationToken cancellationToken)
         {
             var refreshToken = await refreshTokenRepository.GetByTokenAsync(request.RefreshToken) 
-                ?? throw new BusinessException("Refresh token expirado.");
+                ?? throw new UnauthorizedException("Refresh token expirado.");
 
             var user = refreshToken.User;
             var jwt = jwtService.GenerateToken(user);
@@ -84,7 +84,7 @@ namespace PayFlow.Infrastructure.Services
         public async Task RevokeTokenAsync(RefreshTokenRequest request, CancellationToken cancellationToken)
         {
             var refreshToken = await refreshTokenRepository.GetByTokenAsync(request.RefreshToken)
-                ?? throw new BusinessException("Refresh token inválido.");
+                ?? throw new UnauthorizedException("Refresh token inválido.");
 
             refreshToken.Revoked = true;
 

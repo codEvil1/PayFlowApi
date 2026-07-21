@@ -1,8 +1,8 @@
-﻿using System.Net.Http.Json;
+﻿using PayFlow.Application.Common.Exceptions;
 using PayFlow.Application.Features.Address.DTOs;
 using PayFlow.Application.Interfaces;
-using PayFlow.Infrastructure.Exceptions;
 using PayFlow.Infrastructure.Extensions;
+using System.Net.Http.Json;
 
 namespace PayFlow.Infrastructure.Services
 {
@@ -14,8 +14,11 @@ namespace PayFlow.Infrastructure.Services
 
             var response = await client.GetFromJsonAsync<ViaCepDto>($"ws/{postalCode}/json/", cancellationToken);
 
-            if (response is null || response.Error)
-                throw new BusinessException("Código postal não encontrado.");
+            if (response is null)
+                throw new NotFoundException("Código postal não encontrado.");
+
+            if (response.Error)
+                throw new NotFoundException("Código postal não encontrado.");
 
             return response;
         }

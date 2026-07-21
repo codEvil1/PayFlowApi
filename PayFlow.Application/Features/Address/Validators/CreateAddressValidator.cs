@@ -1,4 +1,5 @@
 ﻿using FluentValidation;
+using PayFlow.Application.Features.Address.Validators;
 using PayFlow.Infrastructure.Features.Address.Requests;
 
 namespace PayFlow.Infrastructure.Features.Address.Validators

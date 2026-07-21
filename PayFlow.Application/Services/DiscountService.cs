@@ -1,11 +1,11 @@
-﻿using PayFlow.Infrastructure.Exceptions;
-using PayFlow.Domain.Interfaces;
-using PayFlow.Domain.Entities;
-using PayFlow.Infrastructure.Features.Discount.Requests;
-using PayFlow.Infrastructure.Features.Discount.DTOs;
+﻿using PayFlow.Application.Common.Exceptions;
 using PayFlow.Application.Interfaces;
+using PayFlow.Domain.Entities;
+using PayFlow.Domain.Interfaces;
+using PayFlow.Infrastructure.Features.Discount.DTOs;
+using PayFlow.Infrastructure.Features.Discount.Requests;
 
-namespace PayFlow.Infrastructure.Services
+namespace PayFlow.Application.Services
 {
     public class DiscountService(IDiscountRepository repository) : IDiscountService
     {
@@ -14,7 +14,7 @@ namespace PayFlow.Infrastructure.Services
             var exists = await repository.ExistsByCodeAsync(dto.Code, cancellationToken);
 
             if (exists)
-                throw new BusinessException("Já existe um desconto cadastrado com este código.");
+                throw new ConflictException("Já existe um desconto cadastrado com este código.");
 
             var discount = new Discount
             {
@@ -53,7 +53,7 @@ namespace PayFlow.Infrastructure.Services
         public async Task<DiscountDto?> GetByIdAsync(string id, CancellationToken cancellationToken)
         {
             var discount = await repository.GetByCodeAsync(id, cancellationToken)
-                ?? throw new BusinessException("Desconto não encontrado.");
+                ?? throw new NotFoundException("Desconto não encontrado.");
 
             return new DiscountDto
             {
@@ -71,7 +71,7 @@ namespace PayFlow.Infrastructure.Services
         public async Task<Discount> UpdateAsync(string id, UpdateDiscountRequest dto, CancellationToken cancellationToken)
         {
             var discount = await repository.GetByCodeAsync(id, cancellationToken)
-                ?? throw new BusinessException("Desconto não encontrado.");
+                ?? throw new NotFoundException("Desconto não encontrado.");
 
             discount.Description = dto.Description;
             discount.Type = dto.Type;
@@ -89,7 +89,7 @@ namespace PayFlow.Infrastructure.Services
         public async Task DeleteAsync(string id, CancellationToken cancellationToken)
         {
             var discount = await repository.GetByCodeAsync(id, cancellationToken)
-                ?? throw new BusinessException("Desconto não encontrado.");
+                ?? throw new NotFoundException("Desconto não encontrado.");
 
             await repository.DeleteAsync(discount, cancellationToken);
         }

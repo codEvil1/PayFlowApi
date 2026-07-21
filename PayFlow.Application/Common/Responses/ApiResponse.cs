@@ -9,7 +9,7 @@ namespace PayFlow.Application.Common.Responses
         public T? Data { get; init; }
         public IEnumerable<ApiError>? Errors { get; init; }
         public DateTime Timestamp { get; init; } = DateTime.UtcNow;
-        public string? TraceId { get; init; }
+        public string? TraceId { get; set; }
 
         public static ApiResponse<T> SuccessResponse(T? data, string message = "Operação realizada com sucesso")
         {
