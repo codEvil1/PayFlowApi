@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace PayFlow.Application.Interfaces
+namespace PayFlow.Infrastructure.Interfaces
 {
     internal interface ICurrentUserService
     {

@@ -1,5 +1,5 @@
 ﻿using Microsoft.Extensions.Diagnostics.HealthChecks;
-using PayFlow.Application.Interfaces;
+using PayFlow.Infrastructure.Interfaces;
 
 namespace PayFlow.Api.HealthChecks
 {

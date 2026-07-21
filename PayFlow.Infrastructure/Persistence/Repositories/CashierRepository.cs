@@ -1,9 +1,9 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using PayFlow.Domain.Entities;
 using PayFlow.Domain.Interfaces;
-using PayFlow.Application.Persistence.Context;
+using PayFlow.Infrastructure.Persistence.Context;
 
-namespace PayFlow.Application.Persistence.Repositories
+namespace PayFlow.Infrastructure.Persistence.Repositories
 {
     public class CashierRepository(AppDbContext context) : ICashierRepository
     {

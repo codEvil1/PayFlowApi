@@ -1,6 +1,6 @@
 ﻿using Swashbuckle.AspNetCore.Annotations;
 
-namespace PayFlow.Application.Features.Auth.Requests
+namespace PayFlow.Infrastructure.Features.Auth.Requests
 {
     public class AuthRequest
     {

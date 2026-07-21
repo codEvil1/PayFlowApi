@@ -1,6 +1,6 @@
 ﻿using FluentValidation;
 
-namespace PayFlow.Application.Features.Cashier.Validators
+namespace PayFlow.Infrastructure.Features.Cashier.Validators
 {
     public static class CashierRules
     {

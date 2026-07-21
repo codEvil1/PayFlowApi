@@ -1,44 +1,45 @@
 ﻿using Microsoft.IdentityModel.Tokens;
-using PayFlow.Application.Features.Auth.DTOs;
-using PayFlow.Application.Interfaces;
+using PayFlow.Infrastructure.Features.Auth.DTOs;
+using PayFlow.Infrastructure.Interfaces;
 using PayFlow.Domain.Entities;
-using PayFlow.Application.Settings;
+using PayFlow.Infrastructure.Settings;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Text;
 
-namespace PayFlow.Application.Security;
-
-public sealed class JwtService(JwtSettings settings) : IJwtService
+namespace PayFlow.Infrastructure.Security
 {
-    public JwtToken GenerateToken(User user)
+    public sealed class JwtService(JwtSettings settings) : IJwtService
     {
-        var expiresAt = DateTime.UtcNow.AddMinutes(settings.ExpirationMinutes);
-        var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(settings.Secret));
-        var credentials = new SigningCredentials(key, SecurityAlgorithms.HmacSha256);
-
-        var claims = new List<Claim>
-            {
-                new(JwtRegisteredClaimNames.Sub, user.Id.ToString()),
-                new(JwtRegisteredClaimNames.Email, user.Email),
-                new(ClaimTypes.NameIdentifier, user.Id.ToString()),
-                new(ClaimTypes.Name, user.Name),
-                new(ClaimTypes.Role, user.Role.ToString())
-            };
-
-        var token = new JwtSecurityToken(
-            issuer: settings.Issuer,
-            audience: settings.Audience,
-            claims: claims,
-            notBefore: DateTime.UtcNow,
-            expires: expiresAt,
-            signingCredentials: credentials
-        );
-
-        return new JwtToken
+        public JwtToken GenerateToken(User user)
         {
-            Token = new JwtSecurityTokenHandler().WriteToken(token),
-            ExpiresAt = expiresAt
-        };
+            var expiresAt = DateTime.UtcNow.AddMinutes(settings.ExpirationMinutes);
+            var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(settings.Secret));
+            var credentials = new SigningCredentials(key, SecurityAlgorithms.HmacSha256);
+
+            var claims = new List<Claim>
+                {
+                    new(JwtRegisteredClaimNames.Sub, user.Id.ToString()),
+                    new(JwtRegisteredClaimNames.Email, user.Email),
+                    new(ClaimTypes.NameIdentifier, user.Id.ToString()),
+                    new(ClaimTypes.Name, user.Name),
+                    new(ClaimTypes.Role, user.Role.ToString()),
+                };
+
+            var token = new JwtSecurityToken(
+                issuer: settings.Issuer,
+                audience: settings.Audience,
+                claims: claims,
+                notBefore: DateTime.UtcNow,
+                expires: expiresAt,
+                signingCredentials: credentials
+            );
+
+            return new JwtToken
+            {
+                Token = new JwtSecurityTokenHandler().WriteToken(token),
+                ExpiresAt = expiresAt
+            };
+        }
     }
 }

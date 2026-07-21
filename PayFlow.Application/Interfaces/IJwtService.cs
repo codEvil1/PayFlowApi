@@ -1,7 +1,7 @@
-﻿using PayFlow.Application.Features.Auth.DTOs;
+﻿using PayFlow.Infrastructure.Features.Auth.DTOs;
 using PayFlow.Domain.Entities;
 
-namespace PayFlow.Application.Interfaces
+namespace PayFlow.Infrastructure.Interfaces
 {
     public interface IJwtService
     {

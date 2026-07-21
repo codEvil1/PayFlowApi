@@ -1,4 +1,4 @@
-﻿namespace PayFlow.Application.Features.Company.DTOs
+﻿namespace PayFlow.Infrastructure.Features.Company.DTOs
 {
     public class GetCompanyByCnpj
     {

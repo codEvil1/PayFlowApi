@@ -1,7 +1,7 @@
 ﻿using FluentValidation;
-using PayFlow.Application.Features.Discount.Requests;
+using PayFlow.Infrastructure.Features.Discount.Requests;
 
-namespace PayFlow.Application.Features.Discount.Validators
+namespace PayFlow.Infrastructure.Features.Discount.Validators
 {
     public class CreateDiscountValidator : AbstractValidator<CreateDiscountRequest>
     {

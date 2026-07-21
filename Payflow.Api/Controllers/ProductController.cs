@@ -1,16 +1,17 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using PayFlow.Application.Interfaces;
-using PayFlow.Application.Features.Product.Requests;
+using PayFlow.Infrastructure.Interfaces;
+using PayFlow.Infrastructure.Features.Product.Requests;
+using PayFlow.Application.Security;
 
 namespace Payflow.Api.Controllers
 {
     [ApiController]
-    [Authorize]
     [Route("api/[controller]")]
     public class ProductController(IProductService service) : ControllerBase
     {
         [HttpPost]
+        [Authorize(Roles = Roles.Admin)]
         public async Task<IActionResult> Create([FromForm] CreateProductRequest request, CancellationToken cancellationToken)
         {
             await service.CreateAsync(request, cancellationToken);
@@ -19,6 +20,7 @@ namespace Payflow.Api.Controllers
         }
 
         [HttpGet]
+        [Authorize]
         public async Task<IActionResult> GetAll(CancellationToken cancellationToken)
         {
             var result = await service.GetAllAsync(cancellationToken);
@@ -27,6 +29,7 @@ namespace Payflow.Api.Controllers
         }
 
         [HttpGet("{id}")]
+        [Authorize]
         public async Task<IActionResult> GetProductById(string id, CancellationToken cancellationToken)
         {
             var result = await service.GetByIdAsync(id, cancellationToken);
@@ -38,6 +41,7 @@ namespace Payflow.Api.Controllers
         }
 
         [HttpPut("{id}")]
+        [Authorize(Roles = Roles.Admin)]
         public async Task<IActionResult> Update(string id, [FromForm] UpdateProductRequest request, CancellationToken cancellationToken)
         {
             await service.UpdateAsync(id, request, cancellationToken);
@@ -46,6 +50,7 @@ namespace Payflow.Api.Controllers
         }
 
         [HttpDelete("{id}")]
+        [Authorize(Roles = Roles.Admin)]
         public async Task<IActionResult> Delete(string id, CancellationToken cancellationToken)
         {
             await service.DeleteAsync(id, cancellationToken);

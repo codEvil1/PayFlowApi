@@ -1,12 +1,12 @@
-﻿using PayFlow.Application.Features.Auth.DTOs;
-using PayFlow.Application.Features.Auth.Requests;
-using PayFlow.Application.Features.User.DTOs;
-using PayFlow.Application.Interfaces;
+﻿using PayFlow.Infrastructure.Features.Auth.DTOs;
+using PayFlow.Infrastructure.Features.Auth.Requests;
+using PayFlow.Infrastructure.Features.User.DTOs;
+using PayFlow.Infrastructure.Interfaces;
 using PayFlow.Domain.Entities;
 using PayFlow.Domain.Interfaces;
-using PayFlow.Application.Exceptions;
+using PayFlow.Infrastructure.Exceptions;
 
-namespace PayFlow.Application.Services
+namespace PayFlow.Infrastructure.Services
 {
     public class AuthService(
         IUserRepository userRepository,

@@ -1,8 +1,8 @@
 ﻿using FluentValidation;
-using PayFlow.Application.Extensions;
-using PayFlow.Application.Features.Address.DTOs;
+using PayFlow.Infrastructure.Extensions;
+using PayFlow.Infrastructure.Features.Address.DTOs;
 
-namespace PayFlow.Application.Features.Address.Validators
+namespace PayFlow.Infrastructure.Features.Address.Validators
 {
     public class GetAddressByPostalCodeValidator : AbstractValidator<GetAddressByPostalCodeRequest>
     {

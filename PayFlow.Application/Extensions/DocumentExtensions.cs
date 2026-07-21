@@ -1,6 +1,6 @@
 ﻿using System.Text.RegularExpressions;
 
-namespace PayFlow.Application.Extensions
+namespace PayFlow.Infrastructure.Extensions
 {
     public static partial class DocumentExtensions
     {

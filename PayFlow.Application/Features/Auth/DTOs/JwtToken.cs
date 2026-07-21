@@ -1,4 +1,4 @@
-﻿namespace PayFlow.Application.Features.Auth.DTOs
+﻿namespace PayFlow.Infrastructure.Features.Auth.DTOs
 {
     public class JwtToken
     {

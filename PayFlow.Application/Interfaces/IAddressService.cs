@@ -1,6 +1,6 @@
-﻿using PayFlow.Application.Features.Address.DTOs;
+﻿using PayFlow.Infrastructure.Features.Address.DTOs;
 
-namespace PayFlow.Application.Interfaces
+namespace PayFlow.Infrastructure.Interfaces
 {
     public interface IAddressService
     {

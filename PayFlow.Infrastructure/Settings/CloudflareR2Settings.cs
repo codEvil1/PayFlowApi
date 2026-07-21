@@ -1,4 +1,4 @@
-﻿namespace PayFlow.Application.Services.Settings
+﻿namespace PayFlow.Infrastructure.Services.Settings
 {
     public class CloudflareR2Settings
     {

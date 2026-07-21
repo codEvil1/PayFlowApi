@@ -1,6 +1,6 @@
-﻿using PayFlow.Application.Features.User.DTOs;
+﻿using PayFlow.Infrastructure.Features.User.DTOs;
 
-namespace PayFlow.Application.Features.Auth.DTOs
+namespace PayFlow.Infrastructure.Features.Auth.DTOs
 {
     public sealed class AuthUserDto
     {

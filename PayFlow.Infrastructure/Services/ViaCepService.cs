@@ -1,10 +1,10 @@
 ﻿using System.Net.Http.Json;
-using PayFlow.Application.Exceptions;
-using PayFlow.Application.Extensions;
-using PayFlow.Application.Features.Address.DTOs;
-using PayFlow.Application.Interfaces;
+using PayFlow.Infrastructure.Exceptions;
+using PayFlow.Infrastructure.Extensions;
+using PayFlow.Infrastructure.Features.Address.DTOs;
+using PayFlow.Infrastructure.Interfaces;
 
-namespace PayFlow.Application.Services
+namespace PayFlow.Infrastructure.Services
 {
     public class ViaCepService(HttpClient client) : IAddressService
     {
