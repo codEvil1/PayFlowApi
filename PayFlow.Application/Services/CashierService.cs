@@ -1,5 +1,7 @@
 ﻿using PayFlow.Application.Common.Exceptions;
+using PayFlow.Application.Common.Responses;
 using PayFlow.Application.Interfaces;
+using PayFlow.Domain.Common.Models;
 using PayFlow.Domain.Entities;
 using PayFlow.Domain.Interfaces;
 using PayFlow.Infrastructure.Features.Cashier.DTOs;
@@ -29,18 +31,26 @@ namespace PayFlow.Application.Services
             return cashier;
         }
 
-        public async Task<IEnumerable<CashierDto>> GetAllAsync(CancellationToken cancellationToken)
+        public async Task<PagedResponse<CashierDto>> GetPagedAsync(PaginationParams pagination, CancellationToken cancellationToken)
         {
-            var cashiers = await repository.GetAllAsync(cancellationToken);
+            var cashiers = await repository.GetPagedAsync(pagination, cancellationToken);
 
-            return cashiers.Select(c => new CashierDto
+            return new PagedResponse<CashierDto>
             {
-                Id = c.Id,
-                Cpf = c.Cpf,
-                Name = c.Name,
-                Email = c.Email,
-                Rating = c.Rating
-            });
+                Data = cashiers.Data
+                    .Select(c => new CashierDto
+                    {
+                        Id = c.Id,
+                        Cpf = c.Cpf,
+                        Name = c.Name,
+                        Email = c.Email,
+                        Rating = c.Rating
+                    }),
+                PageNumber = cashiers.PageNumber,
+                PageSize = cashiers.PageSize,
+                TotalCount = cashiers.TotalCount,
+                TotalPages = cashiers.TotalPages,
+            };
         }
 
         public async Task<CashierDto?> GetByIdAsync(int id, CancellationToken cancellationToken)

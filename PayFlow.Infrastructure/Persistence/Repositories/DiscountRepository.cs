@@ -1,4 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using PayFlow.Domain.Common.Models;
 using PayFlow.Domain.Entities;
 using PayFlow.Domain.Interfaces;
 using PayFlow.Infrastructure.Persistence.Context;
@@ -13,11 +14,25 @@ namespace PayFlow.Infrastructure.Persistence.Repositories
             await context.SaveChangesAsync(cancellationToken);
         }
 
-        public async Task<IEnumerable<Discount>> GetAllAsync(CancellationToken cancellationToken)
+        public async Task<PagedResult<Discount>> GetPagedAsync(PaginationParams pagination, CancellationToken cancellationToken)
         {
-            return await context.Discount
-                .AsNoTracking()
+            var query = context.Discount.AsNoTracking();
+            var totalCount = await query.CountAsync(cancellationToken);
+
+            var discount = await query
+                .OrderBy(x => x.Id)
+                .Skip(
+                    (pagination.PageNumber - 1)
+                    * pagination.PageSize)
+                .Take(pagination.PageSize)
                 .ToListAsync(cancellationToken);
+
+            return new PagedResult<Discount>(
+                discount,
+                pagination.PageNumber,
+                pagination.PageSize,
+                totalCount
+            );
         }
 
         public async Task<Discount?> GetByCodeAsync(string code, CancellationToken cancellationToken)
