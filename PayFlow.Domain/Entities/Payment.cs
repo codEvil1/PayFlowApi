@@ -1,6 +1,7 @@
 ﻿using PayFlow.Domain.Enums;
 
 namespace PayFlow.Domain.Entities;
+
 public class Payment
 {
     public int Id { get; set; }

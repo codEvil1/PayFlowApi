@@ -36,18 +36,18 @@ namespace PayFlow.Infrastructure.Features.Product.Validators
 
         public static IRuleBuilderOptions<T, IFormFile?> ImageRule<T>(this IRuleBuilder<T, IFormFile?> rule)
         {
-             return rule
-                 .Must(BeValidImage)
-                 .WithMessage("A imagem deve estar no formato PNG.")
+            return rule
+                .Must(BeValidImage)
+                .WithMessage("A imagem deve estar no formato PNG.")
 
-                 .Must(HasContent)
-                 .WithMessage("A imagem não pode estar vazia.")
+                .Must(HasContent)
+                .WithMessage("A imagem não pode estar vazia.")
 
-                 .Must(BeValidContentType)
-                 .WithMessage("O arquivo enviado não é uma imagem PNG válida.")
+                .Must(BeValidContentType)
+                .WithMessage("O arquivo enviado não é uma imagem PNG válida.")
 
-                 .Must(BeValidSize)
-                 .WithMessage("A imagem deve possuir no máximo 5 MB.");
+                .Must(BeValidSize)
+                .WithMessage("A imagem deve possuir no máximo 5 MB.");
         }
 
         public static IRuleBuilderOptions<T, decimal> PriceRule<T>(this IRuleBuilder<T, decimal> rule)

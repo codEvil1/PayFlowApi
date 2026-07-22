@@ -4,7 +4,7 @@ using System.Diagnostics;
 
 namespace PayFlow.Api.Middleware
 {
-    public class ExceptionMiddleware (RequestDelegate next, ILogger<ExceptionMiddleware> logger)
+    public class ExceptionMiddleware(RequestDelegate next, ILogger<ExceptionMiddleware> logger)
     {
         public async Task InvokeAsync(HttpContext context)
         {

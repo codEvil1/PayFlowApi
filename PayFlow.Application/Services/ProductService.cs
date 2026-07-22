@@ -81,7 +81,7 @@ namespace PayFlow.Application.Services
 
         public async Task<Product> UpdateAsync(string id, UpdateProductRequest dto, CancellationToken cancellationToken)
         {
-            var product = await repository.GetByIdAsync(id, cancellationToken) 
+            var product = await repository.GetByIdAsync(id, cancellationToken)
                 ?? throw new NotFoundException("Produto não encontrado.");
 
             var oldImageUrl = product.ImageUrl;

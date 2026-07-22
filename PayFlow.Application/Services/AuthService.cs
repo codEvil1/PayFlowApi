@@ -54,7 +54,7 @@ namespace PayFlow.Application.Services
 
         public async Task<AuthUserDto> RefreshTokenAsync(RefreshTokenRequest request, CancellationToken cancellationToken)
         {
-            var refreshToken = await refreshTokenRepository.GetByTokenAsync(request.RefreshToken) 
+            var refreshToken = await refreshTokenRepository.GetByTokenAsync(request.RefreshToken)
                 ?? throw new UnauthorizedException("Refresh token expirado.");
 
             var user = refreshToken.User;

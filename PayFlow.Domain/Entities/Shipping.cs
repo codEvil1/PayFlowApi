@@ -1,4 +1,5 @@
 ﻿namespace PayFlow.Domain.Entities;
+
 public class Shipping
 {
     public int Id { get; set; }

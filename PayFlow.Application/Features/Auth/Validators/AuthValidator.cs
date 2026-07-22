@@ -11,5 +11,4 @@ namespace PayFlow.Infrastructure.Features.Auth.Validators
             RuleFor(x => x.Password).PasswordRule();
         }
     }
-}   
- 
+}

@@ -17,7 +17,7 @@ namespace PayFlow.API.Controllers
         public async Task<IActionResult> GetByPostalCode([FromBody] GetAddressByPostalCodeRequest request, CancellationToken cancellationToken)
         {
             var result = await service.GetByPostalCodeAsync(request.PostalCode, cancellationToken);
-                
+
             return Ok(result);
         }
     }

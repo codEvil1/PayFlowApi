@@ -25,7 +25,7 @@ namespace Payflow.Api.Controllers
                 nameof(GetCashierById),
                 new { id = result.Id },
                 result
-            );              
+            );
         }
 
         [HttpGet]
