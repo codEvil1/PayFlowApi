@@ -2,7 +2,7 @@
   <Folder Name="/src/">
     <File Path="Payflow.Api/.dockerignore" />
     <File Path="Payflow.Api/Dockerfile" />
-    <Project Path="Payflow.Api/Payflow.Api.csproj" />
+    <Project Path="Payflow.Api/Payflow.Api.csproj" DisplayName="PayFlow.Api" />
     <Project Path="PayFlow.Application/PayFlow.Application.csproj" />
     <Project Path="PayFlow.Domain/PayFlow.Domain.csproj" Id="b106d1ff-bc97-41be-be00-d0e9f2a0d8a4" />
     <Project Path="PayFlow.Infrastructure/PayFlow.Infrastructure.csproj" Id="f9e162eb-f045-4d31-8727-91fc90e17dc4" />

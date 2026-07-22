@@ -7,9 +7,9 @@ WORKDIR /src
 
 COPY . .
 
-RUN dotnet restore ./Payflow.Api/Payflow.Api.csproj
+RUN dotnet restore ./src/Payflow.Api/Payflow.Api.csproj
 
-RUN dotnet publish ./Payflow.Api/Payflow.Api.csproj \
+RUN dotnet publish ./src/Payflow.Api/Payflow.Api.csproj \
     -c Release \
     -o /app/publish \
     --no-restore
@@ -17,7 +17,7 @@ RUN dotnet publish ./Payflow.Api/Payflow.Api.csproj \
 # =========================
 # Runtime
 # =========================
-FROM mcr.microsoft.com/dotnet/aspnet:10.0
+FROM mcr.microsoft.com/dotnet/aspnet:10.0 AS final
 
 WORKDIR /app
 
