@@ -1,4 +1,4 @@
-﻿namespace PayFlow.Infrastructure.Features.Product.DTOs
+﻿namespace PayFlow.Application.Features.Product.DTOs
 {
     public class ProductDto
     {

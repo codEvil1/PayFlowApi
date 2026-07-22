@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.RateLimiting;
 using PayFlow.Api.Constants;
 using PayFlow.Application.Interfaces;
 using PayFlow.Application.Security;
+using PayFlow.Domain.Common.Models;
 using PayFlow.Infrastructure.Features.Cashier.Requests;
 
 namespace Payflow.Api.Controllers
@@ -30,9 +31,9 @@ namespace Payflow.Api.Controllers
         [HttpGet]
         [Authorize]
         [EnableRateLimiting(RateLimitPolicies.Default)]
-        public async Task<IActionResult> GetAll(CancellationToken cancellationToken)
+        public async Task<IActionResult> GetPaged([FromQuery] PaginationParams pagination, CancellationToken cancellationToken)
         {
-            var result = await service.GetAllAsync(cancellationToken);
+            var result = await service.GetPagedAsync(pagination, cancellationToken);
 
             return Ok(result);
         }

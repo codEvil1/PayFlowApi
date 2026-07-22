@@ -1,11 +1,11 @@
 ﻿using Microsoft.IdentityModel.Tokens;
 using PayFlow.Infrastructure.Features.Auth.DTOs;
-using PayFlow.Infrastructure.Interfaces;
 using PayFlow.Domain.Entities;
 using PayFlow.Infrastructure.Settings;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Text;
+using PayFlow.Application.Interfaces;
 
 namespace PayFlow.Infrastructure.Security
 {

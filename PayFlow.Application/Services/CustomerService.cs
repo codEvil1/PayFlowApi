@@ -1,6 +1,8 @@
 ﻿using PayFlow.Application.Common.Exceptions;
+using PayFlow.Application.Common.Responses;
 using PayFlow.Application.Features.Address.DTOs;
 using PayFlow.Application.Interfaces;
+using PayFlow.Domain.Common.Models;
 using PayFlow.Domain.Entities;
 using PayFlow.Domain.Interfaces;
 using PayFlow.Infrastructure.Features.Cashier.DTOs;
@@ -40,27 +42,35 @@ namespace PayFlow.Application.Services
             return customer;
         }
 
-        public async Task<IEnumerable<CustomerDto>> GetAllAsync(CancellationToken cancellationToken)
+        public async Task<PagedResponse<CustomerDto>> GetPagedAsync(PaginationParams pagination, CancellationToken cancellationToken)
         {
-            var customers = await repository.GetAllAsync(cancellationToken);
+            var customers = await repository.GetPagedAsync(pagination, cancellationToken);
 
-            return customers.Select(c => new CustomerDto
+            return new PagedResponse<CustomerDto>
             {
-                Identifier = c.Identifier,
-                Name = c.Name,
-                Email = c.Email,
-                Phone = c.Phone,
-                Address = new AddressDto
-                {
-                    Street = c.Address.Street,
-                    Number = c.Address.Number,
-                    City = c.Address.City,
-                    PostalCode = c.Address.PostalCode,
-                    State = c.Address.State,
-                    Uf = c.Address.Uf,
-                    Country = c.Address.Country
-                }
-            });
+                Data = customers.Data
+                    .Select(c => new CustomerDto
+                    {
+                        Identifier = c.Identifier,
+                        Name = c.Name,
+                        Email = c.Email,
+                        Phone = c.Phone,
+                        Address = new AddressDto
+                        {
+                            Street = c.Address.Street,
+                            Number = c.Address.Number,
+                            City = c.Address.City,
+                            PostalCode = c.Address.PostalCode,
+                            State = c.Address.State,
+                            Uf = c.Address.Uf,
+                            Country = c.Address.Country
+                        }
+                    }),
+                PageNumber = customers.PageNumber,
+                PageSize = customers.PageSize,
+                TotalCount = customers.TotalCount,
+                TotalPages = customers.TotalPages,
+            };
         }
 
         public async Task<CustomerDto?> GetByIdentifierAsync(string identifier, CancellationToken cancellationToken)

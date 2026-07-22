@@ -1,10 +1,12 @@
-﻿using PayFlow.Infrastructure.Features.Product.DTOs;
-using PayFlow.Infrastructure.Features.Product.Requests;
-using PayFlow.Domain.Interfaces;
-using PayFlow.Domain.Entities;
-using PayFlow.Infrastructure.Interfaces;
+﻿using PayFlow.Application.Common.Exceptions;
+using PayFlow.Application.Common.Responses;
+using PayFlow.Application.Features.Product.DTOs;
 using PayFlow.Application.Interfaces;
-using PayFlow.Application.Common.Exceptions;
+using PayFlow.Domain.Common.Models;
+using PayFlow.Domain.Entities;
+using PayFlow.Domain.Interfaces;
+using PayFlow.Infrastructure.Features.Product.Requests;
+using PayFlow.Infrastructure.Interfaces;
 
 namespace PayFlow.Application.Services
 {
@@ -38,19 +40,27 @@ namespace PayFlow.Application.Services
             return product;
         }
 
-        public async Task<IEnumerable<ProductDto>> GetAllAsync(CancellationToken cancellationToken)
+        public async Task<PagedResponse<ProductDto>> GetPagedAsync(PaginationParams pagination, CancellationToken cancellationToken)
         {
-            var products = await repository.GetAllAsync(cancellationToken);
+            var products = await repository.GetPagedAsync(pagination, cancellationToken);
 
-            return products.Select(p => new ProductDto
+            return new PagedResponse<ProductDto>
             {
-                Id = p.Id,
-                BarCode = p.BarCode,
-                Description = p.Description,
-                ImageUrl = p.ImageUrl,
-                Price = p.Price,
-                StockQuantity = p.StockQuantity
-            });
+                Data = products.Data
+                    .Select(p => new ProductDto
+                    {
+                        Id = p.Id,
+                        BarCode = p.BarCode,
+                        Description = p.Description,
+                        ImageUrl = p.ImageUrl,
+                        Price = p.Price,
+                        StockQuantity = p.StockQuantity
+                    }),
+                PageNumber = products.PageNumber,
+                PageSize = products.PageSize,
+                TotalCount = products.TotalCount,
+                TotalPages = products.TotalPages,
+            };
         }
 
         public async Task<ProductDto?> GetByIdAsync(string id, CancellationToken cancellationToken)

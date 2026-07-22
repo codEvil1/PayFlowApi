@@ -17,4 +17,8 @@
 		<PackageReference Include="Swashbuckle.AspNetCore.Annotations" Version="10.2.3" />
 	</ItemGroup>
 
+	<ItemGroup>
+	  <Folder Include="Interfaces\Repositories\" />
+	</ItemGroup>
+
 </Project>

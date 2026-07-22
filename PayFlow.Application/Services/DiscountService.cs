@@ -1,5 +1,8 @@
-﻿using PayFlow.Application.Common.Exceptions;
+﻿using Microsoft.AspNetCore.Mvc.RazorPages;
+using PayFlow.Application.Common.Exceptions;
+using PayFlow.Application.Common.Responses;
 using PayFlow.Application.Interfaces;
+using PayFlow.Domain.Common.Models;
 using PayFlow.Domain.Entities;
 using PayFlow.Domain.Interfaces;
 using PayFlow.Infrastructure.Features.Discount.DTOs;
@@ -33,21 +36,29 @@ namespace PayFlow.Application.Services
             return discount;
         }
 
-        public async Task<IEnumerable<DiscountDto>> GetAllAsync(CancellationToken cancellationToken)
+        public async Task<PagedResponse<DiscountDto>> GetPagedAsync(PaginationParams pagination, CancellationToken cancellationToken)
         {
-            var discounts = await repository.GetAllAsync(cancellationToken);
+            var discounts = await repository.GetPagedAsync(pagination, cancellationToken);
 
-            return discounts.Select(d => new DiscountDto
+            return new PagedResponse<DiscountDto>
             {
-                Code = d.Code,
-                Description = d.Description,
-                Type = d.Type,
-                Value = d.Value,
-                StartDate = d.StartDate,
-                EndDate = d.EndDate,
-                MinimumValue = d.MinimumValue,
-                MaximumDiscount = d.MaximumDiscount
-            });
+                Data = discounts.Data
+                    .Select(d => new DiscountDto
+                    {
+                        Code = d.Code,
+                        Description = d.Description,
+                        Type = d.Type,
+                        Value = d.Value,
+                        StartDate = d.StartDate,
+                        EndDate = d.EndDate,
+                        MinimumValue = d.MinimumValue,
+                        MaximumDiscount = d.MaximumDiscount
+                    }),
+                PageNumber = discounts.PageNumber,
+                PageSize = discounts.PageSize,
+                TotalCount = discounts.TotalCount,
+                TotalPages = discounts.TotalPages,
+            };
         }
 
         public async Task<DiscountDto?> GetByIdAsync(string id, CancellationToken cancellationToken)
