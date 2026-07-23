@@ -1,17 +1,38 @@
-# Visual Studio
-.vs/
+# Build artifacts
+**/bin/
+**/obj/
+**/out/
 
-# Build
-bin/
-obj/
+# IDE / editor
+**/.vs/
+**/.vscode/
+**/.idea/
+**/*.user
+**/*.suo
 
-# User-specific files
-*.user
-*.suo
-*.userosscache
-*.sln.docstates
+# Git
+.git/
+.gitignore
+.github/
 
-# ASP.NET Core settings
-**/appsettings.json
+# Docker
+Dockerfile
+.dockerignore
+docker-compose*.yml
+
+# Logs e temporários
+**/*.log
+**/logs/
+
+# Configs sensíveis
+**/secrets.json
 **/appsettings.Development.json
-**/appsettings.Production.json
+.env
+
+# SO
+.DS_Store
+Thumbs.db
+
+# NuGet
+**/packages/
+*.nupkg
