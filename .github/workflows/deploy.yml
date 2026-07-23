@@ -1,0 +1,80 @@
+name: Build and Deploy to Azure Container Apps
+
+on:
+  push:
+    branches: [main]
+
+env:
+  REGISTRY: ghcr.io
+  IMAGE_NAME: ${{ github.repository }}
+
+jobs:
+  build-and-push:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      packages: write
+    outputs:
+      image_tag: ${{ steps.meta.outputs.tag }}
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Log in to GitHub Container Registry
+        uses: docker/login-action@v3
+        with:
+          registry: ${{ env.REGISTRY }}
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Set image tag
+        id: meta
+        run: echo "tag=${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:${{ github.sha }}" >> $GITHUB_OUTPUT
+
+      - name: Build and push image
+        uses: docker/build-push-action@v5
+        with:
+          context: .
+          push: true
+          tags: |
+            ${{ steps.meta.outputs.tag }}
+            ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:latest
+
+  deploy:
+    needs: build-and-push
+    runs-on: ubuntu-latest
+    steps:
+      - name: Azure login
+        uses: azure/login@v2
+        with:
+          creds: ${{ secrets.AZURE_CREDENTIALS }}
+
+      - name: Deploy to Azure Container Apps
+        uses: azure/container-apps-deploy-action@v2
+        with:
+          resourceGroup: payflow-rg
+          containerAppName: payflow-api
+          containerAppEnvironment: payflow-env
+          imageToDeploy: ${{ needs.build-and-push.outputs.image_tag }}
+          environmentVariables: >
+            ASPNETCORE_ENVIRONMENT=Production
+            ConnectionStrings__AppDbConnectionString=secretref:db-connection
+            Jwt__Secret=secretref:jwt-secret
+            Jwt__Issuer=PayFlow
+            Jwt__Audience=PayFlow
+            Jwt__ExpirationMinutes=60
+            CloudflareR2__AccountId=secretref:cf-account-id
+            CloudflareR2__AccessKey=secretref:cf-access-key
+            CloudflareR2__SecretKey=secretref:cf-secret-key
+            CloudflareR2__BucketName=secretref:cf-bucket-name
+            CloudflareR2__PublicUrl=secretref:cf-public-url
+          secrets: >
+            db-connection=${{ secrets.DB_CONNECTION_STRING }}
+            jwt-secret=${{ secrets.JWT_SECRET }}
+            cf-account-id=${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
+            cf-access-key=${{ secrets.CLOUDFLARE_ACCESS_KEY }}
+            cf-secret-key=${{ secrets.CLOUDFLARE_SECRET_KEY }}
+            cf-bucket-name=${{ secrets.CLOUDFLARE_BUCKET_NAME }}
+            cf-public-url=${{ secrets.CLOUDFLARE_PUBLIC_URL }}
+          targetPort: 8080
+          ingress: external

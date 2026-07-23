@@ -13,7 +13,6 @@
 # Git
 .git/
 .gitignore
-.github/
 
 # Docker
 Dockerfile
