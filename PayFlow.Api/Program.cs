@@ -1,7 +1,6 @@
 ﻿using Microsoft.AspNetCore.Diagnostics.HealthChecks;
 using Microsoft.AspNetCore.Mvc;
-using Payflow.Api.DependencyInjection;
-using Payflow.Api.Extensions;
+using PayFlow.Api.DependencyInjection;
 using PayFlow.Api.Extensions;
 using PayFlow.Api.Filters;
 using PayFlow.Api.HealthChecks;

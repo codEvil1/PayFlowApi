@@ -7,7 +7,7 @@ using PayFlow.Domain.Entities;
 using PayFlow.Infrastructure.Features.Shipping;
 using PayFlow.Infrastructure.Persistence.Context;
 
-namespace Payflow.Api.Controllers
+namespace PayFlow.Api.Controllers
 {
     [ApiController]
     [Authorize(Roles = Roles.Admin)]
