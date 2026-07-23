@@ -13,7 +13,6 @@ namespace Payflow.Api.Controllers
     public class UserController(IUserService service) : ControllerBase
     {
         [HttpPost]
-        [Authorize(Roles = Roles.Admin)]
         [EnableRateLimiting(RateLimitPolicies.Default)]
         public async Task<IActionResult> Create([FromForm] CreateUserRequest request, CancellationToken cancellationToken)
         {
