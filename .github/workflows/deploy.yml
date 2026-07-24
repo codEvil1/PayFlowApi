@@ -48,6 +48,24 @@ jobs:
       - name: Install containerapp extension
         run: az extension add --name containerapp --upgrade --only-show-errors
 
+      - name: Ensure Container App exists
+        run: |
+          if ! az containerapp show --name payflow-api --resource-group payflow-rg -o none 2>/dev/null; then
+            echo "Container App não existe. Criando..."
+            az containerapp create \
+              --name payflow-api \
+              --resource-group payflow-rg \
+              --environment payflow-env \
+              --image ${{ needs.build-and-push.outputs.image_tag }} \
+              --target-port 8080 \
+              --ingress external \
+              --registry-server ${{ env.REGISTRY }} \
+              --registry-username ${{ github.actor }} \
+              --registry-password ${{ secrets.GITHUB_TOKEN }}
+          else
+            echo "Container App já existe. Prosseguindo."
+          fi
+
       - name: Set Container App secrets
         run: |
           az containerapp secret set \
