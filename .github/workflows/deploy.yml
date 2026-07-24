@@ -1,7 +1,10 @@
-name: Build and Deploy to Azure Container Apps
+name: Build and Deploy to Azure Container
 on:
   push:
     branches: [main]
+concurrency:
+  group: deploy-production
+  cancel-in-progress: false
 env:
   REGISTRY: ghcr.io
 jobs:
@@ -16,7 +19,7 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v4
       - name: Log in to GitHub Container Registry
-        uses: docker/login-action@v4
+        uses: docker/login-action@v3
         with:
           registry: ${{ env.REGISTRY }}
           username: ${{ github.actor }}
@@ -28,7 +31,7 @@ jobs:
         id: meta
         run: echo "tag=${{ env.REGISTRY }}/${{ steps.image.outputs.name }}:${{ github.sha }}" >> $GITHUB_OUTPUT
       - name: Build and push image
-        uses: docker/build-push-action@v7
+        uses: docker/build-push-action@v5
         with:
           context: .
           push: true
@@ -43,7 +46,7 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v4
       - name: Setup .NET
-        uses: actions/setup-dotnet@v6
+        uses: actions/setup-dotnet@v4
         with:
           dotnet-version: '10.0.x'
       - name: Install dotnet-ef
@@ -63,7 +66,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Azure login
-        uses: azure/login@v3
+        uses: azure/login@v2
         with:
           creds: ${{ secrets.AZURE_CREDENTIALS }}
 
@@ -87,6 +90,17 @@ jobs:
           else
             echo "Container App já existe. Prosseguindo."
           fi
+
+      - name: Wait for provisioning to complete
+        run: |
+          for i in {1..30}; do
+            STATE=$(az containerapp show --name payflow-api --resource-group payflow-rg --query "properties.provisioningState" -o tsv 2>/dev/null || echo "NotFound")
+            echo "Provisioning state: $STATE"
+            if [ "$STATE" == "Succeeded" ] || [ "$STATE" == "NotFound" ]; then
+              break
+            fi
+            sleep 10
+          done
 
       - name: Set Container App secrets
         run: |
