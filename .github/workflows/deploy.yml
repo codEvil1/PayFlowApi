@@ -1,12 +1,9 @@
 name: Build and Deploy to Azure Container Apps
-
 on:
   push:
     branches: [main]
-
 env:
   REGISTRY: ghcr.io
-
 jobs:
   build-and-push:
     runs-on: ubuntu-latest
@@ -18,22 +15,18 @@ jobs:
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
-
       - name: Log in to GitHub Container Registry
         uses: docker/login-action@v3
         with:
           registry: ${{ env.REGISTRY }}
           username: ${{ github.actor }}
           password: ${{ secrets.GITHUB_TOKEN }}
-
       - name: Set lowercase image name
         id: image
         run: echo "name=$(echo '${{ github.repository }}' | tr '[:upper:]' '[:lower:]')" >> $GITHUB_OUTPUT
-
       - name: Set image tag
         id: meta
         run: echo "tag=${{ env.REGISTRY }}/${{ steps.image.outputs.name }}:${{ github.sha }}" >> $GITHUB_OUTPUT
-
       - name: Build and push image
         uses: docker/build-push-action@v5
         with:
@@ -51,6 +44,23 @@ jobs:
         uses: azure/login@v2
         with:
           creds: ${{ secrets.AZURE_CREDENTIALS }}
+
+      - name: Install containerapp extension
+        run: az extension add --name containerapp --upgrade --only-show-errors
+
+      - name: Set Container App secrets
+        run: |
+          az containerapp secret set \
+            --name payflow-api \
+            --resource-group payflow-rg \
+            --secrets \
+              db-connection="${{ secrets.DB_CONNECTION_STRING }}" \
+              jwt-secret="${{ secrets.JWT_SECRET }}" \
+              cf-account-id="${{ secrets.CLOUDFLARE_ACCOUNT_ID }}" \
+              cf-access-key="${{ secrets.CLOUDFLARE_ACCESS_KEY }}" \
+              cf-secret-key="${{ secrets.CLOUDFLARE_SECRET_KEY }}" \
+              cf-bucket-name="${{ secrets.CLOUDFLARE_BUCKET_NAME }}" \
+              cf-public-url="${{ secrets.CLOUDFLARE_PUBLIC_URL }}"
 
       - name: Deploy to Azure Container Apps
         uses: azure/container-apps-deploy-action@v2
@@ -71,13 +81,5 @@ jobs:
             CloudflareR2__SecretKey=secretref:cf-secret-key
             CloudflareR2__BucketName=secretref:cf-bucket-name
             CloudflareR2__PublicUrl=secretref:cf-public-url
-          secrets: >
-            db-connection=${{ secrets.DB_CONNECTION_STRING }}
-            jwt-secret=${{ secrets.JWT_SECRET }}
-            cf-account-id=${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
-            cf-access-key=${{ secrets.CLOUDFLARE_ACCESS_KEY }}
-            cf-secret-key=${{ secrets.CLOUDFLARE_SECRET_KEY }}
-            cf-bucket-name=${{ secrets.CLOUDFLARE_BUCKET_NAME }}
-            cf-public-url=${{ secrets.CLOUDFLARE_PUBLIC_URL }}
           targetPort: 8080
           ingress: external
