@@ -36,8 +36,28 @@ jobs:
             ${{ steps.meta.outputs.tag }}
             ${{ env.REGISTRY }}/${{ steps.image.outputs.name }}:latest
 
-  deploy:
+  migrate:
     needs: build-and-push
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+      - name: Setup .NET
+        uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: '10.0.x'
+      - name: Install dotnet-ef
+        run: dotnet tool install --global dotnet-ef
+      - name: Apply database migrations
+        run: |
+          export PATH="$PATH:$HOME/.dotnet/tools"
+          dotnet ef database update \
+            --project PayFlow.Infrastructure \
+            --startup-project PayFlow.Api \
+            --connection "${{ secrets.DB_CONNECTION_STRING }}"
+
+  deploy:
+    needs: [build-and-push, migrate]
     runs-on: ubuntu-latest
     steps:
       - name: Azure login
