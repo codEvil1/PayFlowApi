@@ -3,7 +3,7 @@ using Microsoft.IdentityModel.Tokens;
 using PayFlow.Infrastructure.Settings;
 using System.Text;
 
-namespace Payflow.Api.DependencyInjection
+namespace PayFlow.Api.DependencyInjection
 {
     public static class ApiInjection
     {

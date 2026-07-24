@@ -7,7 +7,7 @@ using PayFlow.Application.Security;
 using PayFlow.Domain.Common.Models;
 using PayFlow.Infrastructure.Features.Product.Requests;
 
-namespace Payflow.Api.Controllers
+namespace PayFlow.Api.Controllers
 {
     [ApiController]
     [Route("api/[controller]")]

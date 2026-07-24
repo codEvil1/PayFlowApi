@@ -11,8 +11,6 @@ using PayFlow.Infrastructure.Security;
 using PayFlow.Infrastructure.Services;
 using PayFlow.Infrastructure.Services.Settings;
 using PayFlow.Infrastructure.Settings;
-using PayFlow.Infrastructure.Services;
-using PayFlow.Infrastructure.Security;
 using PayFlow.Application.Interfaces;
 
 namespace PayFlow.Infrastructure.DependencyInjection

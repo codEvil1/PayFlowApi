@@ -7,7 +7,7 @@ using PayFlow.Application.Security;
 using PayFlow.Domain.Common.Models;
 using PayFlow.Infrastructure.Features.Cashier.Requests;
 
-namespace Payflow.Api.Controllers
+namespace PayFlow.Api.Controllers
 {
     [ApiController]
     [Authorize(Roles = Roles.Admin)]

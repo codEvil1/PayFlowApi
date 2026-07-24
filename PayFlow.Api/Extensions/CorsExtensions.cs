@@ -1,4 +1,4 @@
-﻿namespace Payflow.Api.Extensions;
+﻿namespace PayFlow.Api.Extensions;
 
 public static class CorsExtensions
 {
