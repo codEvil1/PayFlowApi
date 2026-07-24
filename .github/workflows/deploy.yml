@@ -48,6 +48,8 @@ jobs:
           dotnet-version: '10.0.x'
       - name: Install dotnet-ef
         run: dotnet tool install --global dotnet-ef
+      - name: Restore dependencies
+        run: dotnet restore PayFlow.Api/PayFlow.Api.csproj
       - name: Apply database migrations
         run: |
           export PATH="$PATH:$HOME/.dotnet/tools"
