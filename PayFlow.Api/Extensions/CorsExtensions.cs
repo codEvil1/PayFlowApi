@@ -1,20 +1,21 @@
-﻿namespace PayFlow.Api.Extensions;
-
-public static class CorsExtensions
+﻿namespace PayFlow.Api.Extensions
 {
-    public static IServiceCollection AddCorsConfiguration(this IServiceCollection services)
+    public static class CorsExtensions
     {
-        services.AddCors(options =>
+        public static IServiceCollection AddCorsConfiguration(this IServiceCollection services)
         {
-            options.AddPolicy("AllowFrontend", policy =>
+            services.AddCors(options =>
             {
-                policy.WithOrigins("http://localhost:5173")
-                      .AllowAnyHeader()
-                      .AllowAnyMethod()
-                      .AllowCredentials();
+                options.AddPolicy("AllowFrontend", policy =>
+                {
+                    policy.WithOrigins("http://localhost:5173")
+                          .AllowAnyHeader()
+                          .AllowAnyMethod()
+                          .AllowCredentials();
+                });
             });
-        });
 
-        return services;
+            return services;
+        }
     }
 }
