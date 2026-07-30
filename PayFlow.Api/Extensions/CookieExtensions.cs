@@ -32,8 +32,19 @@ namespace PayFlow.Api.Extensions
 
         public static void ClearAuthCookies(this HttpResponse response)
         {
-            response.Cookies.Delete(AccessTokenCookie);
-            response.Cookies.Delete(RefreshTokenCookie);
+            response.Cookies.Delete(AccessTokenCookie, new CookieOptions
+            {
+                Path = "/",
+                Secure = true,
+                SameSite = SameSiteMode.None
+            });
+
+            response.Cookies.Delete(RefreshTokenCookie, new CookieOptions
+            {
+                Path = "/api/auth",
+                Secure = true,
+                SameSite = SameSiteMode.None
+            });
         }
 
         public static string? GetRefreshToken(this HttpRequest request)
