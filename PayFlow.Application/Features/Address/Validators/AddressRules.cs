@@ -22,6 +22,24 @@ namespace PayFlow.Application.Features.Address.Validators
                 .WithMessage("O número deve ser maior que zero.");
         }
 
+        public static IRuleBuilderOptions<T, string> ComplementRule<T>(this IRuleBuilder<T, string> rule)
+        {
+            return rule
+                .NotEmpty()
+                .WithMessage("O complemento é obrigatório.")
+                .MaximumLength(100)
+                .WithMessage("O complemento deve possuir no máximo 100 caracteres.");
+        }
+
+        public static IRuleBuilderOptions<T, string> NeighborhoodRule<T>(this IRuleBuilder<T, string> rule)
+        {
+            return rule
+                .NotEmpty()
+                .WithMessage("O bairro é obrigatório.")
+                .MaximumLength(100)
+                .WithMessage("O bairro deve possuir no máximo 100 caracteres.");
+        }
+
         public static IRuleBuilderOptions<T, string> CityRule<T>(this IRuleBuilder<T, string> rule)
         {
             return rule
@@ -56,15 +74,6 @@ namespace PayFlow.Application.Features.Address.Validators
                 .WithMessage("A UF é obrigatória.")
                 .Length(2)
                 .WithMessage("A UF deve possuir exatamente 2 caracteres.");
-        }
-
-        public static IRuleBuilderOptions<T, string> CountryRule<T>(this IRuleBuilder<T, string> rule)
-        {
-            return rule
-                .NotEmpty()
-                .WithMessage("O país é obrigatório.")
-                .MaximumLength(100)
-                .WithMessage("O país deve possuir no máximo 100 caracteres.");
         }
     }
 }

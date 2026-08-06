@@ -1,9 +1,9 @@
-﻿using PayFlow.Application.Features.Address.DTOs;
+﻿using PayFlow.Application.Features.Address.Responses;
 
 namespace PayFlow.Application.Interfaces
 {
     public interface IAddressService
     {
-        Task<ViaCepDto> GetByPostalCodeAsync(string postalCode, CancellationToken cancellationToken);
+        Task<PostalCodeResponse> GetByPostalCodeAsync(string postalCode, CancellationToken cancellationToken);
     }
 }

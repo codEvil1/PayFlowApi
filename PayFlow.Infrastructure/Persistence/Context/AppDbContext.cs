@@ -6,9 +6,9 @@ namespace PayFlow.Infrastructure.Persistence.Context
     public class AppDbContext(DbContextOptions options) : DbContext(options)
     {
         public DbSet<User> User { get; set; }
-        public DbSet<Address> Address { get; set; }
         public DbSet<Cashier> Cashier { get; set; }
         public DbSet<Customer> Customer { get; set; }
+        public DbSet<Address> Address { get; set; }
         public DbSet<Discount> Discount { get; set; }
         public DbSet<Payment> Payment { get; set; }
         public DbSet<Shipping> Shipping { get; set; }
@@ -25,6 +25,12 @@ namespace PayFlow.Infrastructure.Persistence.Context
                     x.UserId,
                     x.PermissionId
                 });
+
+            builder.Entity<Address>()
+                .HasOne(a => a.Customer)
+                .WithMany(c => c.Addresses)
+                .HasForeignKey(a => a.CustomerId)
+                .OnDelete(DeleteBehavior.Cascade);
         }
     }
 }

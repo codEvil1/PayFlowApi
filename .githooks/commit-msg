@@ -1,0 +1,30 @@
+#!/usr/bin/env bash
+#
+# Valida se a mensagem de commit segue o padrão Conventional Commits.
+# Tipos aceitos: feat, fix, refactor, perf, test, docs, style, chore, build, ci, revert
+
+COMMIT_MSG_FILE=$1
+COMMIT_MSG=$(head -n1 "$COMMIT_MSG_FILE")
+
+PATTERN="^(feat|fix|refactor|perf|test|docs|style|chore|build|ci|revert)(\([a-z0-9._-]+\))?!?: .{1,100}$"
+
+if ! [[ "$COMMIT_MSG" =~ $PATTERN ]]; then
+  echo ""
+  echo "❌ Commit rejeitado: mensagem fora do padrão."
+  echo ""
+  echo "Formato esperado:"
+  echo "  <tipo>(<escopo opcional>): <descrição curta>"
+  echo ""
+  echo "Tipos aceitos: feat, fix, refactor, perf, test, docs, style, chore, build, ci, revert"
+  echo ""
+  echo "Exemplos:"
+  echo "  feat(customer): adiciona validação de CNPJ no CustomerService"
+  echo "  fix(orders): corrige NullReferenceException ao calcular total do pedido"
+  echo ""
+  echo "Sua mensagem foi:"
+  echo "  \"$COMMIT_MSG\""
+  echo ""
+  exit 1
+fi
+
+exit 0

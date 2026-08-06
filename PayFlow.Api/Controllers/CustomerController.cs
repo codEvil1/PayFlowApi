@@ -2,10 +2,10 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.RateLimiting;
 using PayFlow.Api.Constants;
+using PayFlow.Application.Features.Customer.Requests;
 using PayFlow.Application.Interfaces;
 using PayFlow.Application.Security;
 using PayFlow.Domain.Common.Models;
-using PayFlow.Infrastructure.Features.Customer.Requests;
 
 namespace PayFlow.Api.Controllers
 {
@@ -22,7 +22,7 @@ namespace PayFlow.Api.Controllers
 
             return CreatedAtAction(
                 nameof(GetCustomerById),
-                new { id = result.Id },
+                new { identifier = result.Identifier },
                 result
             );
         }

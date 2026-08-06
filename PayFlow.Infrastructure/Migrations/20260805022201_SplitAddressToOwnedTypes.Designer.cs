@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using PayFlow.Infrastructure.Persistence.Context;
 
@@ -11,9 +12,11 @@ using PayFlow.Infrastructure.Persistence.Context;
 namespace PayFlow.Infrastructure.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    partial class AppDbContextModelSnapshot : ModelSnapshot
+    [Migration("20260805022201_SplitAddressToOwnedTypes")]
+    partial class SplitAddressToOwnedTypes
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -21,54 +24,6 @@ namespace PayFlow.Infrastructure.Migrations
                 .HasAnnotation("Relational:MaxIdentifierLength", 128);
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
-
-            modelBuilder.Entity("PayFlow.Domain.Entities.Address", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
-
-                    b.Property<string>("City")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("Complement")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("Country")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<int>("CustomerId")
-                        .HasColumnType("int");
-
-                    b.Property<string>("Neighborhood")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<int?>("Number")
-                        .HasColumnType("int");
-
-                    b.Property<string>("PostalCode")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("Street")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("Uf")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("CustomerId");
-
-                    b.ToTable("Address");
-                });
 
             modelBuilder.Entity("PayFlow.Domain.Entities.Cashier", b =>
                 {
@@ -341,15 +296,58 @@ namespace PayFlow.Infrastructure.Migrations
                     b.ToTable("UserPermissions");
                 });
 
-            modelBuilder.Entity("PayFlow.Domain.Entities.Address", b =>
+            modelBuilder.Entity("PayFlow.Domain.Entities.Customer", b =>
                 {
-                    b.HasOne("PayFlow.Domain.Entities.Customer", "Customer")
-                        .WithMany("Addresses")
-                        .HasForeignKey("CustomerId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                    b.OwnsMany("PayFlow.Domain.Entities.Address", "Addresses", b1 =>
+                        {
+                            b1.Property<int>("CustomerId")
+                                .HasColumnType("int");
 
-                    b.Navigation("Customer");
+                            b1.Property<int>("Id")
+                                .ValueGeneratedOnAdd()
+                                .HasColumnType("int");
+
+                            SqlServerPropertyBuilderExtensions.UseIdentityColumn(b1.Property<int>("Id"));
+
+                            b1.Property<string>("City")
+                                .IsRequired()
+                                .HasColumnType("nvarchar(max)");
+
+                            b1.Property<string>("Complement")
+                                .HasColumnType("nvarchar(max)");
+
+                            b1.Property<string>("Country")
+                                .IsRequired()
+                                .HasColumnType("nvarchar(max)");
+
+                            b1.Property<string>("Neighborhood")
+                                .IsRequired()
+                                .HasColumnType("nvarchar(max)");
+
+                            b1.Property<int?>("Number")
+                                .HasColumnType("int");
+
+                            b1.Property<string>("PostalCode")
+                                .IsRequired()
+                                .HasColumnType("nvarchar(max)");
+
+                            b1.Property<string>("Street")
+                                .IsRequired()
+                                .HasColumnType("nvarchar(max)");
+
+                            b1.Property<string>("Uf")
+                                .IsRequired()
+                                .HasColumnType("nvarchar(max)");
+
+                            b1.HasKey("CustomerId", "Id");
+
+                            b1.ToTable("CustomerAddress", (string)null);
+
+                            b1.WithOwner()
+                                .HasForeignKey("CustomerId");
+                        });
+
+                    b.Navigation("Addresses");
                 });
 
             modelBuilder.Entity("PayFlow.Domain.Entities.RefreshToken", b =>
@@ -380,11 +378,6 @@ namespace PayFlow.Infrastructure.Migrations
                     b.Navigation("Permission");
 
                     b.Navigation("User");
-                });
-
-            modelBuilder.Entity("PayFlow.Domain.Entities.Customer", b =>
-                {
-                    b.Navigation("Addresses");
                 });
 
             modelBuilder.Entity("PayFlow.Domain.Entities.Permission", b =>

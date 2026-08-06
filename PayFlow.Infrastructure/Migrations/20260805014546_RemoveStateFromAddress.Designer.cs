@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using PayFlow.Infrastructure.Persistence.Context;
 
@@ -11,9 +12,11 @@ using PayFlow.Infrastructure.Persistence.Context;
 namespace PayFlow.Infrastructure.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    partial class AppDbContextModelSnapshot : ModelSnapshot
+    [Migration("20260805014546_RemoveStateFromAddress")]
+    partial class RemoveStateFromAddress
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -41,7 +44,7 @@ namespace PayFlow.Infrastructure.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int>("CustomerId")
+                    b.Property<int?>("CustomerId")
                         .HasColumnType("int");
 
                     b.Property<string>("Neighborhood")
@@ -343,13 +346,9 @@ namespace PayFlow.Infrastructure.Migrations
 
             modelBuilder.Entity("PayFlow.Domain.Entities.Address", b =>
                 {
-                    b.HasOne("PayFlow.Domain.Entities.Customer", "Customer")
+                    b.HasOne("PayFlow.Domain.Entities.Customer", null)
                         .WithMany("Addresses")
-                        .HasForeignKey("CustomerId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Customer");
+                        .HasForeignKey("CustomerId");
                 });
 
             modelBuilder.Entity("PayFlow.Domain.Entities.RefreshToken", b =>

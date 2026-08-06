@@ -1,0 +1,21 @@
+FROM mcr.microsoft.com/dotnet/sdk:10.0
+
+WORKDIR /app
+
+# Copia cada .csproj mantendo a estrutura de pastas (preserva o caminho relativo)
+COPY PayFlow.Api/PayFlow.Api.csproj PayFlow.Api/
+COPY PayFlow.Application/PayFlow.Application.csproj PayFlow.Application/
+COPY PayFlow.Domain/PayFlow.Domain.csproj PayFlow.Domain/
+COPY PayFlow.Infrastructure/PayFlow.Infrastructure.csproj PayFlow.Infrastructure/
+
+# Restaura a partir do projeto de entrada (puxa as referências dos outros 3)
+RUN dotnet restore PayFlow.Api/PayFlow.Api.csproj
+
+# Agora copia o resto do código
+COPY . .
+
+WORKDIR /app/PayFlow.Api
+
+EXPOSE 8080
+
+ENTRYPOINT ["dotnet", "watch", "run", "--urls", "http://0.0.0.0:8080", "--no-launch-profile"]
