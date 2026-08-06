@@ -1,0 +1,18 @@
+services:
+  api:
+    build:
+      context: .
+      dockerfile: Dockerfile.dev
+    environment:
+      - DOTNET_USE_POLLING_FILE_WATCHER=true
+      - DOTNET_WATCH_RESTART_ON_RUDE_EDIT=true
+    volumes:
+      - .:/app
+      - /app/PayFlow.Api/bin
+      - /app/PayFlow.Api/obj
+      - /app/PayFlow.Application/bin
+      - /app/PayFlow.Application/obj
+      - /app/PayFlow.Domain/bin
+      - /app/PayFlow.Domain/obj
+      - /app/PayFlow.Infrastructure/bin
+      - /app/PayFlow.Infrastructure/obj

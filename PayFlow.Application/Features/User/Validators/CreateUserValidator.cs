@@ -1,5 +1,5 @@
 ﻿using FluentValidation;
-using PayFlow.Infrastructure.Features.User.Requests;
+using PayFlow.Application.Features.User.Requests;
 
 namespace PayFlow.Infrastructure.Features.User.Validators
 {

@@ -5,6 +5,7 @@ using PayFlow.Domain.Entities;
 using PayFlow.Domain.Interfaces;
 using PayFlow.Application.Interfaces;
 using PayFlow.Application.Common.Exceptions;
+using PayFlow.Application.Features.User.Requests;
 
 namespace PayFlow.Application.Services
 {

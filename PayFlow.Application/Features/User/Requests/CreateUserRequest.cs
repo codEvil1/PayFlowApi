@@ -1,6 +1,6 @@
 ﻿using Swashbuckle.AspNetCore.Annotations;
 
-namespace PayFlow.Infrastructure.Features.User.Requests
+namespace PayFlow.Application.Features.User.Requests
 {
     public class CreateUserRequest
     {

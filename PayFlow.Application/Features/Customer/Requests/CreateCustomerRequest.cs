@@ -1,13 +1,15 @@
-﻿using PayFlow.Infrastructure.Features.Address.Requests;
+﻿using Microsoft.AspNetCore.Http;
+using PayFlow.Application.Features.Address.Requests;
 
-namespace PayFlow.Infrastructure.Features.Customer.Requests
+namespace PayFlow.Application.Features.Customer.Requests
 {
     public class CreateCustomerRequest
     {
         public string Identifier { get; set; } = string.Empty;
         public string Name { get; set; } = string.Empty;
+        public IFormFile Photo { get; set; } = null!;
         public string Phone { get; set; } = string.Empty;
         public string Email { get; set; } = string.Empty;
-        public CreateAddressRequest Address { get; set; } = new();
+        public List<CreateAddressRequest> Addresses { get; set; } = [];
     }
 }

@@ -1,6 +1,6 @@
 ﻿using PayFlow.Application.Features.Address.DTOs;
 
-namespace PayFlow.Infrastructure.Features.Cashier.DTOs
+namespace PayFlow.Application.Features.Customer.DTOs
 {
     public class CustomerDto
     {
@@ -8,6 +8,6 @@ namespace PayFlow.Infrastructure.Features.Cashier.DTOs
         public string Name { get; set; } = string.Empty;
         public string Phone { get; set; } = string.Empty;
         public string Email { get; set; } = string.Empty;
-        public AddressDto Address { get; set; } = new();
+        public IEnumerable<AddressDto> Addresses { get; set; } = [];
     }
 }
