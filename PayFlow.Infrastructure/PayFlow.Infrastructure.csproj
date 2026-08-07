@@ -13,7 +13,7 @@
 
   <ItemGroup>
     <PackageReference Include="AWSSDK.Core" Version="4.0.100.9" />
-    <PackageReference Include="AWSSDK.S3" Version="4.0.101.6" />
+    <PackageReference Include="AWSSDK.S3" Version="4.0.102" />
     <PackageReference Include="BCrypt.Net-Next" Version="4.2.0" />
     <PackageReference Include="FluentValidation.DependencyInjectionExtensions" Version="12.1.1" />
     <PackageReference Include="Microsoft.AspNetCore.Http.Abstractions" Version="2.3.11" />
