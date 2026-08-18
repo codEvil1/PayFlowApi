@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.RateLimiting;
 using PayFlow.Api.Constants;
+using PayFlow.Application.Features.Auth.Requests;
 using PayFlow.Application.Features.User.Requests;
 using PayFlow.Application.Interfaces;
 using PayFlow.Application.Security;
@@ -15,7 +16,7 @@ namespace PayFlow.Api.Controllers
     {
         [HttpPost]
         [EnableRateLimiting(RateLimitPolicies.Default)]
-        public async Task<IActionResult> Create([FromForm] CreateUserRequest request, CancellationToken cancellationToken)
+        public async Task<IActionResult> Create([FromBody] CreateUserRequest request, CancellationToken cancellationToken)
         {
             await service.CreateAsync(request, cancellationToken);
 
@@ -53,6 +54,30 @@ namespace PayFlow.Api.Controllers
             await service.DeleteAsync(id, cancellationToken);
 
             return Ok();
+        }
+
+        [HttpPost("send-verification-code")]
+        [EnableRateLimiting(RateLimitPolicies.Auth)]
+        public async Task<IActionResult> SendVerificationCode([FromBody] SendVerificationCodeRequest request, CancellationToken cancellationToken)
+        {
+            await service.SendCodeAsync(request, cancellationToken);
+
+            return Ok(new
+            {
+                message = "Código de verificação enviado com sucesso."
+            });
+        }
+
+        [HttpPost("verify-email")]
+        [EnableRateLimiting(RateLimitPolicies.Auth)]
+        public async Task<IActionResult> VerifyEmail([FromBody] VerifyEmailRequest request, CancellationToken cancellationToken)
+        {
+            await service.VerifyEmailAsync(request, cancellationToken);
+
+            return Ok(new
+            {
+                message = "E-mail verificado com sucesso."
+            });
         }
     }
 }

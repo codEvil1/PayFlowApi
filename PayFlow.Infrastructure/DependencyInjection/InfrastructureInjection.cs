@@ -3,15 +3,16 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Options;
-using PayFlow.Infrastructure.Interfaces;
+using PayFlow.Application.Interfaces;
 using PayFlow.Domain.Interfaces;
+using PayFlow.Infrastructure.Email;
+using PayFlow.Infrastructure.Interfaces;
 using PayFlow.Infrastructure.Persistence.Context;
 using PayFlow.Infrastructure.Persistence.Repositories;
 using PayFlow.Infrastructure.Security;
 using PayFlow.Infrastructure.Services;
 using PayFlow.Infrastructure.Services.Settings;
 using PayFlow.Infrastructure.Settings;
-using PayFlow.Application.Interfaces;
 
 namespace PayFlow.Infrastructure.DependencyInjection
 {
@@ -25,7 +26,8 @@ namespace PayFlow.Infrastructure.DependencyInjection
                 .AddJwt(configuration)
                 .AddReceitaWs(configuration)
                 .AddViaCep(configuration)
-                .AddCloudflareR2(configuration);
+                .AddCloudflareR2(configuration)
+                .AddEmail(configuration);
         }
 
         private static IServiceCollection AddDatabase(this IServiceCollection services, IConfiguration configuration)
@@ -45,6 +47,7 @@ namespace PayFlow.Infrastructure.DependencyInjection
             services.AddScoped<ICashierRepository, CashierRepository>();
             services.AddScoped<IUserRepository, UserRepository>();
             services.AddScoped<IRefreshTokenRepository, RefreshTokenRepository>();
+            services.AddScoped<IEmailRepository, EmailRepository>();
 
             return services;
         }
@@ -128,6 +131,18 @@ namespace PayFlow.Infrastructure.DependencyInjection
             });
 
             services.AddScoped<IStorageService, CloudflareR2Service>();
+
+            return services;
+        }
+
+        private static IServiceCollection AddEmail(this IServiceCollection services, IConfiguration configuration)
+        {
+            var settings = configuration
+                .GetSection("Email")
+                .Get<EmailSettings>();
+
+            services.AddSingleton(settings!);
+            services.AddScoped<IEmailService, EmailService>();
 
             return services;
         }

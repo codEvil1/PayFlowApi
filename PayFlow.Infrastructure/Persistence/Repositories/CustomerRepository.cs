@@ -38,6 +38,7 @@ namespace PayFlow.Infrastructure.Persistence.Repositories
         public async Task<Customer?> GetByIdentifierAsync(string identifier, CancellationToken cancellationToken)
         {
             return await context.Customer
+                .Include(x => x.Addresses)
                 .FirstOrDefaultAsync(x => x.Identifier == identifier, cancellationToken);
         }
 
