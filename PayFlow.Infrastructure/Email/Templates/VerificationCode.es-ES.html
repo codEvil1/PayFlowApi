@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="es-ES">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Verificación de correo electrónico</title>
+</head>
+
+<body style="
+    margin: 0;
+    padding: 0;
+    background-color: #f4f4f4;
+    font-family: Arial, Helvetica, sans-serif;
+">
+
+    <table width="100%"
+           cellpadding="0"
+           cellspacing="0"
+           style="padding: 40px 0;">
+        <tr>
+            <td align="center">
+
+                <table width="600"
+                       cellpadding="0"
+                       cellspacing="0"
+                       style="
+                        max-width: 600px;
+                        background-color: #ffffff;
+                        border-radius: 8px;
+                        padding: 40px;
+                    ">
+                    <tr>
+                        <td>
+
+                            <h1 style="
+                                margin-top: 0;
+                                color: #222222;
+                            ">
+                                ¡Hola, {{name}}!
+                            </h1>
+
+                            <p style="
+                                color: #555555;
+                                font-size: 16px;
+                                line-height: 1.6;
+                            ">
+                                Recibimos una solicitud para crear
+                                tu cuenta en PayFlow.
+                            </p>
+
+                            <p style="
+                                color: #555555;
+                                font-size: 16px;
+                                line-height: 1.6;
+                            ">
+                                Utiliza el código que aparece a
+                                continuación para verificar
+                                tu dirección de correo electrónico:
+                            </p>
+
+                            <div style="
+                                margin: 30px 0;
+                                text-align: center;
+                            ">
+                                <span style="
+                                    display: inline-block;
+                                    padding: 16px 30px;
+                                    background-color: #f1f1f1;
+                                    border-radius: 8px;
+                                    font-size: 32px;
+                                    font-weight: bold;
+                                    letter-spacing: 8px;
+                                    color: #222222;
+                                ">
+                                    {{code}}
+                                </span>
+                            </div>
+
+                            <p style="
+                                color: #777777;
+                                font-size: 14px;
+                                line-height: 1.6;
+                            ">
+                                Este código es válido durante
+                                <strong>10 minutos</strong>.
+                            </p>
+
+                            <p style="
+                                color: #777777;
+                                font-size: 14px;
+                                line-height: 1.6;
+                            ">
+                                Si no solicitaste la creación de
+                                esta cuenta, ignora este correo.
+                            </p>
+
+                            <hr style="
+                                border: none;
+                                border-top: 1px solid #eeeeee;
+                                margin: 30px 0;
+                            ">
+
+                            <p style="
+                                color: #999999;
+                                font-size: 12px;
+                            ">
+                                Este es un correo electrónico automático.
+                                Por favor, no respondas.
+                            </p>
+
+                        </td>
+                    </tr>
+                </table>
+
+            </td>
+        </tr>
+    </table>
+
+</body>
+</html>

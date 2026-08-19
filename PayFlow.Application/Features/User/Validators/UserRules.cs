@@ -4,15 +4,6 @@ namespace PayFlow.Infrastructure.Features.User.Validators
 {
     public static class UserRules
     {
-        public static IRuleBuilderOptions<T, string> IdRule<T>(this IRuleBuilder<T, string> rule)
-        {
-            return rule
-                .NotEmpty()
-                .WithMessage("O identificador é obrigatório.")
-                .MaximumLength(50)
-                .WithMessage("O identificador deve possuir no máximo 50 caracteres.");
-        }
-
         public static IRuleBuilderOptions<T, string> NameRule<T>(this IRuleBuilder<T, string> rule)
         {
             return rule

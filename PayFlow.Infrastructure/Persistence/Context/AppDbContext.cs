@@ -16,6 +16,7 @@ namespace PayFlow.Infrastructure.Persistence.Context
         public DbSet<RefreshToken> RefreshTokens { get; set; }
         public DbSet<Permission> Permissions { get; set; }
         public DbSet<UserPermission> UserPermissions { get; set; }
+        public DbSet<EmailVerification> EmailVerifications { get; set; }
 
         protected override void OnModelCreating(ModelBuilder builder)
         {

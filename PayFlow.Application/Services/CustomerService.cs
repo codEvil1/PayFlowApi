@@ -103,6 +103,7 @@ namespace PayFlow.Application.Services
                 Identifier = customer.Identifier,
                 Name = customer.Name,
                 Email = customer.Email,
+                PhotoUrl = customer.PhotoUrl,
                 Phone = customer.Phone,
                 Addresses = customer.Addresses.Select(address => new AddressDto
                 {

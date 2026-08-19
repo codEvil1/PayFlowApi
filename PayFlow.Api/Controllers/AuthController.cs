@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.RateLimiting;
 using PayFlow.Api.Constants;
 using PayFlow.Api.Extensions;
+using PayFlow.Application.Features.Auth.Requests;
 using PayFlow.Application.Interfaces;
 using PayFlow.Infrastructure.Features.Auth.Requests;
 using System.Security.Claims;
@@ -28,7 +29,7 @@ namespace PayFlow.Api.Controllers
 
         [HttpPost("refresh")]
         [EnableRateLimiting(RateLimitPolicies.Auth)]
-        public async Task<IActionResult> Refresh(RefreshTokenRequest request, CancellationToken cancellationToken)
+        public async Task<IActionResult> Refresh(CancellationToken cancellationToken)
         {
             var refreshToken = Request.GetRefreshToken();
 

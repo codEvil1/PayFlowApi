@@ -1,4 +1,5 @@
 ﻿using PayFlow.Application.Common.Exceptions;
+using PayFlow.Application.Features.Auth.Requests;
 using PayFlow.Application.Interfaces;
 using PayFlow.Domain.Entities;
 using PayFlow.Domain.Interfaces;
@@ -6,6 +7,7 @@ using PayFlow.Infrastructure.Features.Auth.DTOs;
 using PayFlow.Infrastructure.Features.Auth.Requests;
 using PayFlow.Infrastructure.Features.User.DTOs;
 using PayFlow.Infrastructure.Interfaces;
+using System.Security.Cryptography;
 
 namespace PayFlow.Application.Services
 {
