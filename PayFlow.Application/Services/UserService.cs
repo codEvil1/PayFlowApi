@@ -12,7 +12,7 @@ using System.Security.Cryptography;
 namespace PayFlow.Application.Services
 {
     public class UserService(
-        IUserRepository userRepository, 
+        IUserRepository userRepository,
         IEmailRepository emailRepository,
         IEmailService emailService,
         IPasswordHasher passwordHasher) : IUserService
