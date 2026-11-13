@@ -19,7 +19,7 @@ RUN dotnet publish ./PayFlow.Api/PayFlow.Api.csproj \
 # Runtime
 # =========================
 
-FROM mcr.microsoft.com/dotnet/aspnet:10.0 AS final
+FROM mcr.microsoft.com/dotnet/aspnet:11.0 AS final
 
 WORKDIR /app
 
